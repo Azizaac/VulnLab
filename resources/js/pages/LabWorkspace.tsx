@@ -16,6 +16,7 @@ import {
 import AppShell from "../components/AppShell";
 import SafeMarkdown from "../components/SafeMarkdown";
 import CodePanel from "../components/CodePanel";
+import { LabCompletionDialog, normalizeLaravelError } from "../feedback";
 import { requestJson, RequestError } from "../learning";
 import {
     difficultyLabel,
@@ -96,6 +97,8 @@ function Workspace({
     const [busy, setBusy] = useState("");
     const [error, setError] = useState("");
     const [notice, setNotice] = useState("");
+    const [flagError, setFlagError] = useState("");
+    const [completionXp, setCompletionXp] = useState<number | null>(null);
     const [resetConfirm, setResetConfirm] = useState(false);
     const [reveal, setReveal] = useState(false);
     const [solution, setSolution] = useState(initialSolution);
@@ -118,9 +121,20 @@ function Workspace({
         try {
             await work();
         } catch (e) {
+            const failure = normalizeLaravelError(e);
             setError(
-                e instanceof Error ? e.message : "Operasi gagal. Coba kembali.",
+                [401, 403, 404, 410, 419, 429, 500, 503, 0].includes(
+                    failure.status,
+                )
+                    ? `${failure.title} — ${failure.message}`
+                    : e instanceof Error
+                      ? e.message
+                      : failure.message,
             );
+            if (label === "flag")
+                setFlagError(
+                    Object.values(failure.errors)[0] || failure.message,
+                );
             if (e instanceof RequestError && [409, 410].includes(e.status))
                 router.reload({ only: ["session", "lab", "attempts"] });
         } finally {
@@ -215,10 +229,12 @@ function Workspace({
     }
     function submitFlag() {
         if (!session) return;
+        setFlagError("");
         void action("flag", async () => {
             const result = await requestJson<{
                 success: boolean;
                 message: string;
+                xp_delta: number;
             }>(`/lab-sessions/${session.id}/flag`, "POST", {
                 generation: session.generation,
                 submission_id: submission,
@@ -226,6 +242,7 @@ function Workspace({
             });
             setNotice(result.message);
             if (result.success) {
+                setCompletionXp(result.xp_delta || 0);
                 setSession({
                     ...session,
                     status: "solved",
@@ -236,6 +253,10 @@ function Workspace({
                     onSuccess: (page) =>
                         setSolution(page.props.solution as Solution),
                 });
+            } else {
+                setFlagError(
+                    `Flag belum cocok. Periksa hasil lab atau buka petunjuk. ${result.message}`,
+                );
             }
         });
     }
@@ -317,11 +338,17 @@ function Workspace({
                 </label>
                 <input
                     id={inputId}
+                    name="flag"
+                    aria-invalid={!!flagError}
+                    aria-describedby={
+                        flagError ? `${inputId}-error` : undefined
+                    }
                     placeholder="VULNLAB{…}"
                     value={flag}
                     maxLength={128}
                     onChange={(e) => {
                         setFlag(e.target.value);
+                        setFlagError("");
                         setSubmission(crypto.randomUUID());
                     }}
                     disabled={!active || !!busy}
@@ -335,11 +362,24 @@ function Workspace({
                     Kirim Flag
                 </button>
             </form>
+            {flagError && (
+                <p className="field-error" id={`${inputId}-error`} role="alert">
+                    {flagError}
+                </p>
+            )}
             {solved && (
                 <p className="lab-solved-note">
                     <CheckCircle2 size={16} />
                     Selesai · {lab.earned_xp} XP tersimpan sekali
                 </p>
+            )}
+            {solved && (
+                <Link
+                    className="learning-button secondary"
+                    href={`/reports/create?lab=${lab.id}`}
+                >
+                    Tulis laporan latihan
+                </Link>
             )}
         </div>
     );
@@ -351,6 +391,20 @@ function Workspace({
     }
     return (
         <AppShell title={lab.title}>
+            <LabCompletionDialog
+                open={completionXp !== null}
+                onOpenChange={(open) => {
+                    if (!open) setCompletionXp(null);
+                }}
+                title={lab.title}
+                xp={completionXp || 0}
+                labId={lab.id}
+                nextHref={
+                    recommendations[0]
+                        ? `/labs/${recommendations[0].slug}`
+                        : undefined
+                }
+            />
             <Head title={lab.title} />
             <div className="lab-breadcrumb">
                 <Link href="/labs">Lab</Link>

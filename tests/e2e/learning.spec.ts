@@ -53,7 +53,7 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
     ).toBeEnabled();
     await page.getByRole("button", { name: "Tandai sudah dibaca" }).click();
     await expect(
-        page.getByRole("button", { name: "Bacaan tersimpan" }),
+        page.getByRole("button", { name: "Bacaan tersimpan", exact: true }),
     ).toBeDisabled();
     await page.getByRole("tab", { name: "Kuis", exact: true }).click();
     await page.getByLabel("Bukti bahwa login aman", { exact: true }).check();
@@ -61,7 +61,7 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
         .getByLabel("Untuk menjamin tidak ada bug", { exact: true })
         .check();
     await page.getByRole("button", { name: "Periksa jawaban" }).click();
-    await expect(page.locator(".quiz-result")).toContainText("Coba lagi");
+    await expect(page.locator(".quiz-result")).toContainText("Belum lulus");
     await page.getByRole("button", { name: "Ulangi kuis" }).click();
     await page
         .getByLabel("Pesan dari client ke server", { exact: true })
@@ -73,7 +73,7 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
         )
         .check();
     await page.getByRole("button", { name: "Periksa jawaban" }).click();
-    await expect(page.locator(".quiz-result")).toContainText("Lulus · 100/100");
+    await expect(page.locator(".quiz-result")).toContainText("100% · Lulus");
     await page.reload();
     await page.getByRole("tab", { name: "Kuis", exact: true }).click();
     await expect(page.locator(".attempt-list li")).toHaveCount(2);
@@ -202,7 +202,9 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
         await page
             .getByLabel("Isi catatan Markdown")
             .fill("Offline draft remains available");
-        await expect(page.getByRole("status")).toContainText("Belum tersimpan");
+        await expect(
+            page.locator(".save-feedback").getByRole("status"),
+        ).toContainText("Belum tersimpan");
         await expect(page.getByLabel("Isi catatan Markdown")).toHaveValue(
             "Offline draft remains available",
         );
@@ -262,7 +264,9 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
     await page
         .getByLabel("Isi catatan Markdown")
         .fill("Perubahan lokal tetap aman");
-    await expect(page.getByRole("status")).toContainText("Konflik versi");
+    await expect(
+        page.locator(".save-feedback").getByRole("status"),
+    ).toContainText("Konflik versi");
     await expect(page.getByLabel("Isi catatan Markdown")).toHaveValue(
         "Perubahan lokal tetap aman",
     );
@@ -277,7 +281,9 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
         .getByRole("button", { name: "Hapus catatan", exact: true })
         .click();
     await page.getByRole("button", { name: "Ya, hapus catatan" }).click();
-    await expect(page.getByRole("status")).toContainText("Catatan dihapus");
+    await expect(
+        page.locator(".save-feedback").getByRole("status"),
+    ).toContainText("Catatan dihapus");
     await page.getByLabel("Cari catatan").fill("does-not-exist");
     await page.getByRole("button", { name: "Cari", exact: true }).click();
     await expect(

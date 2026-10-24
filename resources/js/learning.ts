@@ -25,6 +25,9 @@ export type Course = {
     sources: Source[];
 };
 export type Attempt = {
+    xp_delta?: number;
+    correct_count?: number;
+    total_questions?: number;
     id: number;
     score: number;
     passed: boolean;
@@ -53,24 +56,50 @@ export async function requestJson<T>(
     const cookie = document.cookie
         .split("; ")
         .find((row) => row.startsWith("XSRF-TOKEN="));
-    const response = await fetch(url, {
-        method,
-        credentials: "same-origin",
-        headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "X-Requested-With": "XMLHttpRequest",
-            ...(cookie
-                ? { "X-XSRF-TOKEN": decodeURIComponent(cookie.slice(11)) }
+    let response: Response;
+    const multipart = data instanceof FormData;
+    try {
+        response = await fetch(url, {
+            method,
+            credentials: "same-origin",
+            headers: {
+                Accept: "application/json",
+                ...(!multipart ? { "Content-Type": "application/json" } : {}),
+                "X-Requested-With": "XMLHttpRequest",
+                ...(cookie
+                    ? { "X-XSRF-TOKEN": decodeURIComponent(cookie.slice(11)) }
+                    : {}),
+            },
+            ...(data !== undefined
+                ? { body: multipart ? data : JSON.stringify(data) }
                 : {}),
-        },
-        ...(data !== undefined ? { body: JSON.stringify(data) } : {}),
-    });
+        });
+    } catch (error) {
+        window.dispatchEvent(
+            new CustomEvent("vulnlab:request-error", { detail: error }),
+        );
+        throw error;
+    }
     if (response.status === 204) return undefined as T;
     const body = await response.json().catch(() => ({
+        invalid_response: true,
         message:
             "Respons tidak dapat dibaca. Muat ulang setelah menyimpan salinan lokal.",
     }));
-    if (!response.ok) throw new RequestError(response.status, body);
+    if (!response.ok || body.invalid_response) {
+        if (response.headers.has("Retry-After"))
+            body.retry_after = response.headers.get("Retry-After");
+        const error = new RequestError(
+            response.ok ? 502 : response.status,
+            body,
+        );
+        if (
+            [401, 403, 404, 413, 419, 429, 500, 502, 503].includes(error.status)
+        )
+            window.dispatchEvent(
+                new CustomEvent("vulnlab:request-error", { detail: error }),
+            );
+        throw error;
+    }
     return body;
 }

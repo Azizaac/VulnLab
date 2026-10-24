@@ -10,14 +10,13 @@ import {
     Map,
     Search,
     X,
+    ChartNoAxesCombined,
+    FileText,
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import BrandMark from "./BrandMark";
 import type { SharedProps } from "../types";
-const deferred = [
-    { label: "Progres", sprint: 4 },
-    { label: "Laporan", sprint: 4 },
-];
+import { useFeedback } from "../feedback";
 export default function AppShell({
     children,
     title,
@@ -26,6 +25,7 @@ export default function AppShell({
     title: string;
 }) {
     const { auth, flash } = usePage<SharedProps>().props;
+    const { notify } = useFeedback();
     const { url } = usePage();
     const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
@@ -33,6 +33,14 @@ export default function AppShell({
     const [search, setSearch] = useState("");
     const [themeError, setThemeError] = useState(false);
     const trigger = useRef<HTMLButtonElement | null>(null);
+    useEffect(() => {
+        if (flash.success)
+            notify({
+                type: "success",
+                title: flash.success,
+                key: `flash:${flash.success}`,
+            });
+    }, [flash.success, notify]);
     useEffect(() => {
         const start = router.on("start", () => setLoading(true));
         const finish = router.on("finish", () => setLoading(false));
@@ -99,16 +107,14 @@ export default function AppShell({
                         >
                             Lab
                         </Link>
-                        {deferred.slice(0, 1).map((item) => (
-                            <span
-                                key={item.label}
-                                className="future-nav"
-                                aria-disabled="true"
-                                title={`${item.label} termasuk Sprint ${item.sprint}`}
-                            >
-                                {item.label}
-                            </span>
-                        ))}
+                        <Link
+                            href="/progress"
+                            aria-current={
+                                url.startsWith("/progress") ? "page" : undefined
+                            }
+                        >
+                            Progres
+                        </Link>
                         <Link
                             href="/notes"
                             aria-current={
@@ -117,13 +123,14 @@ export default function AppShell({
                         >
                             Catatan
                         </Link>
-                        <span
-                            className="future-nav"
-                            aria-disabled="true"
-                            title="Laporan termasuk Sprint 4"
+                        <Link
+                            href="/reports"
+                            aria-current={
+                                url.startsWith("/reports") ? "page" : undefined
+                            }
                         >
                             Laporan
-                        </span>
+                        </Link>
                     </nav>
                     <div className="header-actions">
                         <Dialog.Root
@@ -222,6 +229,20 @@ export default function AppShell({
                             <X size={20} />
                         </Dialog.Close>
                         <nav aria-label="Navigasi akun">
+                            <Link
+                                href="/progress"
+                                onClick={() => setOpen(false)}
+                            >
+                                <ChartNoAxesCombined size={19} />
+                                Progres
+                            </Link>
+                            <Link
+                                href="/reports"
+                                onClick={() => setOpen(false)}
+                            >
+                                <FileText size={19} />
+                                Laporan
+                            </Link>
                             <Link href="/labs" onClick={() => setOpen(false)}>
                                 <FlaskConical size={19} />
                                 Lab
@@ -277,15 +298,6 @@ export default function AppShell({
                         {themeError && (
                             <p role="alert">Tema gagal disimpan. Coba lagi.</p>
                         )}
-                        <p className="scope-note">Tahap berikutnya</p>
-                        <ul className="future-list">
-                            {deferred.map((item) => (
-                                <li key={item.label}>
-                                    <span>{item.label}</span>
-                                    <span>Sprint {item.sprint}</span>
-                                </li>
-                            ))}
-                        </ul>
                         <p className="scope-note">
                             Belajar lewat modul, uji pemahaman dengan kuis, lalu
                             simpan refleksi di catatan.
@@ -310,11 +322,6 @@ export default function AppShell({
                 {loading && (
                     <div role="status" className="loading-shimmer">
                         <span className="sr-only">Memuat halaman…</span>
-                    </div>
-                )}
-                {flash.success && (
-                    <div className="flash" role="status">
-                        {flash.success}
                     </div>
                 )}
                 {children}

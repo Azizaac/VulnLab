@@ -24,9 +24,10 @@ class LabFlagValidation
             if ($prior) {
                 abort_if($prior->generation !== $s->generation, 409, 'Percobaan berasal dari sesi lama.');
 
-                return ['success' => $prior->success, 'message' => $prior->success ? 'Flag sudah tervalidasi.' : 'Flag belum cocok atau kondisi lab belum terpenuhi.', 'duplicate' => true];
+                return ['success' => $prior->success, 'message' => $prior->success ? 'Flag sudah tervalidasi.' : 'Flag belum cocok atau kondisi lab belum terpenuhi.', 'duplicate' => true, 'xp_delta' => 0, 'new_achievements' => []];
             }
             $valid = hash_equals($s->flag_hash, hash('sha256', $input['flag']));
+            $reward = ['xp_delta' => 0, 'new_achievements' => []];
             if ($valid) {
                 $proof = $this->runner->evidence($s);
                 $valid = ($proof['eligible'] ?? false) === true && ($proof['generation'] ?? null) === $s->generation && ($proof['lab'] ?? null) === $s->lab->slug;
@@ -41,9 +42,10 @@ class LabFlagValidation
                 if (! $s->solved_at) {
                     $s->update(['status' => 'solved', 'solved_at' => now()]);
                 }
+                $reward = app(LearningEventService::class)->record(User::findOrFail($s->user_id), 'lab_solved', 'lab', $s->lab_id, $p->solved_at, ['title' => $s->lab->title]);
             }
 
-            return ['success' => $valid, 'message' => $valid ? 'Flag tervalidasi. Kelulusan tersimpan; XP hanya diberikan pada kelulusan pertama.' : 'Flag belum cocok atau kondisi lab belum terpenuhi.', 'duplicate' => false];
+            return ['success' => $valid, 'message' => $valid ? 'Flag tervalidasi. Kelulusan tersimpan; XP hanya diberikan pada kelulusan pertama.' : 'Flag belum cocok atau kondisi lab belum terpenuhi.', 'duplicate' => false, ...$reward];
         });
     }
 }

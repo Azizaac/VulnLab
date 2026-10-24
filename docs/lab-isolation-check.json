@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-24T12:09:42.924Z",
+  "checked_at": "2026-10-24T14:14:53.385Z",
   "shop_networks": [
     "vulnlab-sandbox_training"
   ],
@@ -33,12 +33,12 @@
   "probe_results": {
     "shop": [
       "db:3306 blocked",
-      "172.18.0.4:3306 blocked",
+      "172.18.0.3:3306 blocked",
       "1.1.1.1:443 blocked"
     ],
     "verifier": [
       "db:3306 blocked",
-      "172.18.0.4:3306 blocked",
+      "172.18.0.3:3306 blocked",
       "1.1.1.1:443 blocked"
     ]
   },

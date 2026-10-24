@@ -127,6 +127,12 @@ test("first two labs: real HTTP, flag validation, reset, XP, persistence, themes
             page.locator(".lab-feedback").getByRole("status"),
         ).toContainText("Flag tervalidasi");
         await expect(page.locator(".lab-live-status")).toHaveText("Selesai");
+        await expect(
+            page.getByRole("dialog", { name: "Lab berhasil diselesaikan!" }),
+        ).toBeVisible();
+        await page
+            .getByRole("button", { name: "Kembali ke lab", exact: true })
+            .click();
         await page.reload();
         await expect(page.locator(".lab-live-status")).toHaveText("Selesai");
         await panel(page, "Instruksi");
@@ -336,6 +342,12 @@ test("remaining six labs: real vulnerable and secure responses, browser XSS proo
             page.locator(".lab-feedback").getByRole("status"),
         ).toContainText("Flag tervalidasi");
         await expect(page.locator(".lab-live-status")).toHaveText("Selesai");
+        await expect(
+            page.getByRole("dialog", { name: "Lab berhasil diselesaikan!" }),
+        ).toBeVisible();
+        await page
+            .getByRole("button", { name: "Kembali ke lab", exact: true })
+            .click();
         await page.reload();
         await expect(page.locator(".lab-live-status")).toHaveText("Selesai");
     }

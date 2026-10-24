@@ -17,6 +17,7 @@ playwright-report
 res-*.txt
 # Design input and QA evidence are not runtime dependencies.
 VulnLab_PRD_v4_Visual_Match_Codex
+VulnLab_PRD_Sprint4_Combined_Codex_v4.1
 design
 docs/screenshots
 # Vulnerable source is NEVER copied into the Laravel image.

@@ -96,6 +96,13 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                 <label htmlFor="name">Nama</label>
                                 <input
                                     id="name"
+                                    name="name"
+                                    aria-invalid={!!form.errors.name}
+                                    aria-describedby={
+                                        form.errors.name
+                                            ? "name-error"
+                                            : undefined
+                                    }
                                     autoComplete="name"
                                     required
                                     maxLength={80}
@@ -105,7 +112,11 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                     }
                                 />
                                 {form.errors.name && (
-                                    <p className="field-error" role="alert">
+                                    <p
+                                        id="name-error"
+                                        className="field-error"
+                                        role="alert"
+                                    >
                                         {form.errors.name}
                                     </p>
                                 )}
@@ -115,6 +126,13 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                             <label htmlFor="email">Email</label>
                             <input
                                 id="email"
+                                name="email"
+                                aria-invalid={!!form.errors.email}
+                                aria-describedby={
+                                    form.errors.email
+                                        ? "email-error"
+                                        : undefined
+                                }
                                 type="email"
                                 autoComplete="email"
                                 required
@@ -126,7 +144,11 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                 placeholder="nama@contoh.com"
                             />
                             {form.errors.email && (
-                                <p className="field-error" role="alert">
+                                <p
+                                    id="email-error"
+                                    className="field-error"
+                                    role="alert"
+                                >
                                     {form.errors.email}
                                 </p>
                             )}
@@ -135,6 +157,8 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                             <label htmlFor="password">Kata sandi</label>
                             <input
                                 id="password"
+                                name="password"
+                                aria-invalid={!!form.errors.password}
                                 type="password"
                                 autoComplete={
                                     register
@@ -148,7 +172,14 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                     form.setData("password", e.target.value)
                                 }
                                 aria-describedby={
-                                    register ? "password-help" : undefined
+                                    [
+                                        register ? "password-help" : "",
+                                        form.errors.password
+                                            ? "password-error"
+                                            : "",
+                                    ]
+                                        .filter(Boolean)
+                                        .join(" ") || undefined
                                 }
                             />
                             {register && (
@@ -157,7 +188,11 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                 </p>
                             )}
                             {form.errors.password && (
-                                <p className="field-error" role="alert">
+                                <p
+                                    id="password-error"
+                                    className="field-error"
+                                    role="alert"
+                                >
                                     {form.errors.password}
                                 </p>
                             )}
@@ -170,6 +205,15 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                     </label>
                                     <input
                                         id="password_confirmation"
+                                        name="password_confirmation"
+                                        aria-invalid={
+                                            !!form.errors.password_confirmation
+                                        }
+                                        aria-describedby={
+                                            form.errors.password_confirmation
+                                                ? "password_confirmation-error"
+                                                : undefined
+                                        }
                                         type="password"
                                         autoComplete="new-password"
                                         required
@@ -183,9 +227,25 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                     />
                                 </div>
                                 <div>
+                                    {form.errors.password_confirmation && (
+                                        <p
+                                            id="password_confirmation-error"
+                                            role="alert"
+                                            className="field-error"
+                                        >
+                                            {form.errors.password_confirmation}
+                                        </p>
+                                    )}
                                     <label htmlFor="timezone">Zona waktu</label>
                                     <select
                                         id="timezone"
+                                        name="timezone"
+                                        aria-invalid={!!form.errors.timezone}
+                                        aria-describedby={
+                                            form.errors.timezone
+                                                ? "timezone-error"
+                                                : undefined
+                                        }
                                         value={form.data.timezone}
                                         onChange={(e) =>
                                             form.setData(
@@ -207,7 +267,11 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                         ))}
                                     </select>
                                     {form.errors.timezone && (
-                                        <p className="field-error" role="alert">
+                                        <p
+                                            id="timezone-error"
+                                            className="field-error"
+                                            role="alert"
+                                        >
                                             {form.errors.timezone}
                                         </p>
                                     )}
@@ -218,6 +282,13 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                     </label>
                                     <input
                                         id="registration-start"
+                                        name="starts_on"
+                                        aria-invalid={!!form.errors.starts_on}
+                                        aria-describedby={
+                                            form.errors.starts_on
+                                                ? "starts_on-error"
+                                                : undefined
+                                        }
                                         type="date"
                                         required
                                         min="2000-01-01"
@@ -231,7 +302,11 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                         }
                                     />
                                     {form.errors.starts_on && (
-                                        <p className="field-error" role="alert">
+                                        <p
+                                            id="starts_on-error"
+                                            className="field-error"
+                                            role="alert"
+                                        >
                                             {form.errors.starts_on}
                                         </p>
                                     )}

@@ -15,6 +15,13 @@ import AppShell from "../components/AppShell";
 import SafeMarkdown from "../components/SafeMarkdown";
 import { requestJson, RequestError } from "../learning";
 import type { SharedProps } from "../types";
+import {
+    ConfirmDialog,
+    FormFieldError,
+    normalizeLaravelError,
+    focusFirstError,
+    useFeedback,
+} from "../feedback";
 type Note = {
     id: number;
     title: string;
@@ -69,6 +76,8 @@ function Workspace({
     categories,
 }: Props) {
     const { auth } = usePage<SharedProps>().props;
+    const { notify } = useFeedback();
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
     const [items, setItems] = useState(notes.data);
     const [draft, setDraft] = useState<Note | null>(null);
     const latest = useRef<Note | null>(null);
@@ -98,6 +107,7 @@ function Workspace({
         saving.current = true;
         setBusy(true);
         setError("");
+        setFieldErrors({});
         setStatus("Menyimpan…");
         try {
             // Serialize writes; edits made during the request keep their values and get the new revision.
@@ -128,6 +138,9 @@ function Workspace({
             setStatus("Semua perubahan tersimpan");
             return true;
         } catch (e) {
+            const failure = normalizeLaravelError(e);
+            setFieldErrors(failure.errors);
+            focusFirstError(failure.errors);
             if (e instanceof RequestError && e.status === 409) {
                 setConflict(e.data.current as Note);
                 blocked.current = true;
@@ -264,6 +277,7 @@ function Workspace({
             setDraft(null);
             setDeleteOpen(false);
             setStatus("Catatan dihapus");
+            notify({ type: "success", title: "Catatan dihapus" });
         } catch (e) {
             if (e instanceof RequestError && e.status === 409) {
                 setConflict(e.data.current as Note);
@@ -477,6 +491,13 @@ function Workspace({
                                 </label>
                                 <input
                                     id="note-title"
+                                    name="title"
+                                    aria-invalid={!!fieldErrors.title}
+                                    aria-describedby={
+                                        fieldErrors.title
+                                            ? "title-error"
+                                            : undefined
+                                    }
                                     value={draft.title}
                                     maxLength={180}
                                     onChange={(e) =>
@@ -505,25 +526,16 @@ function Workspace({
                                     <Trash2 size={17} />
                                 </button>
                             </div>
-                            {deleteOpen && (
-                                <div className="delete-confirm">
-                                    <p>
-                                        Hapus “{draft.title}”? Tindakan ini
-                                        menghapus catatan dari akunmu.
-                                    </p>
-                                    <button
-                                        disabled={busy}
-                                        onClick={() => void remove()}
-                                    >
-                                        Ya, hapus catatan
-                                    </button>
-                                    <button
-                                        onClick={() => setDeleteOpen(false)}
-                                    >
-                                        Batal
-                                    </button>
-                                </div>
-                            )}
+                            <FormFieldError name="title" errors={fieldErrors} />
+                            <ConfirmDialog
+                                open={deleteOpen}
+                                onOpenChange={setDeleteOpen}
+                                title="Hapus catatan ini?"
+                                description={`Hapus “${draft.title}”? Tindakan tidak dapat dibatalkan.`}
+                                onConfirm={() => void remove()}
+                                confirmLabel="Ya, hapus catatan"
+                                pending={busy}
+                            />
                             <div className="note-properties">
                                 <label>
                                     Kategori

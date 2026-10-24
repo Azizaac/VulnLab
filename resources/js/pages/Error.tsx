@@ -5,11 +5,11 @@ import { Button } from "../components/ui/button";
 export default function Error({ status }: { status: number }) {
     const title =
         status === 403
-            ? "Akses tidak diizinkan"
+            ? "Akses ditolak"
             : status === 404
-              ? "Halaman tidak ditemukan"
+              ? "Konten tidak ditemukan"
               : status === 419
-                ? "Sesi sudah kedaluwarsa"
+                ? "Sesi berakhir"
                 : "Halaman belum dapat dimuat";
     return (
         <main className="error-page">
@@ -24,6 +24,11 @@ export default function Error({ status }: { status: number }) {
                         : "Kembali ke dashboard atau muat ulang untuk mencoba lagi. Progres yang sudah tersimpan tetap ada."}
                 </p>
                 <div className="error-actions">
+                    {status === 419 && (
+                        <Button asChild>
+                            <Link href="/login">Masuk kembali</Link>
+                        </Button>
+                    )}
                     <Button asChild>
                         <Link href="/dashboard">Ke dashboard</Link>
                     </Button>

@@ -50,6 +50,12 @@ class LearningController extends Controller
     {
         $data = $request->validate(['submission_id' => 'required|uuid', 'answers' => 'required|array|max:50', 'answers.*' => 'required|array:question_id,choice_id', 'answers.*.question_id' => 'required|integer', 'answers.*.choice_id' => 'required|integer', 'score' => 'prohibited', 'passed' => 'prohibited', 'user_id' => 'prohibited', 'xp' => 'prohibited', 'lab_solved' => 'prohibited', 'skill_demonstrated' => 'prohibited']);
 
-        return response()->json($service->grade($request->user(), $lesson, $data)->only(['id', 'score', 'passed', 'feedback', 'created_at']));
+        $attempt = $service->grade($request->user(), $lesson, $data);
+
+        return response()->json([
+            ...$attempt->only(['id', 'score', 'passed', 'feedback', 'created_at', 'xp_delta', 'new_achievements']),
+            'correct_count' => collect($attempt->feedback)->where('correct', true)->count(),
+            'total_questions' => count($attempt->feedback),
+        ]);
     }
 }

@@ -68,6 +68,9 @@ class LearningService
             if ($existing) {
                 abort_if($existing->lesson_id !== $lesson->id, 409);
 
+                $existing->setAttribute('xp_delta', 0);
+                $existing->setAttribute('new_achievements', []);
+
                 return $existing;
             }
             $this->unlocked($user, $lesson);
@@ -101,6 +104,18 @@ class LearningService
                 $p->save();
                 $this->event($user, 'lesson_completed', $lesson);
             }
+            $xpDelta = 0;
+            $badges = [];
+            if ($passed) {
+                $events = app(LearningEventService::class);
+                foreach (['quiz_passed', 'lesson_completed'] as $type) {
+                    $reward = $events->record($user, $type, 'lesson', $lesson->id, $p->completed_at, ['title' => $lesson->title]);
+                    $xpDelta += $reward['xp_delta'];
+                    $badges = array_merge($badges, $reward['new_achievements']);
+                }
+            }
+            $attempt->setAttribute('xp_delta', $xpDelta);
+            $attempt->setAttribute('new_achievements', $badges);
 
             return $attempt;
         });

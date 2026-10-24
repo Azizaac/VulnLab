@@ -72,6 +72,10 @@ jobs:
           docker compose exec -T app php artisan migrate --seed --force
           curl --fail --retry 12 --retry-delay 3 --retry-all-errors http://127.0.0.1:8088/login
           node scripts/check-lab-isolation.mjs
+      - name: Concurrent reward delivery against disposable MySQL schema
+        run: |
+          docker build --target testing -t vulnlab-testing .
+          node scripts/test-xp-concurrency.mjs
       - if: always()
         run: |
           docker compose -f compose.yaml -f compose.labs.yaml down

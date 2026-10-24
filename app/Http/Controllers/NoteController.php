@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\LabSpec;
 use App\Models\Lesson;
 use App\Models\Note;
+use App\Services\LearningEventService;
 use App\Services\SafeMarkdown;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -46,6 +47,7 @@ class NoteController extends Controller
             $note->user_id = $request->user()->id;
             $note->save();
             $this->tags($note, $data['tags']);
+            app(LearningEventService::class)->refreshAchievements($request->user());
 
             return $note;
         });
@@ -58,7 +60,7 @@ class NoteController extends Controller
         Gate::authorize('update', $note);
         $data = $this->validated($request, true);
 
-        return DB::transaction(function () use ($note, $data) {
+        return DB::transaction(function () use ($note, $data, $request) {
             $current = Note::whereKey($note->id)->lockForUpdate()->firstOrFail();
             if ($current->revision !== $data['revision']) {
                 return response()->json(['message' => 'Catatan berubah di tab lain. Salinan lokalmu belum disimpan.', 'current' => $this->payload($current)], 409);
@@ -67,6 +69,7 @@ class NoteController extends Controller
             $current->revision++;
             $current->save();
             $this->tags($current, $data['tags']);
+            app(LearningEventService::class)->refreshAchievements($request->user());
 
             return response()->json($this->payload($current));
         });

@@ -191,8 +191,8 @@ class RoadmapService
                 'days_completed' => $days->filter(fn ($day) => $day->items->every(fn ($item) => $item->status === 'completed'))->count(),
                 'days_studied' => $done->map(fn ($item) => CarbonImmutable::parse($item['completed_at'])->timezone($plan->timezone)->toDateString())->unique()->count(),
                 'estimated_reviewed_minutes' => $done->sum('minutes'),
-                // Quiz, verified sessions, lab solves and their awards start in later sprints.
-                'verified_minutes' => 0, 'lessons_completed' => $lessonSummaries->where('completed', true)->count(), 'labs_solved' => LabProgress::where('user_id', $user->id)->count(), 'streak' => 0, 'xp' => (int) DB::table('xp_events')->where('user_id', $user->id)->sum('points'), 'learning_hours' => 0,
+                // Time remains untracked; XP and streak use verified, first-time events.
+                'verified_minutes' => 0, 'lessons_completed' => $lessonSummaries->where('completed', true)->count(), 'labs_solved' => LabProgress::where('user_id', $user->id)->count(), 'streak' => app(LearningEventService::class)->streak($user)['current'], 'xp' => app(LearningEventService::class)->level($user)['total_xp'], 'learning_hours' => 0,
             ],
             'activities' => ActivityEvent::where('user_id', $user->id)->whereIn('event_type', ['checklist_reviewed', 'checklist_started', 'lesson_read', 'lesson_completed', 'lab_solved'])->latest('id')->limit(5)->get()->map(fn ($event) => [
                 'id' => $event->id, 'type' => $event->event_type, 'title' => $event->metadata_json['title'], 'at' => $event->created_at->toIso8601String(),

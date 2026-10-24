@@ -146,7 +146,7 @@ class LearningTest extends TestCase
         $data = $roadmap->overview($user);
         $this->assertSame(1, $data['stats']['lessons_completed']);
         $this->assertSame(0, $data['stats']['completed']);
-        $this->assertSame(0, $data['stats']['xp']);
+        $this->assertSame(30, $data['stats']['xp']); // First quiz pass +20 and lesson completion +10.
         $this->assertSame(0, $data['stats']['labs_solved']);
         $this->assertSame('http-methods', $data['nextLesson']['slug']);
         $this->assertTrue($data['phases'][0]['weeks'][0]['tasks'][0]['lesson']['completed']);

@@ -4,6 +4,9 @@ import "@fontsource-variable/plus-jakarta-sans";
 import "../css/journey.css";
 import "../css/learning.css";
 import "../css/labs.css";
+import "../css/feedback.css";
+import "../css/sprint4.css";
+import { GlobalToastProvider } from "./feedback";
 import { createInertiaApp } from "@inertiajs/react";
 import { createRoot } from "react-dom/client";
 
@@ -16,7 +19,11 @@ createInertiaApp({
         return page();
     },
     setup({ el, App, props }) {
-        createRoot(el).render(<App {...props} />);
+        createRoot(el).render(
+            <GlobalToastProvider>
+                <App {...props} />
+            </GlobalToastProvider>,
+        );
     },
     progress: false,
 });

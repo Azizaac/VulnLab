@@ -14,6 +14,11 @@ import {
 import AppShell from "../components/AppShell";
 import SafeMarkdown from "../components/SafeMarkdown";
 import {
+    QuizResultPanel,
+    normalizeLaravelError,
+    focusFirstError,
+} from "../feedback";
+import {
     requestJson,
     type Course,
     type Source,
@@ -112,7 +117,9 @@ function Reader({
             );
             router.reload({ only: ["courses"] });
         } catch (e) {
-            setError(e instanceof Error ? e.message : "Kuis gagal disimpan.");
+            const failure = normalizeLaravelError(e);
+            setError(`${failure.title} — ${failure.message}`);
+            focusFirstError(failure.errors);
         } finally {
             setBusy(false);
         }
@@ -535,12 +542,21 @@ function Reader({
                                 </form>
                                 {result && (
                                     <div className="quiz-result" role="status">
-                                        <h3>
-                                            {result.passed
-                                                ? "Lulus"
-                                                : "Coba lagi"}{" "}
-                                            · {result.score}/100
-                                        </h3>
+                                        <QuizResultPanel
+                                            passed={result.passed}
+                                            score={result.score}
+                                            correct={
+                                                result.correct_count ??
+                                                result.feedback.filter(
+                                                    (answer) => answer.correct,
+                                                ).length
+                                            }
+                                            total={
+                                                result.total_questions ??
+                                                result.feedback.length
+                                            }
+                                            xp={result.xp_delta || 0}
+                                        />
                                         {result.feedback.map((f, i) => (
                                             <div key={i}>
                                                 <strong>

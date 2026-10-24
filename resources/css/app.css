@@ -84,6 +84,8 @@ select:focus {
     border: 0;
 }
 .skip-link {
+    opacity: 0;
+    pointer-events: none;
     position: fixed;
     top: -100px;
     left: 16px;
@@ -93,6 +95,8 @@ select:focus {
     color: #1d4ed8;
 }
 .skip-link:focus {
+    opacity: 1;
+    pointer-events: auto;
     top: 10px;
 }
 .sidebar {

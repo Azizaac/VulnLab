@@ -30,6 +30,13 @@ export default function PlanForm({
                     <label htmlFor="starts_on">Tanggal mulai</label>
                     <input
                         id="starts_on"
+                        name="starts_on"
+                        aria-invalid={!!form.errors.starts_on}
+                        aria-describedby={
+                            form.errors.starts_on
+                                ? "starts_on-error"
+                                : undefined
+                        }
                         type="date"
                         min="2000-01-01"
                         max="2099-09-30"
@@ -40,7 +47,11 @@ export default function PlanForm({
                         }
                     />
                     {form.errors.starts_on && (
-                        <p role="alert" className="field-error">
+                        <p
+                            id="starts_on-error"
+                            role="alert"
+                            className="field-error"
+                        >
                             {form.errors.starts_on}
                         </p>
                     )}
@@ -49,6 +60,11 @@ export default function PlanForm({
                     <label htmlFor="plan-timezone">Zona waktu rencana</label>
                     <select
                         id="plan-timezone"
+                        name="timezone"
+                        aria-invalid={!!form.errors.timezone}
+                        aria-describedby={
+                            form.errors.timezone ? "timezone-error" : undefined
+                        }
                         value={form.data.timezone}
                         onChange={(e) =>
                             form.setData("timezone", e.target.value)
@@ -68,7 +84,11 @@ export default function PlanForm({
                         ))}
                     </select>
                     {form.errors.timezone && (
-                        <p role="alert" className="field-error">
+                        <p
+                            id="timezone-error"
+                            role="alert"
+                            className="field-error"
+                        >
                             {form.errors.timezone}
                         </p>
                     )}

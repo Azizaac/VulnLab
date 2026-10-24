@@ -1,4 +1,4 @@
-# VulnLab — Sprint 0–3
+# VulnLab — Sprint 0–4
 
 Local learning platform built with **Laravel 12, PHP 8.4, Inertia 2, React 19 + TypeScript, Tailwind CSS 4, Radix/shadcn-style components, MySQL 8.4 and Docker Compose**. No external account or service is required.
 
@@ -9,6 +9,8 @@ Sprint 2 adds the **10-path learning catalog, 25 lesson reader, server-graded qu
 The unchanged v4 roadmap JSON is imported into **templates for new plans**. Existing personal content and completion records are never overwritten by reseeding. New plans snapshot source actions; rescheduling retains those source instructions and completed records. The curriculum importer preserves all 25 original lessons, 50 questions, and the original eight lab specifications; Sprint 3 adds JWT metadata and eight interactive definitions. Read status, quiz pass, lab solve and checklist review remain separate. A lesson completes after reading acknowledgement plus a server-graded score of at least 70%. All educational content is visibly marked as an unreviewed draft.
 
 Sprint 3 adds eight guided VulnShop labs with real HTTP, per-session fixtures/flags, server evidence validation, progressive hints, safe reset, and once-only XP. The optional sandbox runs as a **separate localhost-only Compose project**. See [Sprint 3 implementation and verification](docs/sprint-3.md), [lab isolation design and local setup](docs/lab-isolation.md), [Sprint 2 report](docs/sprint-2.md), and [verification history](docs/verification.md). Public hosting is deferred to Sprint 6.
+
+Sprint 4 adds **Progres**, a transactional XP ledger, timezone-based streaks, eight achievements, and a private report studio with versioned autosave, secure evidence uploads, disclosed automated internal review, Markdown and printable HTML exports. Shared notifications, inline validation, retry, confirmations, lab completion dialogs and quiz result panels integrate with existing modules. See [Sprint 4 delivery and actual validation](docs/sprint-4.md) and [the implementation checkpoint](docs/SPRINT4_PROGRESS.md). Existing learner records are preserved by additive migrations and an idempotent backfill. Study minutes remain **Belum dilacak** because verified attention tracking is not implemented.
 
 ## GitHub backup
 
@@ -74,7 +76,7 @@ Open http://127.0.0.1:8088. For hot reload, run `npm run dev` in a second termin
 - Retries preserve the original timestamp and do not duplicate activity. A completed item cannot be downgraded by a later start request. No manual-checklist XP is awarded; verified quiz/lab awards belong to later sprints.
 - All writes take the authenticated user from the session. Policies, foreign keys and unique constraints protect ownership and duplicate records; a transaction locks the learner row to serialize completion requests.
 - Rerunning `php artisan db:seed` updates day templates without deleting personal plans or their snapshots. No learner account/activity is seeded. Rescheduling changes dates and unfinished calendar exercises while preserving completed items and timestamps.
-- Dashboard checklist completion, review days, estimated minutes and recent activity derive from persisted records. Verified minutes, lesson/lab counts, XP and verified streak stay zero because these subsystems do not exist yet. Estimated study is explicitly distinct from verified time.
+- Dashboard checklist completion, review days, estimated minutes and recent activity derive from persisted records. Lesson/lab completion and XP now use actual domain records and the Sprint 4 ledger. Progres shows the qualified learning streak in the account timezone. Verified minutes remain untracked; estimated study is explicitly distinct from verified time.
 - Sprint 1 instructions support independent study; integrated lesson content and lesson/lab foreign keys arrive in later migrations.
 
 Existing v1 task/progress tables are retained. Completed v1 work appears in an owner-scoped read-only dashboard archive; it is not silently converted to v2 lesson or lab completion. Existing users explicitly create their v2 plan on the dashboard. GET requests never create plans or progress. The old task write endpoint returns HTTP 410; the v2 endpoint is `PATCH /roadmap/items/{id}`. Create/reschedule uses `POST/PATCH /roadmap/plan` and takes the owner from the session.
@@ -95,6 +97,8 @@ PowerShell PHP lint command: `php vendor/bin/pint --test`. Backend tests default
 Run feature tests against an **empty disposable** MySQL test database by supplying `DB_CONNECTION=mysql`, `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME` and `DB_PASSWORD` in the process environment before `php artisan test`. `RefreshDatabase` migrates that database; never point tests at learner data.
 
 With the Compose database running, `npm run test:mysql` builds the separate `testing` image target, creates a randomly named test schema, runs the entire PHPUnit suite over the private core network, then revokes its grant and drops only that schema. It does not migrate/reset the learner database, publish a MySQL port, mount the Docker socket, or add dev dependencies to the production image. The host-side helper requires Node and uses the local root credential already configured inside the DB container.
+
+After that image is available, `npm run test:concurrency` uses a separate randomly named schema and two independent PHP containers released together. It verifies that duplicate completion deliveries cannot duplicate XP/events/achievements, then drops only its test schema.
 
 ### Browser tests
 
@@ -121,7 +125,7 @@ npm run test:e2e
 
 The E2E runner starts a separate loopback server on port **8089**, uses `database/e2e.sqlite`, file sessions, a test-only key and a fresh database-cache namespace per run, and shuts down the server afterward. The normal Docker app can remain on 8088. `PHP_BINARY` can point to a PHP executable outside PATH. Tests retain normal auth limits; separate login/registration counters prevent unrelated actions from consuming each other's allowance.
 
-Playwright checks signup with chosen start date → dashboard → roadmap → explicit start/review → reload → filter/search → logout/login → reschedule, at **1440×900**, **768×1024**, **390×844**, and **360×800**. Sprint 2 adds course search, lesson reading, failed/passed/retried quizzes, persisted recommendations, notes CRUD/autosave/search/pinning/preview, stale-tab conflicts, and safe Markdown. Desktop also tests editing during an in-flight save and recovery after a network failure. The suite checks theme persistence, keyboard navigation, targeted axe WCAG A/AA scans, CSRF, focus restoration, horizontal overflow and client errors. Auth limits remain enabled. Lab-solve journeys await Sprint 3.
+Playwright checks signup with chosen start date → dashboard → roadmap → explicit start/review → reload → filter/search → logout/login → reschedule, at **1440×900**, **768×1024**, **390×844**, and **360×800**. It also exercises course search, real quiz grading, notes autosave/conflicts/retry/sanitization, all eight real lab solves and secure comparisons, verified completion dialogs, Progress filters and accessible tables, and report validation/autosave/evidence/review/exports. The suite checks themes, keyboard navigation, targeted axe WCAG A/AA scans, CSRF, focus restoration, horizontal overflow and client errors. Desktop includes failed report saves and a 720-CSS-pixel reflow check equivalent to a 1440px window at 200% browser zoom. Auth limits remain enabled.
 
 The GitHub Actions workflow runs PHP lint, frontend lint/typecheck/build, SQLite and MySQL tests, browser tests, Compose validation, image builds and a container HTTP smoke test. These jobs require no paid service or account beyond the CI host.
 
