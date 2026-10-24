@@ -1,0 +1,12 @@
+# Optional LOCAL ONLY overlay. Start sandbox/compose.yaml first.
+services:
+  app:
+    environment:
+      LABS_ENABLED: "true"
+      LAB_RUNNER_URL: http://lab-runner:8090
+      LAB_RUNNER_TOKEN: ${LAB_RUNNER_TOKEN:?Run node scripts/setup-labs.mjs first}
+    networks: [core, labcontrol]
+networks:
+  labcontrol:
+    external: true
+    name: vulnlab_labcontrol

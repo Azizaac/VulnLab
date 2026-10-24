@@ -1,0 +1,305 @@
+[
+  {
+    "slug": "order-idor",
+    "title": "Order API: Siapa Pemilik Pesanan?",
+    "topic": "IDOR",
+    "difficulty": "Easy",
+    "estimated_minutes": 35,
+    "lesson_id": "L009",
+    "goal": "Kenali read IDOR pada order dummy milik dua akun.",
+    "environment": "VulnShop isolated Docker network; local dummy-only users",
+    "setup": "User A dan B masing-masing mempunyai 1 order unik. VULNERABLE lab GET /orders/{id} mengecek login tetapi bukan pemilik.",
+    "guided_steps": [
+      "Masuk sebagai A, buka daftar pesanan dan catat ID order dummy A.",
+      "Masuk sebagai B dan amati ID pesanan B melalui traffic milik sendiri.",
+      "Pada request B, coba membaca objek A dalam batas lab.",
+      "Bandingkan response dengan perilaku expected; ambil bukti minimum.",
+      "Selesaikan dengan menjelaskan policy yang hilang."
+    ],
+    "hints": [
+      "Cari resource ID yang muncul dalam path.",
+      "Perhatikan perbedaan status saat sesi A dan B.",
+      "Masalahnya terletak pada pembatasan query atau policy per order."
+    ],
+    "expected_solution": "B bisa membaca detail dummy order A pada mode vulnerable; mode secure menolak dengan 403/404.",
+    "secure_remediation": "Laravel OrderPolicy.view dan query scoped to current authenticated owner.",
+    "verification_contract": [
+      "lab-mode vulnerable with owned dummy A/B -> controlled cross-user GET reproduces flaw",
+      "lab-mode secure with B -> 403 or 404",
+      "lab-mode secure with A -> 200",
+      "reset restores dummy fixtures"
+    ],
+    "safe_test_inputs": {
+      "request": "GET /orders/{dummy_A_order_id}",
+      "accounts": [
+        "customer_a",
+        "customer_b"
+      ]
+    },
+    "editorial_status": "design_spec_not_implemented",
+    "requires_isolation": true
+  },
+  {
+    "slug": "address-bola",
+    "title": "Address API: Ubah Alamat Orang Lain",
+    "topic": "BOLA",
+    "difficulty": "Easy",
+    "estimated_minutes": 40,
+    "lesson_id": "L010",
+    "goal": "Uji apakah otorisasi berlaku pada operasi PATCH objek.",
+    "environment": "VulnShop isolated Docker network; local dummy-only users",
+    "setup": "User A memiliki address 88 dan B memiliki address 99. Endpoint mock meloloskan PATCH oleh user B pada alamat milik A.",
+    "guided_steps": [
+      "Login sebagai A lalu catat alamat dummy milik sendiri.",
+      "Login sebagai B dan buat pembaruan pada alamat B sebagai baseline.",
+      "Uji PATCH pada alamat dummy A.",
+      "Periksa hasil lewat endpoint daftar alamat milik A setelah reset bila perlu.",
+      "Catat cara memperbaiki policy update."
+    ],
+    "hints": [
+      "Object ID dapat berada di path.",
+      "Membaca dan mengubah perlu diuji terpisah.",
+      "Gunakan policy update pada setiap address."
+    ],
+    "expected_solution": "B dapat mengubah alamat dummy A hanya dalam mode vulnerable; mode secure menolak.",
+    "secure_remediation": "Policy update, query scope user_id, avoid blind update by id.",
+    "verification_contract": [
+      "B PATCH A: flawed lab state changes only in vulnerable mode",
+      "B PATCH A: 403 in secure mode",
+      "A PATCH A: succeeds",
+      "reset restores address"
+    ],
+    "safe_test_inputs": {
+      "request": "PATCH /addresses/{dummy_A_address_id}",
+      "body": {
+        "city": "Solo"
+      }
+    },
+    "editorial_status": "design_spec_not_implemented",
+    "requires_isolation": true
+  },
+  {
+    "slug": "admin-bfla",
+    "title": "Admin Function: Publish Produk",
+    "topic": "BFLA",
+    "difficulty": "Medium",
+    "estimated_minutes": 45,
+    "lesson_id": "L011",
+    "goal": "Bedakan fitur yang hanya boleh dijalankan admin.",
+    "environment": "VulnShop isolated Docker network; local dummy-only users",
+    "setup": "Customer dan admin tersedia sebagai akun latihan, dengan produk draft dummy. Endpoint publish flawed tidak memvalidasi permission admin.",
+    "guided_steps": [
+      "Gunakan akun customer untuk melihat produk draft.",
+      "Perhatikan fungsi publish tidak muncul di UI.",
+      "Uji endpoint publish dummy dalam workspace yang terisolasi.",
+      "Lihat perubahan status dan bandingkan dengan akun admin.",
+      "Tulis tes role matrix dan perbaikan backend."
+    ],
+    "hints": [
+      "Tidak adanya tombol tidak berarti tidak ada endpoint.",
+      "Periksa batas role, bukan hanya kepemilikan data.",
+      "Gate publish-product seharusnya menolak customer."
+    ],
+    "expected_solution": "Customer berhasil publish produk dummy dalam mode vulnerable dan ditolak dalam mode secure.",
+    "secure_remediation": "Laravel Gate/policy `publish` enforced server-side; deny by default.",
+    "verification_contract": [
+      "customer publish -> changed only in vulnerable mode",
+      "customer publish -> 403 secure",
+      "admin publish -> 200 secure",
+      "reset product to draft"
+    ],
+    "safe_test_inputs": {
+      "request": "POST /admin/products/{dummy_id}/publish"
+    },
+    "editorial_status": "design_spec_not_implemented",
+    "requires_isolation": true
+  },
+  {
+    "slug": "profile-mass-assignment",
+    "title": "Profile API: Field yang Tidak Seharusnya",
+    "topic": "Mass Assignment",
+    "difficulty": "Medium",
+    "estimated_minutes": 45,
+    "lesson_id": "L023",
+    "goal": "Pahami mengapa menyalin seluruh body request ke model berbahaya.",
+    "environment": "VulnShop isolated Docker network; local dummy-only users",
+    "setup": "Endpoint profil dummy mengizinkan field city, tetapi versi lab salah memakai update dari seluruh payload.",
+    "guided_steps": [
+      "Login dummy customer.",
+      "Kirim PATCH city saja lalu lihat profil.",
+      "Uji penambahan field ekstra sesuai panduan lab.",
+      "Periksa apakah role dummy berganti tanpa izin.",
+      "Tulis allowlist field aman."
+    ],
+    "hints": [
+      "Lihat field yang diterima, bukan yang tampak di form.",
+      "Role harus berasal dari kebijakan server.",
+      "Form Request dan DTO membantu membatasi field."
+    ],
+    "expected_solution": "Dalam lab vulnerable, field privilege dummy dapat termodifikasi; pada secure mode ditolak.",
+    "secure_remediation": "Field-level allowlist and policy; forbid `role` in customer update.",
+    "verification_contract": [
+      "city updates normally",
+      "role payload does not change privilege in secure mode",
+      "vulnerable fixture demonstrates field-binding flaw",
+      "reset role to customer"
+    ],
+    "safe_test_inputs": {
+      "request": "PATCH /profile",
+      "body": {
+        "city": "Solo",
+        "role": "admin"
+      }
+    },
+    "editorial_status": "design_spec_not_implemented",
+    "requires_isolation": true
+  },
+  {
+    "slug": "search-xss",
+    "title": "Search Rendering: Data atau HTML?",
+    "topic": "XSS",
+    "difficulty": "Easy",
+    "estimated_minutes": 35,
+    "lesson_id": "L013",
+    "goal": "Membedakan reflected data dan unsafe HTML injection tanpa payload berbahaya.",
+    "environment": "VulnShop isolated Docker network; local dummy-only users",
+    "setup": "Search box dummy menampilkan input sebagai raw HTML dalam iframe sandbox khusus lab.",
+    "guided_steps": [
+      "Masukkan marker teks unik pada search.",
+      "Amati bagian UI yang memunculkan marker.",
+      "Gunakan contoh markup harmless yang disediakan lab.",
+      "Bandingkan render unsafe dan text-escaped.",
+      "Tulis mitigasi output encoding."
+    ],
+    "hints": [
+      "Temukan tempat marker dirender.",
+      "Bandingkan karakter < dan > yang di-escape.",
+      "Gunakan textContent atau escaping yang benar."
+    ],
+    "expected_solution": "Unsafe lab merender markup contoh, secure mode menampilkannya sebagai teks.",
+    "secure_remediation": "Context-aware encoding, avoid unsafe innerHTML, sandbox untrusted content.",
+    "verification_contract": [
+      "vulnerable iframe renders harmless sample HTML",
+      "secure renders text literal",
+      "no JS execution in core origin",
+      "sandbox CSP enforced"
+    ],
+    "safe_test_inputs": {
+      "text": "<b>halo-lab</b>"
+    },
+    "editorial_status": "design_spec_not_implemented",
+    "requires_isolation": true
+  },
+  {
+    "slug": "product-sqli",
+    "title": "Product Search: Query Terparameterisasi",
+    "topic": "SQL Injection",
+    "difficulty": "Medium",
+    "estimated_minutes": 50,
+    "lesson_id": "L014",
+    "goal": "Mengamati perbedaan query string yang dibangun dari input mentah dan parameter binding.",
+    "environment": "VulnShop isolated Docker network; local dummy-only users",
+    "setup": "Mock product search uses disposable DB with three fake records. Lab returns structured query diagnostics, never private rows.",
+    "guided_steps": [
+      "Cari produk dummy yang tersedia.",
+      "Amati query log aman pada mode parameterized.",
+      "Masukkan token kontrol lab sesuai petunjuk.",
+      "Amati bagaimana mode vulnerable menggabungkan input sebagai struktur query.",
+      "Jelaskan alasan parameterized query memisahkan kode dan data."
+    ],
+    "hints": [
+      "Perhatikan letak input terhadap query.",
+      "Bedakan SQL statement dengan bound parameter.",
+      "Jangan gunakan dump database; cukup diagnostics dummy."
+    ],
+    "expected_solution": "Mode vulnerable memperlihatkan efek query yang tidak diparameterisasi terhadap hasil dummy; mode secure tidak.",
+    "secure_remediation": "Prepared statements/query builder, least-privilege DB user, no raw interpolation.",
+    "verification_contract": [
+      "only dummy DB queried",
+      "query mode secure uses parameter bindings",
+      "query mode vulnerable demonstrates parsing weakness",
+      "no access to core DB"
+    ],
+    "safe_test_inputs": {
+      "search": "sample-product"
+    },
+    "editorial_status": "design_spec_not_implemented",
+    "requires_isolation": true
+  },
+  {
+    "slug": "coupon-logic",
+    "title": "Coupon Checkout: Aturan Diskon",
+    "topic": "Business Logic",
+    "difficulty": "Medium",
+    "estimated_minutes": 45,
+    "lesson_id": "L018",
+    "goal": "Memeriksa batas voucher dan total harga yang dihitung server.",
+    "environment": "VulnShop isolated Docker network; local dummy-only users",
+    "setup": "Coupon WELCOME10 dummy seharusnya berlaku sekali per checkout; flawed logic membiarkan pengulangan efek diskon.",
+    "guided_steps": [
+      "Baca aturan voucher pada halaman checkout dummy.",
+      "Catat total awal dua produk dummy.",
+      "Coba alur apply ulang voucher dalam lab.",
+      "Bandingkan total dengan invariant harga minimal.",
+      "Usulkan transactional enforcement dan tes negatif."
+    ],
+    "hints": [
+      "Mulai dari aturan bisnis yang dinyatakan.",
+      "Perhatikan state voucher setelah digunakan.",
+      "Perubahan harus atomik di backend."
+    ],
+    "expected_solution": "Mode vulnerable menerima pengulangan voucher dummy sehingga total tidak sesuai; mode secure menolak penerapan berulang.",
+    "secure_remediation": "Transaction, unique voucher redemption constraint, recalculate totals on server.",
+    "verification_contract": [
+      "single coupon valid",
+      "double apply rejected in secure mode",
+      "checkout totals calculated from DB",
+      "reset clears voucher usage"
+    ],
+    "safe_test_inputs": {
+      "coupon": "WELCOME10",
+      "items": [
+        "dummy_product_a",
+        "dummy_product_b"
+      ]
+    },
+    "editorial_status": "design_spec_not_implemented",
+    "requires_isolation": true
+  },
+  {
+    "slug": "mock-ssrf",
+    "title": "URL Preview: Hanya Internal Dummy",
+    "topic": "SSRF",
+    "difficulty": "Advanced",
+    "estimated_minutes": 55,
+    "lesson_id": "L016",
+    "goal": "Memahami risiko server-side HTTP fetch melalui simulasi jaringan tertutup.",
+    "environment": "VulnShop isolated Docker network; local dummy-only users",
+    "setup": "Target mock service fixture only, no internet, no cloud metadata, no access to real host services; egress denied.",
+    "guided_steps": [
+      "Baca daftar dua URL mock yang diizinkan.",
+      "Gunakan preview untuk URL latihan.",
+      "Bandingkan request ke host mock allowed dan host dummy denied dalam lingkungan internal.",
+      "Perhatikan catatan request yang diterima mock-service.",
+      "Tulis allowlist URL dan strategi DNS/redirect validation."
+    ],
+    "hints": [
+      "Server-lah yang membuat HTTP request.",
+      "Periksa redirect dan resolusi hostname.",
+      "Pertahanan utama adalah kontrol tujuan + egress."
+    ],
+    "expected_solution": "Lab vulnerable menerima pemilihan dummy hostname yang seharusnya tidak boleh; secure allowlist membatasinya.",
+    "secure_remediation": "Host allowlist, deny network egress, block redirects out of allowlist, strict DNS resolution validation.",
+    "verification_contract": [
+      "all destinations mock-only",
+      "no internet/host networking",
+      "unknown URL rejected at gateway",
+      "secure policy restricts destination"
+    ],
+    "safe_test_inputs": {
+      "url": "http://mock-allowed:8080/preview"
+    },
+    "editorial_status": "design_spec_not_implemented",
+    "requires_isolation": true
+  }
+]

@@ -1,0 +1,67 @@
+name: vulnlab-sandbox
+services:
+  shop:
+    build:
+      context: .
+      target: shop
+    command: [node, shop.mjs]
+    environment:
+      SHOP_CONTROL_TOKEN: ${SHOP_CONTROL_TOKEN:?Run node scripts/setup-labs.mjs first}
+    networks: [training]
+    read_only: true
+    tmpfs: ["/data:uid=1000,gid=1000,mode=0700,size=134217728", "/tmp:uid=1000,gid=1000,mode=1770,size=16777216"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 0.75
+    mem_limit: 256m
+    pids_limit: 64
+    restart: unless-stopped
+  runner:
+    build:
+      context: .
+      target: runner
+    command: [node, runner.mjs]
+    environment:
+      LAB_RUNNER_TOKEN: ${LAB_RUNNER_TOKEN:?Run node scripts/setup-labs.mjs first}
+      SHOP_CONTROL_TOKEN: ${SHOP_CONTROL_TOKEN:?Run node scripts/setup-labs.mjs first}
+    depends_on: [shop]
+    networks:
+      training:
+      control:
+        aliases: [lab-runner]
+      edge:
+    ports: ["127.0.0.1:8090:8090"]
+    read_only: true
+    tmpfs: ["/tmp:uid=1000,gid=1000,mode=1770,size=16777216"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 0.5
+    mem_limit: 128m
+    pids_limit: 64
+    restart: unless-stopped
+  verifier:
+    init: true
+    build:
+      context: .
+      dockerfile: Dockerfile.verifier
+    environment:
+      XDG_CONFIG_HOME: /tmp/config
+      XDG_CACHE_HOME: /tmp/cache
+    networks: [training]
+    read_only: true
+    tmpfs: ["/tmp:uid=1000,gid=1000,mode=1770,size=134217728"]
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 1.0
+    mem_limit: 512m
+    pids_limit: 128
+    restart: unless-stopped
+networks:
+  # Trusted authenticated gateway only. Vulnerable services never join edge/control.
+  edge:
+    driver: bridge
+  training:
+    internal: true
+  control:
+    name: vulnlab_labcontrol
+    internal: true

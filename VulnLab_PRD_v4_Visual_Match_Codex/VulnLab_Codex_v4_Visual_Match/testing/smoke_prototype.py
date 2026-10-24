@@ -1,0 +1,60 @@
+from pathlib import Path
+from playwright.sync_api import sync_playwright
+ROOT=Path(__file__).resolve().parents[1]
+html=(ROOT/'VulnLab_UI_Prototype.html').read_text(encoding='utf-8')
+errs=[]
+with sync_playwright() as p:
+ browser=p.chromium.launch(headless=True,executable_path='/usr/bin/chromium',args=['--no-sandbox'])
+ context=browser.new_context(viewport={'width':1440,'height':900},device_scale_factor=1)
+ page=context.new_page()
+ page.on('pageerror',lambda e: errs.append(str(e)))
+ page.evaluate("window._mem={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>window._mem[k]??null,setItem:(k,v)=>window._mem[k]=v}});")
+ page.set_content(html,wait_until='load')
+ assert page.locator('h1').first.inner_text().startswith('Belajar.')
+ page.screenshot(path=str(ROOT/'design/preview-desktop-light.png'),full_page=True)
+ page.locator('#theme').click()
+ assert page.locator('body').get_attribute('data-theme')=='dark'
+ page.screenshot(path=str(ROOT/'design/preview-desktop-dark.png'),full_page=True)
+ for text,heading in [('Roadmap','Perjalanan 90 Hari'),('Modul','Materi yang mudah dipahami.'),('Lab','Lab Praktik'),('Progres','Perjalanan Belajarmu'),('Catatan','Catatan Peneliti'),('Laporan','Tulis Laporan Bug')]:
+  page.locator('nav').get_by_role('button',name=text,exact=True).click()
+  assert heading in page.locator('h1').first.inner_text(),(text,page.locator('h1').first.inner_text())
+ page.locator('nav').get_by_role('button',name='Modul',exact=True).click()
+ page.get_by_role('button',name='Buka materi →').first.click()
+ assert 'Cara Browser dan Server Berkomunikasi' in page.locator('h1').last.inner_text()
+ page.get_by_role('button',name='Mulai kuis (2 soal)').click()
+ assert page.locator('.quiz-option').count()==8
+ for qid in ['Q0011','Q0012']:
+  opt=page.evaluate('(qid)=>{ const q=QUIZ.find(x=>x.id===qid); return q.correct_option }',qid)
+  page.locator(f'[data-q="{qid}"][data-opt="{opt}"]').click()
+ page.get_by_role('button',name='Periksa jawabanku').click()
+ assert 'Kuis tuntas' in page.locator('#quiz-feedback').inner_text()
+ page.locator('nav').get_by_role('button',name='Roadmap',exact=True).click()
+ page.get_by_role('button',name='1',exact=True).first.click()
+ page.get_by_role('button',name='✓ Tandai selesai').click()
+ assert 'Batalkan tanda selesai' in page.locator('main').inner_text()
+ page.locator('nav').get_by_role('button',name='Catatan',exact=True).click()
+ page.get_by_role('button',name='+ Catatan baru').click()
+ page.locator('#n-title').fill('My HTTP Notes')
+ page.locator('#n-body').fill('Catatan hari pertama')
+ page.get_by_role('button',name='Simpan catatan').click()
+ assert 'My HTTP Notes' in page.locator('main').inner_text()
+ page.locator('nav').get_by_role('button',name='Progres',exact=True).click()
+ assert '1' in page.locator('main').inner_text()
+ # mobile viewport
+ mctx=browser.new_context(viewport={'width':390,'height':844},device_scale_factor=1,is_mobile=True,has_touch=True)
+ mobile=mctx.new_page()
+ mobile.on('pageerror',lambda e: errs.append(str(e)))
+ mobile.evaluate("window._mem={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>window._mem[k]??null,setItem:(k,v)=>window._mem[k]=v}});")
+ mobile.set_content(html,wait_until='load')
+ mobile.screenshot(path=str(ROOT/'design/preview-mobile-light.png'),full_page=True)
+ assert mobile.evaluate('document.documentElement.scrollWidth <= window.innerWidth + 1')
+ mobile.get_by_role('button',name='Lab',exact=True).last.click()
+ assert 'Lab Praktik' in mobile.locator('h1').first.inner_text()
+ mobile.screenshot(path=str(ROOT/'design/preview-mobile-labs.png'),full_page=True)
+ mobile.get_by_role('button',name='Lainnya',exact=True).click()
+ mobile.locator('#moremenu').get_by_role('button',name='Laporan').click()
+ assert 'Tulis Laporan Bug' in mobile.locator('h1').first.inner_text()
+ browser.close()
+print('PASS prototype smoke: 7 nav screens, theme, lesson, 2-question quiz, roadmap completion, note save, progress, mobile navigation, overflow')
+print('Page errors:',errs)
+assert not errs

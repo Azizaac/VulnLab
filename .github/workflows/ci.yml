@@ -1,0 +1,78 @@
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.4
+        env:
+          MYSQL_DATABASE: vulnlab_test
+          MYSQL_ROOT_PASSWORD: ci-only-password
+        ports: ["127.0.0.1:3306:3306"]
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -pci-only-password"
+          --health-interval=5s --health-timeout=5s --health-retries=30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, intl, pdo_mysql, pdo_sqlite, zip
+          coverage: none
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: composer install --prefer-dist --no-interaction
+      - run: cp .env.example .env && php artisan key:generate
+      - run: npm ci
+      - run: composer validate --strict
+      - run: vendor/bin/pint --test
+      - run: npm run lint
+      - run: npm run test:unit
+      - run: npm run build
+      - run: php artisan test
+      - name: Feature tests against MySQL 8.4
+        run: php artisan test
+        env:
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: vulnlab_test
+          DB_USERNAME: root
+          DB_PASSWORD: ci-only-password
+      - name: Prepare separate browser-test database
+        run: touch database/e2e.sqlite && php artisan migrate --seed --force
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ${{ github.workspace }}/database/e2e.sqlite
+      - run: npx playwright install --with-deps chromium
+      - name: Start isolated local sandbox for real browser tests
+        run: |
+          node scripts/setup-labs.mjs
+          docker compose --env-file sandbox/.env -f sandbox/compose.yaml up -d --build
+          node scripts/test-sandbox.mjs
+          node scripts/test-sandbox-transport.mjs
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-results
+          path: |
+            test-results/
+            docs/screenshots/
+      - run: docker compose config --quiet
+      - name: Build and smoke test Compose
+        run: |
+          docker compose -f compose.yaml -f compose.labs.yaml build
+          docker compose -f compose.yaml -f compose.labs.yaml up -d
+          docker compose exec -T app php artisan migrate --seed --force
+          curl --fail --retry 12 --retry-delay 3 --retry-all-errors http://127.0.0.1:8088/login
+          node scripts/check-lab-isolation.mjs
+      - if: always()
+        run: |
+          docker compose -f compose.yaml -f compose.labs.yaml down
+          docker compose --env-file sandbox/.env -f sandbox/compose.yaml down

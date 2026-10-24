@@ -1,0 +1,150 @@
+{
+  "checked_at": "2026-10-24T00:33:21.892367+00:00",
+  "meaning": "HTTP reachability only; not independent editorial or technical review.",
+  "sources": [
+    {
+      "title": "MDN — HTTP Overview",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview",
+      "status": 200,
+      "resolved_url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview"
+    },
+    {
+      "title": "OWASP Web Security Testing Guide",
+      "url": "https://owasp.org/www-project-web-security-testing-guide/",
+      "status": 200,
+      "resolved_url": "https://owasp.org/projects/web-security-testing-guide"
+    },
+    {
+      "title": "PortSwigger API Testing",
+      "url": "https://portswigger.net/web-security/api-testing",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/api-testing"
+    },
+    {
+      "title": "MDN — HTTP Cookies",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+      "status": 200,
+      "resolved_url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies"
+    },
+    {
+      "title": "OWASP Cheat Sheet Series",
+      "url": "https://cheatsheetseries.owasp.org/",
+      "status": 200,
+      "resolved_url": "https://cheatsheetseries.owasp.org/"
+    },
+    {
+      "title": "OWASP API Security Top 10 2023",
+      "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+      "status": 200,
+      "resolved_url": "https://api-security.owasp.org/editions/2023/en/0x11-t10/"
+    },
+    {
+      "title": "OWASP Authorization Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+      "status": 200,
+      "resolved_url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html"
+    },
+    {
+      "title": "MITRE CWE-862 Missing Authorization",
+      "url": "https://cwe.mitre.org/data/definitions/862.html",
+      "status": 200,
+      "resolved_url": "https://cwe.mitre.org/data/definitions/862.html"
+    },
+    {
+      "title": "PortSwigger Authentication",
+      "url": "https://portswigger.net/web-security/authentication",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/authentication"
+    },
+    {
+      "title": "OWASP IDOR Prevention Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html",
+      "status": 200,
+      "resolved_url": "https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+    },
+    {
+      "title": "PortSwigger Access Control",
+      "url": "https://portswigger.net/web-security/access-control",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/access-control"
+    },
+    {
+      "title": "OWASP API1:2023 BOLA",
+      "url": "https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/",
+      "status": 200,
+      "resolved_url": "https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/"
+    },
+    {
+      "title": "PortSwigger CSRF",
+      "url": "https://portswigger.net/web-security/csrf",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/csrf"
+    },
+    {
+      "title": "OWASP XSS Prevention Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+      "status": 200,
+      "resolved_url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+    },
+    {
+      "title": "PortSwigger XSS",
+      "url": "https://portswigger.net/web-security/cross-site-scripting",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/cross-site-scripting"
+    },
+    {
+      "title": "PortSwigger SQL Injection",
+      "url": "https://portswigger.net/web-security/sql-injection",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/sql-injection"
+    },
+    {
+      "title": "OWASP Input Validation Cheat Sheet",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+      "status": 200,
+      "resolved_url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html"
+    },
+    {
+      "title": "PortSwigger SSRF",
+      "url": "https://portswigger.net/web-security/ssrf",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/ssrf"
+    },
+    {
+      "title": "PortSwigger File Upload",
+      "url": "https://portswigger.net/web-security/file-upload",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/file-upload"
+    },
+    {
+      "title": "PortSwigger Business Logic",
+      "url": "https://portswigger.net/web-security/logic-flaws",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/logic-flaws"
+    },
+    {
+      "title": "PortSwigger Getting Started",
+      "url": "https://portswigger.net/web-security/getting-started",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/getting-started"
+    },
+    {
+      "title": "PortSwigger JWT attacks",
+      "url": "https://portswigger.net/web-security/jwt",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/jwt"
+    },
+    {
+      "title": "PortSwigger GraphQL API vulnerabilities",
+      "url": "https://portswigger.net/web-security/graphql",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/graphql"
+    },
+    {
+      "title": "PortSwigger Web Security Academy",
+      "url": "https://portswigger.net/web-security",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security"
+    }
+  ]
+}

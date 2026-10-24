@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-10-24T12:09:42.924Z",
+  "shop_networks": [
+    "vulnlab-sandbox_training"
+  ],
+  "runner_networks": [
+    "vulnlab-sandbox_edge",
+    "vulnlab-sandbox_training",
+    "vulnlab_labcontrol"
+  ],
+  "verifier_networks": [
+    "vulnlab-sandbox_training"
+  ],
+  "core_db_networks": [
+    "vulnlab_core"
+  ],
+  "checks": [
+    "non-root",
+    "no privileged runtime",
+    "read-only roots",
+    "all capabilities dropped",
+    "memory/CPU/PID limits",
+    "no filesystem bind mounts or shared core volumes",
+    "no production credentials",
+    "no Docker socket",
+    "shop/verifier have no host port",
+    "runner loopback only",
+    "internal training network",
+    "no core DB access by name or address",
+    "external TCP egress blocked from shop and verifier",
+    "no core .env in sandbox"
+  ],
+  "probe_results": {
+    "shop": [
+      "db:3306 blocked",
+      "172.18.0.4:3306 blocked",
+      "1.1.1.1:443 blocked"
+    ],
+    "verifier": [
+      "db:3306 blocked",
+      "172.18.0.4:3306 blocked",
+      "1.1.1.1:443 blocked"
+    ]
+  },
+  "scope": "Local Docker checks. Trusted runner has an edge network for loopback publishing; its outbound HTTP destinations are fixed in code. No public deployment."
+}

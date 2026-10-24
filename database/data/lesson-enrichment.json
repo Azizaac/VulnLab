@@ -1,0 +1,303 @@
+{
+  "L001": {
+    "objectives": [
+      "Memetakan request halaman dan data API",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "HTTP membawa pesan permintaan dan balasan. Satu navigasi dapat memicu banyak pertukaran; koneksi transport tidak sama dengan sesi pengguna. TLS melindungi transport, tetapi server tetap harus mengotorisasi setiap aksi.",
+    "mistakes": [
+      "Menganggap satu halaman hanya mengirim satu request atau HTTPS otomatis memperbaiki izin."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L002": {
+    "objectives": [
+      "Membedakan method dan efek perubahan data",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "GET memiliki semantik aman; PUT dan DELETE idempoten dalam efek yang dimaksud, bukan berarti respons selalu sama. POST tidak otomatis idempoten. PATCH memerlukan desain operasi yang jelas.",
+    "mistakes": [
+      "Mengubah data penting lewat GET atau menganggap method merupakan bukti hak akses."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L003": {
+    "objectives": [
+      "Membaca status bersama header dan body",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Status 2xx menandai keberhasilan pada tingkat HTTP, 4xx masalah permintaan, dan 5xx kegagalan server. Keputusan izin harus diperiksa dari seluruh respons serta perubahan data, bukan hanya status 200.",
+    "mistakes": [
+      "Menganggap semua 200 aman atau mengabaikan data sensitif di respons error."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L004": {
+    "objectives": [
+      "Menjelaskan peran cookie dalam sesi",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Server mengirim Set-Cookie; browser mengirim Cookie sesuai domain, path, dan kebijakan. Secure membatasi pengiriman ke HTTPS; HttpOnly membatasi akses JavaScript; SameSite mengatur pengiriman lintas situs. Ketiganya punya tujuan berbeda.",
+    "mistakes": [
+      "Menganggap HttpOnly mencegah seluruh XSS atau SameSite menggantikan semua perlindungan CSRF."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L005": {
+    "objectives": [
+      "Membedakan origin, autentikasi, dan CORS",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Origin terdiri dari skema, host, dan port. CORS mengatur apakah browser boleh membagikan respons lintas origin kepada skrip. Klien non-browser tidak dibatasi oleh CORS; otorisasi tetap tugas server.",
+    "mistakes": [
+      "Memakai CORS sebagai kontrol akses API atau memantulkan origin sembarang bersama credentials."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L006": {
+    "objectives": [
+      "Membaca resource REST dan struktur JSON",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "JSON adalah format data, bukan jaminan validasi. Resource dapat memiliki beberapa operasi dan representasi. Server perlu memvalidasi tipe, batas nilai, field yang diizinkan, dan hak atas resource untuk setiap operasi.",
+    "mistakes": [
+      "Memercayai field harga atau pemilik hanya karena JSON dapat diparse."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L007": {
+    "objectives": [
+      "Membedakan identitas dari izin",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Autentikasi menetapkan identitas; otorisasi memutuskan apakah identitas itu boleh melakukan aksi pada resource tertentu. Terapkan default deny dan pemeriksaan server pada setiap permintaan, termasuk jalur API.",
+    "mistakes": [
+      "Menyembunyikan tombol admin tanpa policy server atau menyamakan sudah login dengan berhak."
+    ],
+    "classification": "CWE-862",
+    "updated_at": "2026-10-24"
+  },
+  "L008": {
+    "objectives": [
+      "Menjelaskan pembuatan, rotasi, dan pencabutan sesi",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Identifier sesi harus sulit diprediksi dan dirotasi setelah login atau perubahan hak. Logout dan kedaluwarsa perlu menonaktifkan sesi di server. Menghapus cookie pada satu browser saja tidak mencabut salinan identifier yang masih berlaku.",
+    "mistakes": [
+      "Mempertahankan identifier sebelum login atau hanya menghapus tampilan profil saat logout."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L009": {
+    "objectives": [
+      "Menguji kepemilikan objek dengan dua akun dummy",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "IDOR terjadi saat referensi objek diterima tanpa pemeriksaan izin yang benar. Pada GET /orders/101, server harus memastikan pengguna boleh melihat pesanan 101. ID acak mengurangi kemudahan menebak, tetapi tidak menggantikan policy.",
+    "mistakes": [
+      "Menganggap UUID atau login sudah cukup; hanya menguji pemilik tanpa akun pembanding."
+    ],
+    "classification": "CWE-639",
+    "updated_at": "2026-10-24"
+  },
+  "L010": {
+    "objectives": [
+      "Membedakan izin objek pada operasi baca dan ubah",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "BOLA mencakup pemeriksaan izin pada objek API yang dirujuk. Menolak pembacaan tetapi membiarkan PATCH tetap merupakan kegagalan. Verifikasi pemilik, tenant, aksi, dan objek sebelum menjalankan perubahan.",
+    "mistakes": [
+      "Menguji GET saja atau menerima owner_id baru dari body tanpa pemeriksaan."
+    ],
+    "classification": "API1:2023",
+    "updated_at": "2026-10-24"
+  },
+  "L011": {
+    "objectives": [
+      "Memeriksa hak menjalankan fungsi administratif",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "BFLA berkaitan dengan fungsi yang tidak boleh dijalankan peran tertentu. Ini berbeda dari BOLA yang berfokus pada objek. Semua method dan jalur alternatif fungsi membutuhkan pemeriksaan hak server.",
+    "mistakes": [
+      "Menganggap URL /admin rahasia atau tombol tersembunyi sudah membatasi pengguna biasa."
+    ],
+    "classification": "API5:2023",
+    "updated_at": "2026-10-24"
+  },
+  "L012": {
+    "objectives": [
+      "Menjelaskan mengapa aksi berbasis cookie perlu perlindungan CSRF",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Browser dapat mengirim kredensial secara otomatis. Server harus mengikat aksi perubahan state pada token atau mekanisme anti-CSRF yang tepat. SameSite membantu tetapi cakupannya bergantung pada konteks situs dan jenis navigasi.",
+    "mistakes": [
+      "Menggunakan GET untuk mutasi atau hanya mengandalkan CORS untuk semua serangan CSRF."
+    ],
+    "classification": "CWE-352",
+    "updated_at": "2026-10-24"
+  },
+  "L013": {
+    "objectives": [
+      "Mengenali batas data dan kode pada XSS",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "XSS muncul ketika data tak tepercaya menjadi kode aktif di browser. Encoding harus sesuai konteks keluaran. Jika HTML memang dibutuhkan, gunakan sanitizer terawat dengan aturan terbatas. CSP merupakan lapisan tambahan, bukan pengganti perbaikan sink.",
+    "mistakes": [
+      "Memasang filter kata script atau memakai innerHTML untuk konten pengguna yang belum disanitasi."
+    ],
+    "classification": "CWE-79",
+    "updated_at": "2026-10-24"
+  },
+  "L014": {
+    "example_md": "```php\n// Contoh aman: nilai pencarian dikirim sebagai parameter.\n$name = $request->validated('name');\n$products = DB::select(\n    'SELECT id, name FROM products WHERE name = ?',\n    [$name]\n);\n// Tetap terapkan otorisasi sesuai resource dan pengguna.\n```",
+    "objectives": [
+      "Membedakan query terparameter dari penggabungan SQL",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Parameter binding menjaga nilai sebagai data, terpisah dari struktur query. Nama kolom atau arah pengurutan biasanya perlu allowlist, bukan binding nilai biasa. Pesan error saja tidak membuktikan injeksi; periksa aliran data dan query di sandbox.",
+    "mistakes": [
+      "Menggabungkan input ke SQL atau menganggap ORM melindungi query raw yang dirangkai sendiri."
+    ],
+    "classification": "CWE-89",
+    "updated_at": "2026-10-24"
+  },
+  "L015": {
+    "objectives": [
+      "Merancang validasi tipe dan aturan bisnis",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Validasi sintaks memeriksa bentuk, sedangkan validasi semantik memeriksa makna: jumlah positif, rentang harga, dan transisi yang sah. Keduanya dilakukan server. Validasi bukan pengganti encoding keluaran atau otorisasi.",
+    "mistakes": [
+      "Hanya memvalidasi form di browser atau menerima field tambahan melalui mass assignment."
+    ],
+    "classification": "CWE-20",
+    "updated_at": "2026-10-24"
+  },
+  "L016": {
+    "objectives": [
+      "Memahami risiko permintaan yang dibuat server",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "SSRF terjadi ketika input memengaruhi tujuan koneksi server. Kontrol harus mempertimbangkan skema, resolusi DNS, redirect, dan akses jaringan keluar. Latihan menggunakan mock service lokal; jangan mencoba alamat metadata layanan nyata.",
+    "mistakes": [
+      "Hanya memblokir satu bentuk localhost atau mengizinkan redirect keluar allowlist."
+    ],
+    "classification": "CWE-918",
+    "updated_at": "2026-10-24"
+  },
+  "L017": {
+    "objectives": [
+      "Memisahkan penerimaan file dari eksekusi",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Nama dan Content-Type dari pengguna tidak tepercaya. Batasi ukuran dan tipe, periksa isi yang relevan, gunakan nama server, simpan di lokasi non-eksekusi, dan otorisasi unduhan. Pemindaian konten merupakan lapisan tambahan.",
+    "mistakes": [
+      "Menaruh upload langsung pada direktori skrip publik atau percaya ekstensi ganda."
+    ],
+    "classification": "CWE-434",
+    "updated_at": "2026-10-24"
+  },
+  "L018": {
+    "objectives": [
+      "Menguji aturan bisnis dan transisi state",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Aksi yang secara teknis valid dapat melanggar aturan bisnis. Contoh: kupon sekali pakai harus dikonsumsi secara atomik bersama transaksi pesanan. Server menghitung nilai final; request ulang tidak boleh memberi diskon tambahan.",
+    "mistakes": [
+      "Memercayai total dari klien atau melakukan cek kupon dan pemakaian dalam operasi terpisah tanpa penguncian."
+    ],
+    "classification": "CWE-840",
+    "updated_at": "2026-10-24"
+  },
+  "L019": {
+    "objectives": [
+      "Membandingkan request secara terkendali di Repeater",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Gunakan baseline sukses dari akun dummy yang berhak, lalu ubah satu variabel. Catat identitas sesi, input, status, dan efek data. Repeater mengirim permintaan sungguhan; scope alat harus dibatasi ke host latihan.",
+    "mistakes": [
+      "Mengubah banyak variabel sekaligus atau mengirim ulang aksi destruktif tanpa fixture yang dapat dipulihkan."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L020": {
+    "objectives": [
+      "Membedakan decode JWT dari verifikasi tanda tangan",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "JWT bertanda tangan biasanya memiliki header, payload, dan signature. Base64url bukan enkripsi. Verifikasi signature, algoritma yang diizinkan, issuer, audience, dan masa berlaku sebelum menerima claims; jangan mengambil keputusan dari decode saja.",
+    "mistakes": [
+      "Mempercayai alg dari token tanpa allowlist atau memasukkan rahasia ke payload yang terbaca."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L021": {
+    "objectives": [
+      "Membatasi field yang boleh diubah pengguna",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Mass assignment muncul ketika banyak field input dipetakan langsung ke objek. Validasi dan allowlist field harus sesuai aksi dan peran. Field seperti role, owner_id, dan is_admin ditentukan server atau jalur administratif khusus.",
+    "mistakes": [
+      "Meneruskan seluruh request ke update model atau memakai denylist yang tertinggal saat field baru ditambah."
+    ],
+    "classification": "CWE-915",
+    "updated_at": "2026-10-24"
+  },
+  "L022": {
+    "objectives": [
+      "Memeriksa otorisasi pada resolver GraphQL",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "GraphQL memungkinkan klien memilih field dan relasi; satu endpoint dapat mencakup banyak operasi. Pemeriksaan hak perlu menjangkau resolver serta node terkait. Batasi kompleksitas dan jumlah operasi sesuai kebutuhan layanan.",
+    "mistakes": [
+      "Menganggap satu endpoint cukup dilindungi satu kali atau field tersembunyi dalam UI tidak dapat diminta."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L023": {
+    "objectives": [
+      "Menentukan scope sebelum pemetaan permukaan aplikasi",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Izin tertulis menentukan host, akun, teknik, waktu, dan batas dampak. Recon diawali dengan inventaris fitur dan aliran data yang diizinkan. Subdomain yang ditemukan tidak otomatis masuk scope. Berhenti dan minta kejelasan ketika batas tidak pasti.",
+    "mistakes": [
+      "Menyamakan kepemilikan domain dengan izin menguji semua layanan atau melakukan pemindaian aktif di luar scope."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L024": {
+    "objectives": [
+      "Menyusun laporan yang bisa direproduksi dengan bukti minimum",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Laporan memisahkan expected dan actual behavior, langkah reproduksi, prasyarat akun, dampak yang terbukti, dan rekomendasi. Redaksi token serta data pribadi. Retest menggunakan fixture dummy setelah perbaikan tanpa memperluas akses.",
+    "mistakes": [
+      "Mengklaim dampak yang belum dibuktikan atau melampirkan seluruh database ketika satu record dummy cukup."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  },
+  "L025": {
+    "objectives": [
+      "Menggabungkan validasi, policy, dan query scoped di Laravel",
+      "Menjelaskan alasan kontrol pencegahan pada contoh dummy."
+    ],
+    "technical": "Form Request memvalidasi bentuk input, policy memeriksa izin, dan query scoped membatasi objek. Ketiganya saling melengkapi. Gunakan data tervalidasi, binding query, CSRF pada mutasi web, serta feature test dengan dua pengguna.",
+    "mistakes": [
+      "Menyamakan fillable dengan otorisasi atau hanya menguji respons pengguna pemilik."
+    ],
+    "classification": "Konsep dasar / metodologi",
+    "updated_at": "2026-10-24"
+  }
+}

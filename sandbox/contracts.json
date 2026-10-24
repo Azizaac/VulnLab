@@ -1,0 +1,93 @@
+{
+  "order-idor": {
+    "order-b": {
+      "path": "/api/orders/102",
+      "methods": [
+        "GET"
+      ]
+    },
+    "order-a": {
+      "path": "/api/orders/101",
+      "methods": [
+        "GET"
+      ]
+    }
+  },
+  "address-bola": {
+    "profile-b": {
+      "path": "/api/profiles/2",
+      "methods": [
+        "GET",
+        "PATCH"
+      ]
+    },
+    "profile-a": {
+      "path": "/api/profiles/1",
+      "methods": [
+        "GET",
+        "PATCH"
+      ]
+    }
+  },
+  "search-xss": {
+    "search": {
+      "path": "/search",
+      "methods": [
+        "GET"
+      ]
+    }
+  },
+  "product-sqli": {
+    "products": {
+      "path": "/api/products",
+      "methods": [
+        "GET"
+      ]
+    }
+  },
+  "profile-mass-assignment": {
+    "profile": {
+      "path": "/api/profile",
+      "methods": [
+        "GET",
+        "PATCH"
+      ]
+    }
+  },
+  "jwt-validation": {
+    "admin": {
+      "path": "/api/token/admin",
+      "methods": [
+        "GET"
+      ]
+    }
+  },
+  "admin-bfla": {
+    "product": {
+      "path": "/api/products/3",
+      "methods": [
+        "GET"
+      ]
+    },
+    "publish": {
+      "path": "/api/admin/products/3/publish",
+      "methods": [
+        "POST"
+      ]
+    }
+  },
+  "coupon-logic": {
+    "cart": {
+      "path": "/api/cart",
+      "methods": [
+        "GET"
+      ]
+    },
+    "coupon": {
+      "path": "/api/cart/coupon",
+      "methods": [
+        "POST"
+      ]
+    }
+  }
+}

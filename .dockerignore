@@ -1,0 +1,23 @@
+.git
+.env
+.env.*
+.tools
+vendor
+node_modules
+public/build
+public/hot
+database/*.sqlite*
+storage/logs/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/framework/cache/data/*
+bootstrap/cache/*.php
+test-results
+playwright-report
+res-*.txt
+# Design input and QA evidence are not runtime dependencies.
+VulnLab_PRD_v4_Visual_Match_Codex
+design
+docs/screenshots
+# Vulnerable source is NEVER copied into the Laravel image.
+sandbox

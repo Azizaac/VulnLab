@@ -1,0 +1,116 @@
+{
+  "brand": {
+    "name": "VulnLab",
+    "tagline": "Belajar. Bereksperimen. Temukan Celah. Jadilah Lebih Aman di Dunia Digital.",
+    "description": "Jalur belajar Web & API Security yang mudah dipahami, dipraktikkan secara legal, dan progresnya benar-benar terukur."
+  },
+  "nav": {
+    "home": "Beranda",
+    "roadmap": "Roadmap",
+    "learning": "Modul",
+    "labs": "Lab",
+    "progress": "Progres",
+    "notes": "Catatan",
+    "reports": "Laporan",
+    "settings": "Pengaturan"
+  },
+  "home": {
+    "greeting": "Halo, Hacker Muda! 👋",
+    "hero": "Terus belajar, terus eksplorasi, dan jadilah lebih baik setiap hari. Dunia digital lebih aman dengan kamu di dalamnya.",
+    "today": "Rencana hari ini",
+    "resume": "Lanjutkan Belajar",
+    "first_cta": "Mulai dari HTTP",
+    "streak": "Konsistensi belajar",
+    "up_next": "Langkah Berikutnya",
+    "search_placeholder": "Apa yang ingin kamu pelajari hari ini?",
+    "quick_access": [
+      "Mulai Roadmap",
+      "Jelajahi Lab",
+      "Lihat Modul",
+      "Baca Catatan"
+    ]
+  },
+  "roadmap": {
+    "title": "Roadmap 90 Hari",
+    "subtitle": "Dari dasar hingga siap berburu bug bounty.",
+    "map_mode": "Peta perjalanan",
+    "list_mode": "Daftar aksesibel",
+    "day_done": "Tandai selesai",
+    "locked": "Selesaikan prasyarat untuk membuka tahap ini",
+    "stage_details": "Detail Tahap"
+  },
+  "learning": {
+    "title": "Ruang Belajar",
+    "subtitle": "Penjelasan singkat, contoh praktis, dan referensi yang bisa kamu cek.",
+    "beginner": "Pemula",
+    "continue": "Lanjut ke kuis",
+    "simplify": "Jelaskan lebih sederhana",
+    "resources": "Sumber resmi",
+    "draft_notice": "Materi masih dalam peninjauan editorial; lihat sumber resmi untuk verifikasi.",
+    "trusted_sources": "Sumber Terpercaya",
+    "quick_quiz": "Quiz Cepat"
+  },
+  "quiz": {
+    "submit": "Periksa jawabanku",
+    "retry": "Coba lagi",
+    "correct": "Tepat! Ini alasannya.",
+    "incorrect": "Belum tepat. Yuk lihat penjelasannya.",
+    "empty": "Pilih jawaban sebelum memeriksa.",
+    "passed": "Kamu lulus kuis pemahaman.",
+    "not_mastered": "Mengerti teori belum tentu menguasai praktik — coba lab terkait."
+  },
+  "labs": {
+    "title": "Lab Praktik",
+    "subtitle": "Uji pemahaman pada lingkungan latihan yang terisolasi.",
+    "start": "Mulai lab",
+    "reset": "Reset lab",
+    "unavailable": "Sandbox belum berjalan. Kamu tetap bisa membaca skenario dan mengerjakan kuis.",
+    "hint": "Buka petunjuk",
+    "submit": "Verifikasi hasil",
+    "safety": "Hanya untuk data dummy dan lingkungan lokal yang diizinkan."
+  },
+  "progress": {
+    "title": "Perkembangan Belajarmu",
+    "theory": "Paham teori",
+    "quiz": "Lulus kuis",
+    "lab": "Selesai lab",
+    "report": "Laporan selesai",
+    "empty": "Mulai pelajaran pertamamu untuk melihat progres yang nyata."
+  },
+  "notes": {
+    "title": "Catatan Saya",
+    "new": "Buat catatan",
+    "autosave": "Menyimpan...",
+    "saved": "Tersimpan",
+    "failed": "Gagal menyimpan. Coba lagi.",
+    "empty": "Catatan pertamamu dimulai dari pertanyaan kecil."
+  },
+  "reports": {
+    "title": "Buat Laporan Bug Bounty",
+    "new": "Tulis laporan baru",
+    "empty": "Satu laporan yang jelas lebih berharga daripada sepuluh laporan yang kabur.",
+    "draft": "Draft",
+    "export": "Unduh Markdown",
+    "sections": [
+      "Ringkasan",
+      "Lingkungan",
+      "Langkah reproduksi",
+      "Perilaku yang diharapkan",
+      "Hasil aktual",
+      "Dampak",
+      "Bukti",
+      "Saran perbaikan"
+    ]
+  },
+  "errors": {
+    "offline": "Koneksi terputus. Perubahan lokal belum tersimpan di server.",
+    "forbidden": "Kamu tidak memiliki izin untuk mengakses halaman ini.",
+    "not_found": "Halaman tidak ditemukan. Kembali ke perjalanan belajarmu.",
+    "unexpected": "Ada kendala saat memuat data. Silakan coba lagi."
+  },
+  "onboarding": {
+    "headline": "Keahlian dibangun dari latihan yang konsisten.",
+    "daily": "Target harian: 2 jam",
+    "privacy": "Jangan memasukkan kredensial produksi, token asli, atau data orang lain ke lab."
+  }
+}

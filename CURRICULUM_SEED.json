@@ -1,0 +1,182 @@
+[
+  {
+    "id": "FND-01",
+    "module": "Fondasi Web & HTTP",
+    "title": "Internet, DNS, dan browser",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview"
+  },
+  {
+    "id": "FND-02",
+    "module": "Fondasi Web & HTTP",
+    "title": "HTTP request dan response",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview"
+  },
+  {
+    "id": "FND-03",
+    "module": "Fondasi Web & HTTP",
+    "title": "HTTP methods dan status code",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods"
+  },
+  {
+    "id": "FND-04",
+    "module": "Fondasi Web & HTTP",
+    "title": "Cookies, session, dan SameSite",
+    "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies"
+  },
+  {
+    "id": "FND-05",
+    "module": "Fondasi Web & HTTP",
+    "title": "REST API dan JSON",
+    "url": "https://portswigger.net/web-security/learning-paths/api-testing"
+  },
+  {
+    "id": "TOOL-01",
+    "module": "Tools & Methodology",
+    "title": "Burp Proxy dan HTTP history",
+    "url": "https://portswigger.net/burp/documentation/desktop/tools/proxy"
+  },
+  {
+    "id": "TOOL-02",
+    "module": "Tools & Methodology",
+    "title": "Burp Repeater dan request editing",
+    "url": "https://portswigger.net/burp/documentation/desktop/tools/repeater"
+  },
+  {
+    "id": "TOOL-03",
+    "module": "Tools & Methodology",
+    "title": "Scope, izin, dan pengujian aman",
+    "url": "https://wstg.owasp.org/"
+  },
+  {
+    "id": "TOOL-04",
+    "module": "Tools & Methodology",
+    "title": "Evidence dan dokumentasi pengujian",
+    "url": "https://wstg.owasp.org/"
+  },
+  {
+    "id": "AUTH-01",
+    "module": "Authentication & Authorization",
+    "title": "Authentication vs authorization",
+    "url": "https://portswigger.net/web-security/authentication"
+  },
+  {
+    "id": "AUTH-02",
+    "module": "Authentication & Authorization",
+    "title": "Session management dan logout",
+    "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html"
+  },
+  {
+    "id": "AUTH-03",
+    "module": "Authentication & Authorization",
+    "title": "Access control horizontal dan vertikal",
+    "url": "https://portswigger.net/web-security/access-control"
+  },
+  {
+    "id": "AUTH-04",
+    "module": "Authentication & Authorization",
+    "title": "IDOR dan object ownership",
+    "url": "https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+  },
+  {
+    "id": "AUTH-05",
+    "module": "Authentication & Authorization",
+    "title": "BOLA pada REST API",
+    "url": "https://owasp.org/API-Security/editions/2023/en/0xa1-broken-object-level-authorization/"
+  },
+  {
+    "id": "WEB-01",
+    "module": "Web Vulnerabilities",
+    "title": "XSS: reflected, stored, DOM",
+    "url": "https://portswigger.net/web-security/cross-site-scripting"
+  },
+  {
+    "id": "WEB-02",
+    "module": "Web Vulnerabilities",
+    "title": "SQL injection dan prepared statements",
+    "url": "https://portswigger.net/web-security/sql-injection"
+  },
+  {
+    "id": "WEB-03",
+    "module": "Web Vulnerabilities",
+    "title": "CSRF dan perlindungan request",
+    "url": "https://portswigger.net/web-security/csrf"
+  },
+  {
+    "id": "WEB-04",
+    "module": "Web Vulnerabilities",
+    "title": "Information disclosure",
+    "url": "https://portswigger.net/web-security/information-disclosure"
+  },
+  {
+    "id": "WEB-05",
+    "module": "Web Vulnerabilities",
+    "title": "File upload dan validasi",
+    "url": "https://portswigger.net/web-security/file-upload"
+  },
+  {
+    "id": "API-01",
+    "module": "API Security",
+    "title": "API discovery dan dokumentasi",
+    "url": "https://portswigger.net/web-security/learning-paths/api-testing"
+  },
+  {
+    "id": "API-02",
+    "module": "API Security",
+    "title": "Mass assignment dan property authorization",
+    "url": "https://portswigger.net/web-security/learning-paths/api-testing"
+  },
+  {
+    "id": "API-03",
+    "module": "API Security",
+    "title": "BFLA: fungsi admin dan user",
+    "url": "https://owasp.org/API-Security/editions/2023/en/0xa5-broken-function-level-authorization/"
+  },
+  {
+    "id": "API-04",
+    "module": "API Security",
+    "title": "JWT fundamentals dan validasi",
+    "url": "https://portswigger.net/web-security/jwt"
+  },
+  {
+    "id": "API-05",
+    "module": "API Security",
+    "title": "GraphQL dan otorisasi field",
+    "url": "https://portswigger.net/web-security/graphql"
+  },
+  {
+    "id": "API-06",
+    "module": "API Security",
+    "title": "Business logic dan voucher",
+    "url": "https://portswigger.net/web-security/logic-flaws"
+  },
+  {
+    "id": "HUNT-01",
+    "module": "Bug Bounty Workflow",
+    "title": "Memilih program dan membaca scope",
+    "url": "https://www.hackerone.com/for-hackers/how-to-start-hacking"
+  },
+  {
+    "id": "HUNT-02",
+    "module": "Bug Bounty Workflow",
+    "title": "Asset inventory pasif dan endpoint mapping",
+    "url": "https://wstg.owasp.org/"
+  },
+  {
+    "id": "HUNT-03",
+    "module": "Bug Bounty Workflow",
+    "title": "Membuat hipotesis dan matriks akses",
+    "url": "https://wstg.owasp.org/"
+  },
+  {
+    "id": "HUNT-04",
+    "module": "Bug Bounty Workflow",
+    "title": "Validasi dampak dan bukti minimal",
+    "url": "https://wstg.owasp.org/"
+  },
+  {
+    "id": "HUNT-05",
+    "module": "Bug Bounty Workflow",
+    "title": "Menulis laporan vulnerability",
+    "url": "https://docs.hackerone.com/en/articles/8476499-submitting-reports"
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "checked_at": "2026-10-24T12:00:39.990989+00:00",
+  "meaning": "HTTP reachability of primary references; not independent expert review.",
+  "sources": [
+    {
+      "lab": "LAB001",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html",
+      "status": 200,
+      "resolved_url": "https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html"
+    },
+    {
+      "lab": "LAB002",
+      "url": "https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/",
+      "status": 200,
+      "resolved_url": "https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/"
+    },
+    {
+      "lab": "LAB003",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+      "status": 200,
+      "resolved_url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html"
+    },
+    {
+      "lab": "LAB004",
+      "url": "https://portswigger.net/web-security/sql-injection",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/sql-injection"
+    },
+    {
+      "lab": "LAB005",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html",
+      "status": 200,
+      "resolved_url": "https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html"
+    },
+    {
+      "lab": "LAB006",
+      "url": "https://portswigger.net/web-security/jwt",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/jwt"
+    },
+    {
+      "lab": "LAB007",
+      "url": "https://api-security.owasp.org/editions/2023/en/0xa5-broken-function-level-authorization/",
+      "status": 200,
+      "resolved_url": "https://api-security.owasp.org/editions/2023/en/0xa5-broken-function-level-authorization/"
+    },
+    {
+      "lab": "LAB008",
+      "url": "https://portswigger.net/web-security/logic-flaws",
+      "status": 200,
+      "resolved_url": "https://portswigger.net/web-security/logic-flaws"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "checked_on": "2026-10-24",
+  "source": "Private pre-upgrade MySQL dump and post-upgrade owner-data audit; no sensitive row values included.",
+  "unchanged_existing_data": ["users", "user_task_progress", "notes", "note_tags", "lesson_progress", "quiz_attempts"],
+  "lessons": {"before": 25, "after": 25, "existing_rows_changed": 0, "comparison": "UTF-8 column comparison with normalized timestamp fractional formatting; complete original Markdown and snapshots unchanged."},
+  "roadmap_plans": {"before": 0, "after": 1, "existing_rows_overwritten": 0},
+  "roadmap_items": {"before": 0, "after": 270, "existing_rows_overwritten": 0},
+  "note": "A new personal plan was observed during local verification. There were no prior plan/item rows to overwrite. No database reset, migrate:fresh, volume deletion or restoration over current learner records was performed. Raw whole-table hashes differ for newly added records and client output formatting; the semantic audit checks existing data separately."
+}

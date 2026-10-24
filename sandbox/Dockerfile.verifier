@@ -1,0 +1,9 @@
+FROM node:24-alpine
+RUN apk add --no-cache chromium nss freetype harfbuzz ca-certificates ttf-freefont
+WORKDIR /srv
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev --ignore-scripts
+COPY --chown=node:node verifier.mjs ./
+USER node
+EXPOSE 8091
+CMD ["node", "verifier.mjs"]

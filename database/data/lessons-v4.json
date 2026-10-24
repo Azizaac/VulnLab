@@ -1,0 +1,819 @@
+[
+  {
+    "id": "L001",
+    "slug": "client-server",
+    "track": "Dasar Web",
+    "title": "Cara Browser dan Server Berkomunikasi",
+    "level": "Pemula",
+    "estimated_minutes": 15,
+    "body_md": "# Cara Browser dan Server Berkomunikasi\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nWeb bekerja dengan pola request–response. Ketika membuka halaman, browser bisa meminta HTML, CSS, gambar, dan data API secara terpisah. Satu halaman dapat menghasilkan banyak request. Sebagai calon bug hunter, kamu perlu tahu request mana yang benar-benar membuat perubahan di server.\n\n## Analogi sederhana\n\nBrowser seperti pengunjung restoran, server seperti dapur. Browser memesan halaman, server menyiapkan jawaban.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nGET /products HTTP/1.1\nHost: shop.lab.test\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nBuka Developer Tools → Network di aplikasi latihan lokal. Reload halaman dan amati URL, method, status, dan body. Catat mana request halaman dan mana request data. Jangan menyimpulkan keamanan hanya dari tampilan UI.\n\n## Cara mencegah / memperbaiki\n\nServer harus memvalidasi setiap input dan memeriksa izin di server, walaupun tombol di frontend sudah disembunyikan.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [MDN — HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)\n- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "MDN — HTTP Overview",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Web Security Testing Guide",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0011",
+      "Q0012"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [],
+    "published": false
+  },
+  {
+    "id": "L002",
+    "slug": "http-methods",
+    "track": "Dasar Web",
+    "title": "HTTP Methods: GET, POST, PUT, PATCH, DELETE",
+    "level": "Pemula",
+    "estimated_minutes": 15,
+    "body_md": "# HTTP Methods: GET, POST, PUT, PATCH, DELETE\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nGET biasanya membaca resource; POST sering membuat atau menjalankan aksi; PUT mengganti representasi; PATCH memperbarui sebagian; DELETE meminta penghapusan. Namun aplikasi bisa salah memakai method, jadi lihat juga efek aktual dan izin. GET idealnya tidak menimbulkan perubahan penting pada server.\n\n## Analogi sederhana\n\nMethod adalah kata kerja pada surat perintah: lihat, buat, ubah, atau hapus.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nGET /api/products\nPOST /api/orders\nPATCH /api/orders/101\nDELETE /api/notes/8\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi API dummy, bandingkan status untuk GET dan PATCH. Uji satu endpoint dengan akun yang berhak dan akun yang tidak berhak—bukan data milik orang sungguhan.\n\n## Cara mencegah / memperbaiki\n\nValidasi method yang diizinkan, otorisasi pada setiap aksi, dan idempotensi sesuai kebutuhan; jangan bergantung pada method sebagai kontrol akses.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [MDN — HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)\n- [PortSwigger API Testing](https://portswigger.net/web-security/api-testing)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "MDN — HTTP Overview",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview",
+        "type": "official_reference"
+      },
+      {
+        "title": "PortSwigger API Testing",
+        "url": "https://portswigger.net/web-security/api-testing",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0021",
+      "Q0022"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L001"
+    ],
+    "published": false
+  },
+  {
+    "id": "L003",
+    "slug": "status-headers",
+    "track": "Dasar Web",
+    "title": "Membaca Status Code dan Header HTTP",
+    "level": "Pemula",
+    "estimated_minutes": 15,
+    "body_md": "# Membaca Status Code dan Header HTTP\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\n2xx menandakan request diproses sukses; 3xx mengarah ke pemindahan; 4xx menandakan masalah pada permintaan atau akses; 5xx menunjukkan kesalahan sisi server. 401 lazimnya butuh autentikasi, 403 berarti ditolak, 404 tidak ditemukan; implementasi dapat sengaja memakai 404 untuk menyembunyikan keberadaan resource.\n\n## Analogi sederhana\n\nStatus code mirip tanda pada formulir: diterima, perlu login, dilarang, atau bermasalah.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nHTTP/1.1 403 Forbidden\nContent-Type: application/json\nCache-Control: no-store\n\n{\"message\":\"Akses ditolak\"}\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nAmati Content-Type, Set-Cookie, Authorization, Cache-Control dan Location. Jangan menganggap kode 200 selalu berarti aksi berhasil: baca response body juga.\n\n## Cara mencegah / memperbaiki\n\nKirim respons konsisten, hindari membocorkan stack trace dan data sensitif; jangan pernah memasukkan token asli ke tangkapan layar laporan.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [MDN — HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)\n- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "MDN — HTTP Overview",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Web Security Testing Guide",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0031",
+      "Q0032"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L002"
+    ],
+    "published": false
+  },
+  {
+    "id": "L004",
+    "slug": "cookies-sessions",
+    "track": "Dasar Web",
+    "title": "Cookies, Session, dan Identitas Login",
+    "level": "Pemula",
+    "estimated_minutes": 15,
+    "body_md": "# Cookies, Session, dan Identitas Login\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nHTTP bersifat stateless, jadi aplikasi perlu mekanisme mengingat keadaan login. Cookie dapat membawa session ID; server menghubungkannya dengan identitas pengguna. Atribut HttpOnly, Secure, dan SameSite memiliki peran berbeda; satu atribut saja tidak membuat sesi otomatis aman.\n\n## Analogi sederhana\n\nCookie session seperti nomor penitipan barang; nilainya mengacu pada sesi, bukan password mentah.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nSet-Cookie: vulnlab_session=abc123; HttpOnly; SameSite=Lax; Path=/\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nLogin ke akun dummy, lihat header Set-Cookie. Logout lalu perhatikan perubahan cookie dan apakah session lama masih berlaku. Jangan menyalin session milik orang lain.\n\n## Cara mencegah / memperbaiki\n\nRegenerasi session ID saat login, lakukan invalidasi saat logout, set cookie flags sesuai konteks dan lindungi request perubahan status dari CSRF.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [MDN — HTTP Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies)\n- [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "MDN — HTTP Cookies",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Cheat Sheet Series",
+        "url": "https://cheatsheetseries.owasp.org/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0041",
+      "Q0042"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L003"
+    ],
+    "published": false
+  },
+  {
+    "id": "L005",
+    "slug": "origin-cors",
+    "track": "Dasar Web",
+    "title": "Same-Origin Policy dan CORS",
+    "level": "Pemula",
+    "estimated_minutes": 15,
+    "body_md": "# Same-Origin Policy dan CORS\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nSame-Origin Policy membatasi interaksi skrip antar-origin. CORS adalah mekanisme berbasis header untuk memberi izin akses tertentu antar-origin. CORS bukan mekanisme login maupun izin membaca objek dalam API; endpoint tetap perlu authentication dan authorization sendiri.\n\n## Analogi sederhana\n\nOrigin ibarat alamat gedung: protokol, hostname, dan port harus cocok untuk dianggap alamat yang sama.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nOrigin: https://learn.lab.test\nAccess-Control-Allow-Origin: https://learn.lab.test\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nBandingkan dua origin lokal dummy. Lihat kapan browser menolak akses response dan kapan server tetap memproses request. Jangan menyebut kesalahan CORS hanya karena request tidak dapat dibaca browser.\n\n## Cara mencegah / memperbaiki\n\nBatasi allowed origins sesuai kebutuhan; jangan menganggap konfigurasi CORS menggantikan pemeriksaan identitas dan hak akses.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [MDN — HTTP Overview](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview)\n- [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "MDN — HTTP Overview",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Overview",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Cheat Sheet Series",
+        "url": "https://cheatsheetseries.owasp.org/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0051",
+      "Q0052"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L004"
+    ],
+    "published": false
+  },
+  {
+    "id": "L006",
+    "slug": "rest-api-json",
+    "track": "Dasar Web",
+    "title": "Dasar REST API, JSON, dan Endpoint",
+    "level": "Pemula",
+    "estimated_minutes": 15,
+    "body_md": "# Dasar REST API, JSON, dan Endpoint\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nEndpoint adalah lokasi sebuah API menerima permintaan, misalnya `/api/orders/101`. API biasanya menerima parameter dari path, query, header, atau body JSON. Saat menguji, petakan asal nilai dan bagaimana respons berubah. Tidak semua URL yang mengandung `/api` otomatis menggunakan prinsip REST secara ketat.\n\n## Analogi sederhana\n\nAPI seperti loket layanan untuk aplikasi: setiap loket memiliki alamat dan jenis layanan.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nGET /api/orders/101\nAccept: application/json\n\n{\"id\":101,\"status\":\"paid\"}\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nBuat tabel endpoint dari aplikasi dummy: path, method, jenis input, perlu login atau tidak, dan pemilik resource. Ini menjadi dasar API testing yang dapat diulang.\n\n## Cara mencegah / memperbaiki\n\nValidasi skema input di server, autentikasi yang tepat, otorisasi per objek, dan hindari pengungkapan properti rahasia dalam JSON.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger API Testing](https://portswigger.net/web-security/api-testing)\n- [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x11-t10/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger API Testing",
+        "url": "https://portswigger.net/web-security/api-testing",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0061",
+      "Q0062"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L005"
+    ],
+    "published": false
+  },
+  {
+    "id": "L007",
+    "slug": "authentication-authorization",
+    "track": "Akses & Identitas",
+    "title": "Authentication vs Authorization",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Authentication vs Authorization\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nSeseorang bisa berhasil login tetapi tetap tidak berhak melihat invoice milik pengguna lain. Pemisahan konsep ini sangat penting: banyak API rentan karena hanya memeriksa apakah permintaan membawa session valid, tetapi tidak memeriksa apakah pengguna mempunyai hak atas objek.\n\n## Analogi sederhana\n\nAuthentication menjawab \"kamu siapa?\"; authorization menjawab \"kamu boleh melakukan apa?\".\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nUser A login → GET /api/orders/101 (milik A) = 200\nUser B login → GET /api/orders/101 (milik A) = 403\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nBuat dua akun dummy. Uji resource milik A dan milik B; bandingkan response. Pastikan tidak ada objek pribadi nyata di lab.\n\n## Cara mencegah / memperbaiki\n\nTerapkan deny-by-default, policy per objek/aksi, dan pengujian role dari sisi server; jangan percaya role yang ditulis sendiri oleh browser.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)\n- [MITRE CWE-862 Missing Authorization](https://cwe.mitre.org/data/definitions/862.html)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP Authorization Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+        "type": "official_reference"
+      },
+      {
+        "title": "MITRE CWE-862 Missing Authorization",
+        "url": "https://cwe.mitre.org/data/definitions/862.html",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0071",
+      "Q0072"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [],
+    "published": false
+  },
+  {
+    "id": "L008",
+    "slug": "session-lifecycle",
+    "track": "Akses & Identitas",
+    "title": "Login, Logout, dan Siklus Sesi",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Login, Logout, dan Siklus Sesi\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nAplikasi perlu mengatur kapan sesi dibuat, kapan diganti, kapan kedaluwarsa, dan kapan dibatalkan. Masalah muncul ketika sesi lama masih hidup setelah logout, reset password, atau perubahan hak istimewa. Pembatasan login juga perlu mempertimbangkan pengalaman pengguna dan penyalahgunaan.\n\n## Analogi sederhana\n\nSesi seperti kartu akses sementara: diterbitkan, dipakai, diperbarui, dan dicabut.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nPOST /login → Set-Cookie: session=NEW_ID\nPOST /logout → session diinvalidasi\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nGunakan browser privat lab, login akun dummy, simpan observasi session, logout, lalu verifikasi request berikutnya meminta autentikasi ulang.\n\n## Cara mencegah / memperbaiki\n\nRotasi session setelah autentikasi, batasi durasi, terapkan logout yang benar dan log kejadian secara aman tanpa menyimpan secret.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [MDN — HTTP Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies)\n- [PortSwigger Authentication](https://portswigger.net/web-security/authentication)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "MDN — HTTP Cookies",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+        "type": "official_reference"
+      },
+      {
+        "title": "PortSwigger Authentication",
+        "url": "https://portswigger.net/web-security/authentication",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0081",
+      "Q0082"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L007"
+    ],
+    "published": false
+  },
+  {
+    "id": "L009",
+    "slug": "idor",
+    "track": "Akses & Identitas",
+    "title": "IDOR: Referensi Objek Tanpa Otorisasi",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# IDOR: Referensi Objek Tanpa Otorisasi\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nIDOR muncul saat referensi objek dapat dimanipulasi dan server tidak memeriksa izin atas objek tersebut. ID bisa berupa angka, UUID, nama file, bahkan slug. Mengacak ID membantu mengurangi tebakan, tetapi bukan mengganti object-level authorization.\n\n## Analogi sederhana\n\nNomor tiket bukan bukti kepemilikan tiket. Mengetahui nomor order tidak berarti kamu boleh membukanya.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nGET /api/orders/101 (akun A) → 200\nGET /api/orders/101 (akun B) → seharusnya 403/404\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi VulnShop, buat order milik A dan B, lalu periksa apakah setiap akun hanya mendapat datanya sendiri. Buktikan dampak hanya pada dua akun dummy itu.\n\n## Cara mencegah / memperbaiki\n\nPada Laravel, batasi query ke resource yang diizinkan serta terapkan Policies/Gates. Tulis negative authorization tests untuk semua CRUD endpoint.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP IDOR Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html)\n- [PortSwigger Access Control](https://portswigger.net/web-security/access-control)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP IDOR Prevention Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html",
+        "type": "official_reference"
+      },
+      {
+        "title": "PortSwigger Access Control",
+        "url": "https://portswigger.net/web-security/access-control",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0091",
+      "Q0092"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": "order-idor",
+    "prerequisites": [
+      "L008"
+    ],
+    "published": false
+  },
+  {
+    "id": "L010",
+    "slug": "bola",
+    "track": "Akses & Identitas",
+    "title": "BOLA: IDOR pada Resource API",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# BOLA: IDOR pada Resource API\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nBroken Object Level Authorization adalah risiko API saat endpoint menerima object ID dan melakukan operasi tanpa izin objek yang memadai. BOLA bisa terjadi pada pembacaan, pembaruan, maupun penghapusan. Ini berkaitan erat dengan IDOR, tetapi menggunakan kerangka risiko API.\n\n## Analogi sederhana\n\nBOLA berarti loket API memeriksa nomor paket, tetapi lupa memeriksa apakah paket itu milik pemesan.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nPATCH /api/addresses/88\n{\"city\":\"Solo\"}\n# hanya pemilik alamat yang boleh mengubah\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi lingkungan dummy, buat dua alamat dan bandingkan operasi baca dan ubah dari pemilik vs akun lain. Jangan melakukan perubahan pada aset dunia nyata.\n\n## Cara mencegah / memperbaiki\n\nGunakan objek yang di-scope ke authenticated principal dan jalankan policy per object + action; buat tes 403 terhadap akses lintas akun.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP API1:2023 BOLA](https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/)\n- [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x11-t10/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP API1:2023 BOLA",
+        "url": "https://api-security.owasp.org/editions/2023/en/0xa1-broken-object-level-authorization/",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0101",
+      "Q0102"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": "address-bola",
+    "prerequisites": [
+      "L009"
+    ],
+    "published": false
+  },
+  {
+    "id": "L011",
+    "slug": "bfla",
+    "track": "Akses & Identitas",
+    "title": "Broken Function Level Authorization",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Broken Function Level Authorization\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nBroken Function Level Authorization berarti pengguna dapat memanggil fungsi yang seharusnya dibatasi untuk role atau hak tertentu. Ini berbeda dari BOLA: BOLA berfokus pada kepemilikan objek; BFLA berfokus pada boleh-tidaknya menggunakan fungsi. Keduanya bisa terjadi bersamaan.\n\n## Analogi sederhana\n\nPetugas dan pemilik toko sama-sama login, tetapi hanya pemilik boleh mengubah stok global.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nPOST /api/admin/products/8/publish\n# user biasa → 403\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nBuat role `customer` dan `admin` di lab. Periksa apakah endpoint admin menolak akun customer walaupun tombol publish tidak terlihat di UI.\n\n## Cara mencegah / memperbaiki\n\nGunakan authorization policy di backend untuk setiap fungsi; default deny; tes matriks role x tindakan.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x11-t10/)\n- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Authorization Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0111",
+      "Q0112"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": "admin-bfla",
+    "prerequisites": [
+      "L010"
+    ],
+    "published": false
+  },
+  {
+    "id": "L012",
+    "slug": "csrf",
+    "track": "Akses & Identitas",
+    "title": "CSRF dan Permintaan Berbasis Session",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# CSRF dan Permintaan Berbasis Session\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nCross-Site Request Forgery membuat browser pengguna yang sudah terautentikasi mengirim tindakan yang tidak mereka inginkan, ketika mekanisme autentikasi otomatis dikirim dan pertahanan CSRF tidak cukup. Risiko bergantung pada cookie, browser behavior, metode request, dan desain aplikasi.\n\n## Analogi sederhana\n\nBrowser yang sudah login seperti petugas yang otomatis membawa kartu akses ke setiap meja.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nPOST /account/change-email\nCookie: session=...\nX-CSRF-TOKEN: ...\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nBandingkan di lab request ubah preferensi dengan dan tanpa token CSRF. Pastikan tidak mencoba mengubah data orang lain.\n\n## Cara mencegah / memperbaiki\n\nGunakan proteksi CSRF framework, SameSite cookies sesuai konteks, tidak menggunakan GET untuk aksi mengubah status, dan pertimbangkan origin checks.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger CSRF](https://portswigger.net/web-security/csrf)\n- [MDN — HTTP Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger CSRF",
+        "url": "https://portswigger.net/web-security/csrf",
+        "type": "official_reference"
+      },
+      {
+        "title": "MDN — HTTP Cookies",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Cookies",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0121",
+      "Q0122"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L011"
+    ],
+    "published": false
+  },
+  {
+    "id": "L013",
+    "slug": "xss-basics",
+    "track": "Celah Web",
+    "title": "Cross-Site Scripting: Saat Input Jadi Script",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Cross-Site Scripting: Saat Input Jadi Script\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nXSS dapat muncul ketika input tidak tepercaya ditempatkan ke konteks output yang memungkinkan eksekusi JavaScript. Ada reflected, stored, dan DOM-based XSS. Pelajari perbedaan data (teks) dan kode (instruksi); mitigasi utamanya context-aware output encoding dan penggunaan API DOM yang aman.\n\n## Analogi sederhana\n\nKolom komentar seharusnya memuat tulisan pengunjung, bukan instruksi yang dieksekusi browser.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nInput nama produk: <b>Contoh</b>\nOutput aman: &lt;b&gt;Contoh&lt;/b&gt;\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi lab, masukkan marker teks unik ke pencarian dan lihat bagaimana HTML dihasilkan. Gunakan contoh harmless yang disediakan lab dan jangan menguji website lain tanpa izin.\n\n## Cara mencegah / memperbaiki\n\nDefault escaping template, textContent daripada innerHTML bila perlu teks, sanitasi HTML khusus konten kaya, dan CSP defense-in-depth.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP XSS Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)\n- [PortSwigger XSS](https://portswigger.net/web-security/cross-site-scripting)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP XSS Prevention Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+        "type": "official_reference"
+      },
+      {
+        "title": "PortSwigger XSS",
+        "url": "https://portswigger.net/web-security/cross-site-scripting",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0131",
+      "Q0132"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": "search-xss",
+    "prerequisites": [],
+    "published": false
+  },
+  {
+    "id": "L014",
+    "slug": "sql-injection",
+    "track": "Celah Web",
+    "title": "SQL Injection dan Query Berparameter",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# SQL Injection dan Query Berparameter\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nSQL injection terjadi saat data eksternal digabung secara tidak aman ke struktur query. Query berparameter menjaga pemisahan antara kode SQL dan nilai input. Menghapus tanda petik atau memblokir beberapa kata bukan mitigasi yang setara.\n\n## Analogi sederhana\n\nPencarian database seperti mengisi formulir; input pengguna tidak boleh menjadi bagian dari instruksi SQL.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nAMAN (Laravel): Product::where(\"name\", $name)->first();\nHINDARI: concatenating untrusted input in a raw SQL string\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi lab SQLi dummy, amati perbedaan perubahan input pada query raw dan query builder. Hindari pengambilan database selain dataset latihan.\n\n## Cara mencegah / memperbaiki\n\nGunakan parameterized query/query builder, least privilege DB dan validasi tipe, panjang dan bentuk input.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger SQL Injection](https://portswigger.net/web-security/sql-injection)\n- [OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger SQL Injection",
+        "url": "https://portswigger.net/web-security/sql-injection",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Input Validation Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0141",
+      "Q0142"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": "product-sqli",
+    "prerequisites": [
+      "L013"
+    ],
+    "published": false
+  },
+  {
+    "id": "L015",
+    "slug": "input-validation",
+    "track": "Celah Web",
+    "title": "Input Validation: Bentuk dan Makna",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Input Validation: Bentuk dan Makna\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nValidasi yang baik memeriksa sintaks seperti tipe/panjang serta semantik seperti range, hubungan antar-field dan nilai yang diizinkan. Pastikan validasi diterapkan pada server, karena validasi browser dapat dilewati. Validasi tidak menggantikan otorisasi, encoding, atau parameterisasi query.\n\n## Analogi sederhana\n\nForm pesanan bukan sekadar menerima angka; kuantitas nol atau minus juga tak masuk akal secara bisnis.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nquantity: integer|min:1|max:20\nprice: server-calculated, bukan dikirim sebagai nilai terpercaya\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi lab coba jumlah produk negatif, harga dari browser, dan field tak dikenal. Lihat apakah aplikasi menolak atau menghitung ulang dari database.\n\n## Cara mencegah / memperbaiki\n\nAllowlist field, aturan business invariant, skema JSON, limit ukuran request, dan jangan percaya nilai harga dari client.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)\n- [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x11-t10/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP Input Validation Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0151",
+      "Q0152"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L014"
+    ],
+    "published": false
+  },
+  {
+    "id": "L016",
+    "slug": "ssrf-intro",
+    "track": "Celah Web",
+    "title": "SSRF: Server Diminta Mengakses Alamat Lain",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# SSRF: Server Diminta Mengakses Alamat Lain\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nServer-Side Request Forgery terjadi ketika aplikasi membuat request ke alamat yang dikendalikan pihak luar tanpa pembatasan yang cukup. Dampaknya bisa mencakup akses layanan internal. Di VulnLab, latihan hanya boleh mengarah ke hostname tiruan dalam jaringan Docker terisolasi.\n\n## Analogi sederhana\n\nFitur preview URL seperti asisten yang diminta mengambil paket. Tanpa aturan, ia mungkin masuk ke ruangan yang seharusnya terlarang.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nPOST /lab/preview\n{\"url\":\"http://mock-service:8080/example\"}\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nBandingkan URL yang masuk allowlist dengan yang tidak di lab. Jangan gunakan metadata cloud, alamat privat real, atau endpoint publik untuk latihan ini.\n\n## Cara mencegah / memperbaiki\n\nBatasi tujuan lewat allowlist, validasi redirect dan resolusi DNS, pertimbangkan egress firewall serta isolasi jaringan; blok akses ke aset internal sensitif.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger SSRF](https://portswigger.net/web-security/ssrf)\n- [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x11-t10/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger SSRF",
+        "url": "https://portswigger.net/web-security/ssrf",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0161",
+      "Q0162"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": "mock-ssrf",
+    "prerequisites": [
+      "L015"
+    ],
+    "published": false
+  },
+  {
+    "id": "L017",
+    "slug": "file-upload",
+    "track": "Celah Web",
+    "title": "Risiko File Upload",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Risiko File Upload\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nUpload dapat berbahaya bila aplikasi menilai ekstensi atau MIME yang dikirim browser sebagai bukti keamanan. Risiko mencakup penyimpanan file aktif pada lokasi yang dapat dieksekusi, path traversal, dan kebocoran data. Pengujian lab tidak memerlukan malware atau shell sungguhan.\n\n## Analogi sederhana\n\nPetugas penerima berkas harus memeriksa isi dan cara menyimpan, bukan hanya percaya nama file.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nPOST /lab/avatar\nContent-Type: multipart/form-data\n# hanya dummy image yang diizinkan\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi lab, coba file teks yang dinamai `.jpg` dan lihat validasi server. Pakai file latihan biasa, bukan executable berbahaya.\n\n## Cara mencegah / memperbaiki\n\nBatasi tipe dan ukuran, verifikasi konten sesuai use case, simpan di luar executable webroot, acak nama server-side dan layani dengan header yang aman.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger File Upload](https://portswigger.net/web-security/file-upload)\n- [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger File Upload",
+        "url": "https://portswigger.net/web-security/file-upload",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Cheat Sheet Series",
+        "url": "https://cheatsheetseries.owasp.org/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0171",
+      "Q0172"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L016"
+    ],
+    "published": false
+  },
+  {
+    "id": "L018",
+    "slug": "business-logic",
+    "track": "Celah Web",
+    "title": "Business Logic: Saat Aturan Toko Bisa Dilewati",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Business Logic: Saat Aturan Toko Bisa Dilewati\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nCelah business logic muncul saat alur yang terlihat normal menghasilkan akibat yang melanggar aturan bisnis. Tidak semua masalah bisa dikenali scanner. Pelajari business invariant: stok tidak negatif, satu voucher per order, total server-calculated, tidak dapat membeli barang di bawah harga sah.\n\n## Analogi sederhana\n\nKasir punya aturan satu voucher per pesanan. Jika aplikasi lupa menerapkannya di server, uang bisa salah dihitung.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\norder_total = sum(price_database × qty) - discount_server\n# jangan percaya total dari frontend\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nPada VulnShop dummy, coba quantity nol, diskon bertumpuk dan perubahan order state yang tidak valid. Tulis aturan yang seharusnya terjadi sebelum mencoba.\n\n## Cara mencegah / memperbaiki\n\nTerapkan invariant di backend dan database, periksa transisi state, transaksi atomik, dan tes negatif.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger Business Logic](https://portswigger.net/web-security/logic-flaws)\n- [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x11-t10/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger Business Logic",
+        "url": "https://portswigger.net/web-security/logic-flaws",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0181",
+      "Q0182"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": "coupon-logic",
+    "prerequisites": [
+      "L017"
+    ],
+    "published": false
+  },
+  {
+    "id": "L019",
+    "slug": "burp-repeater",
+    "track": "API & Praktik",
+    "title": "Burp Proxy dan Repeater untuk Pemula",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Burp Proxy dan Repeater untuk Pemula\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nBurp Suite membantu membaca dan mengubah request aplikasi yang kamu punya izin uji. Proxy menangkap traffic browser, sedangkan Repeater mengirim ulang request yang dipilih setelah parameter diubah. Kerja efektif dimulai dengan hipotesis, bukan ribuan request acak.\n\n## Analogi sederhana\n\nProxy seperti meja pemeriksaan surat, Repeater seperti ruang latihan untuk mengirim ulang satu surat yang sama.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nGET /api/orders/101 HTTP/1.1\nHost: shop.lab.test\nCookie: session=<akun-dummy>\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nTangkap satu request dari akun dummy. Kirim ke Repeater, ubah satu variabel, dan tulis perbedaan response. Hentikan pengujian jika scope tidak jelas.\n\n## Cara mencegah / memperbaiki\n\nGunakan project scope, redaksi token sebelum membagikan bukti, rate limit, dan jangan memproksi traffic pribadi lain.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger Getting Started](https://portswigger.net/web-security/getting-started)\n- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger Getting Started",
+        "url": "https://portswigger.net/web-security/getting-started",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Web Security Testing Guide",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0191",
+      "Q0192"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [],
+    "published": false
+  },
+  {
+    "id": "L020",
+    "slug": "jwt-fundamentals",
+    "track": "API & Praktik",
+    "title": "JWT: Header, Payload, Signature",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# JWT: Header, Payload, Signature\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nJWT sering memiliki tiga bagian base64url dipisahkan titik. Payload tidak otomatis rahasia; signature digunakan untuk memverifikasi integritas dan asal token sesuai algoritme/key yang tepat. Kesalahan konfigurasi dan validasi klaim dapat membuka masalah autentikasi.\n\n## Analogi sederhana\n\nJWT mirip kartu klaim yang ditandatangani; isi kartu dapat dibaca tetapi harus diverifikasi sebelum dipercaya.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nheader.payload.signature\n{\"sub\":\"dummy-user-1\",\"exp\":1893456000}\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDekode token **dummy** dan temukan claim `sub`, `exp`, dan audience. Jangan pernah menempel token produksi pada decoder daring.\n\n## Cara mencegah / memperbaiki\n\nValidasi signature di server, batasi algoritme yang diterima, issuer/audience/expiry, lindungi key dan hindari data sensitif di payload.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger JWT attacks](https://portswigger.net/web-security/jwt)\n- [OWASP Cheat Sheet Series](https://cheatsheetseries.owasp.org/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger JWT attacks",
+        "url": "https://portswigger.net/web-security/jwt",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Cheat Sheet Series",
+        "url": "https://cheatsheetseries.owasp.org/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0201",
+      "Q0202"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L019"
+    ],
+    "published": false
+  },
+  {
+    "id": "L021",
+    "slug": "mass-assignment",
+    "track": "API & Praktik",
+    "title": "Mass Assignment dan Properti Terlarang",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Mass Assignment dan Properti Terlarang\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nMass assignment muncul ketika properti request secara luas disalin ke model tanpa aturan field. Risiko bukan sekadar field tersembunyi; setiap field yang boleh diperbarui perlu ditentukan sesuai aktor dan operasi. Properti response juga perlu diperhatikan agar data internal tidak bocor.\n\n## Analogi sederhana\n\nForm edit alamat hanya meminta kota, tapi user mencoba menyelipkan kolom \"role=admin\".\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nPATCH /api/profile\n{\"city\":\"Solo\",\"role\":\"admin\"}\n# role harus diabaikan/ditolak untuk user\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi lab, lihat apakah penambahan field yang tidak muncul di UI mengubah data model. Semua data menggunakan akun dummy.\n\n## Cara mencegah / memperbaiki\n\nGunakan Form Request validation dan field allowlist / DTO yang eksplisit, Policies, dan tes bahwa field istimewa tidak berubah.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x11-t10/)\n- [OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Input Validation Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0211",
+      "Q0212"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L020"
+    ],
+    "published": false
+  },
+  {
+    "id": "L022",
+    "slug": "graphql-intro",
+    "track": "API & Praktik",
+    "title": "GraphQL: Query, Mutation, dan Authorization",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# GraphQL: Query, Mutation, dan Authorization\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nGraphQL memisahkan query dan mutation, dengan schema yang menjelaskan tipe/operasi. Walau terlihat memakai satu endpoint, authorization tetap perlu berlaku pada setiap resolver, objek, dan field. Introspection sendiri tidak otomatis merupakan vulnerability; nilai risikonya bergantung konteks.\n\n## Analogi sederhana\n\nGraphQL seperti daftar belanja custom: klien memilih field yang ingin diminta dari satu layanan.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nquery { order(id: \"101\") { id total } }\n# hanya milik pengguna yang berizin\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nDi GraphQL dummy, bandingkan field yang dapat diakses oleh account A/B. Periksa output berlebihan tanpa mengambil data nyata.\n\n## Cara mencegah / memperbaiki\n\nLakukan auth per resolver/field/object, batasi kompleksitas serta kedalaman query, dan berikan error yang tidak membocorkan rahasia.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [PortSwigger GraphQL API vulnerabilities](https://portswigger.net/web-security/graphql)\n- [OWASP API Security Top 10 2023](https://owasp.org/API-Security/editions/2023/en/0x11-t10/)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "PortSwigger GraphQL API vulnerabilities",
+        "url": "https://portswigger.net/web-security/graphql",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0221",
+      "Q0222"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L021"
+    ],
+    "published": false
+  },
+  {
+    "id": "L023",
+    "slug": "scoping-recon",
+    "track": "API & Praktik",
+    "title": "Recon, Scope, dan Pengujian Berizin",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Recon, Scope, dan Pengujian Berizin\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nScope adalah aset yang secara eksplisit diizinkan diuji beserta teknik dan batasannya. Recon pasif membantu memahami permukaan aplikasi. Pengujian aktif harus mematuhi policy: larangan automation, rate limits, akun pengujian, dan data pribadi. Domain mirip atau subdomain turunan tidak otomatis in-scope.\n\n## Analogi sederhana\n\nBug bounty seperti latihan di lapangan yang batasnya ditandai jelas; keluar batas berarti melanggar aturan permainan.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nCatatan target: domain_in_scope, exclusions, akun uji, metode diizinkan, request_limit, tanggal policy\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nSimulasikan membaca scope policy dummy. Buat checklist keputusan \"boleh/tidak boleh\" sebelum memetakan endpoint. Jangan lakukan scanning internet untuk memenuhi tugas ini.\n\n## Cara mencegah / memperbaiki\n\nPatuhi program brief dan safe harbor, hentikan bila tidak yakin, gunakan akun milik sendiri dan bukti minimum.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)\n- [PortSwigger API Testing](https://portswigger.net/web-security/api-testing)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP Web Security Testing Guide",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/",
+        "type": "official_reference"
+      },
+      {
+        "title": "PortSwigger API Testing",
+        "url": "https://portswigger.net/web-security/api-testing",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0231",
+      "Q0232"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": "profile-mass-assignment",
+    "prerequisites": [
+      "L022"
+    ],
+    "published": false
+  },
+  {
+    "id": "L024",
+    "slug": "vuln-reporting",
+    "track": "API & Praktik",
+    "title": "Menulis Laporan Bug yang Bisa Direproduksi",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Menulis Laporan Bug yang Bisa Direproduksi\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nLaporan yang baik memisahkan langkah reproduksi, observed/expected behavior, bukti minimum, dampak terverifikasi, severity rationale, dan saran perbaikan. Judul perlu menyebut jenis masalah dan komponen; jangan melebih-lebihkan dampak atau mengklaim data orang lain telah diekspos jika belum teruji secara aman.\n\n## Analogi sederhana\n\nLaporan vulnerability seperti resep masakan: orang lain harus bisa mengulangnya dari instruksi yang jelas.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\nTitle: IDOR di endpoint detail order dummy\nExpected: akun B ditolak\nActual: akun B menerima detail order A\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nTulis laporan latihan berdasarkan temuan lab yang kamu buat dengan dua akun dummy. Sensor cookie/session/token sebelum menyertakan request dan screenshot.\n\n## Cara mencegah / memperbaiki\n\nGunakan struktur yang konsisten, lampirkan request/response yang disanitasi, sertakan scope, waktu, serta rekomendasi akar penyebab.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP Web Security Testing Guide](https://owasp.org/www-project-web-security-testing-guide/)\n- [PortSwigger Web Security Academy](https://portswigger.net/web-security)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP Web Security Testing Guide",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/",
+        "type": "official_reference"
+      },
+      {
+        "title": "PortSwigger Web Security Academy",
+        "url": "https://portswigger.net/web-security",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0241",
+      "Q0242"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L023"
+    ],
+    "published": false
+  },
+  {
+    "id": "L025",
+    "slug": "laravel-fixes",
+    "track": "API & Praktik",
+    "title": "Memperbaiki Temuan di Laravel",
+    "level": "Pemula",
+    "estimated_minutes": 20,
+    "body_md": "# Memperbaiki Temuan di Laravel\n\n> **Tujuan belajar:** memahami konsep, mengenali gejala di aplikasi dummy, dan menjelaskan satu tindakan pencegahan.\n\n## Inti dalam 1 menit\n\nLaravel menyediakan middleware, Form Requests, Policies dan query builder untuk membangun kontrol aman. Perbaikan perlu menutup root cause, bukan hanya satu contoh input. Setelah patch, tambah tes regresi: role yang berhak tetap bisa, role yang tidak berhak ditolak, dan validasi input buruk tidak merusak data.\n\n## Analogi sederhana\n\nMemperbaiki satu order view bukan sekadar menutup tombolnya; kunci pintu harus ada di sisi server.\n\n## Contoh di VulnShop (data fiktif)\n\n```http\n$this->authorize(\"view\", $order);\n# pastikan policy memvalidasi akses ke objek\n```\n\n**Cara membaca contoh:** fokus pada siapa yang mengirim permintaan, objek yang diminta, serta keputusan yang seharusnya dibuat server. Nilai dan identitas yang digunakan di sini hanyalah data latihan.\n\n## Praktik aman — amati, jangan menebak\n\nSimulasikan memperbaiki endpoint order dummy: bandingkan sebelum/sesudah terhadap akun A dan B dan jalankan PHPUnit/Pest feature tests.\n\n## Cara mencegah / memperbaiki\n\nGunakan Policy/Gate, parameter binding, validasi ketat, query parameterized dan integration tests. Jangan mencampur vulnerability code ke core app.\n\n## Cek pemahaman\n\nJawab dua pertanyaan di tab **Kuis**. Tulis satu kalimat dalam **Catatan** tentang apa yang baru kamu pahami; jika masih bingung, baca ulang contoh dan referensi, lalu coba lab terkait bila sudah tersedia.\n\n## Referensi primer\n\n- [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)\n- [OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)\n\n> Status editorial: **draft terkurasi berbasis dokumentasi resmi, belum ditinjau pakar independen**. Tanggal penyusunan: 2026-10-23.\n",
+    "source_urls": [
+      {
+        "title": "OWASP Authorization Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html",
+        "type": "official_reference"
+      },
+      {
+        "title": "OWASP Input Validation Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html",
+        "type": "official_reference"
+      }
+    ],
+    "quiz_ids": [
+      "Q0251",
+      "Q0252"
+    ],
+    "editorial_status": "research_draft_unreviewed",
+    "authored_at": "2026-10-23",
+    "reviewed_at": null,
+    "lab_slug": null,
+    "prerequisites": [
+      "L024"
+    ],
+    "published": false
+  }
+]

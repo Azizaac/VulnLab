@@ -1,0 +1,94 @@
+name: vulnlab
+services:
+  app:
+    build:
+      context: .
+      target: app
+    environment:
+      APP_NAME: VulnLab
+      APP_KEY: ${APP_KEY:-}
+      APP_ENV: local
+      APP_DEBUG: "false"
+      APP_URL: http://127.0.0.1:8088
+      APP_LOCALE: id
+      LOG_CHANNEL: single
+      LOG_LEVEL: warning
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:?Set DB_DATABASE in .env}
+      DB_USERNAME: ${DB_USERNAME:?Set DB_USERNAME in .env}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      SESSION_DRIVER: database
+      SESSION_ENCRYPT: "true"
+      SESSION_HTTP_ONLY: "true"
+      SESSION_SAME_SITE: lax
+      SESSION_SECURE_COOKIE: "false"
+      CACHE_STORE: database
+      QUEUE_CONNECTION: database
+    depends_on:
+      db:
+        condition: service_healthy
+    networks: [core]
+    volumes:
+      - app_storage:/var/www/html/storage
+    read_only: true
+    tmpfs:
+      - /tmp:uid=10001,gid=10001,mode=1770
+      - /var/www/html/bootstrap/cache:uid=10001,gid=10001,mode=0770
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 1.0
+    mem_limit: 512m
+    restart: unless-stopped
+  web:
+    build:
+      context: .
+      target: web
+    ports: ["127.0.0.1:8088:8080"]
+    depends_on: [app]
+    networks: [frontend, core]
+    read_only: true
+    tmpfs:
+      - /tmp:uid=101,gid=101,mode=1770
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 0.5
+    mem_limit: 128m
+    restart: unless-stopped
+  db:
+    image: mysql:8.4
+    user: mysql
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:?Set DB_DATABASE in .env}
+      MYSQL_USER: ${DB_USERNAME:?Set DB_USERNAME in .env}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Set MYSQL_ROOT_PASSWORD in .env}
+    networks: [core]
+    volumes: ["core_db:/var/lib/mysql"]
+    tmpfs:
+      - /var/run/mysqld:uid=999,gid=999,mode=0770
+      - /tmp:mode=1777
+    healthcheck:
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$$MYSQL_PASSWORD\" mysql --protocol=TCP -h 127.0.0.1 -u\"$$MYSQL_USER\" \"$$MYSQL_DATABASE\" -e 'SELECT 1' >/dev/null 2>&1"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    cpus: 1.0
+    mem_limit: 1g
+    restart: unless-stopped
+networks:
+  # Only Nginx joins this network so Docker can publish its loopback HTTP port.
+  frontend:
+    driver: bridge
+  core:
+    internal: true
+  # Reserved only. No service joins both networks. No lab runtime exists in S0/S1.
+  lab:
+    internal: true
+volumes:
+  core_db:
+  app_storage:
