@@ -10,6 +10,10 @@ The unchanged v4 roadmap JSON is imported into **templates for new plans**. Exis
 
 Sprint 3 adds eight guided VulnShop labs with real HTTP, per-session fixtures/flags, server evidence validation, progressive hints, safe reset, and once-only XP. The optional sandbox runs as a **separate localhost-only Compose project**. See [Sprint 3 implementation and verification](docs/sprint-3.md), [lab isolation design and local setup](docs/lab-isolation.md), [Sprint 2 report](docs/sprint-2.md), and [verification history](docs/verification.md). Public hosting is deferred to Sprint 6.
 
+## GitHub backup
+
+Source backups live in the private [Azizaac/VulnLab repository](https://github.com/Azizaac/VulnLab). Start each separate update on a new branch with `npm run update:new -- nama-update`, then commit and push that branch after checking it. See [the branch and backup workflow](docs/github-backup.md); local database and learner data require a separate backup.
+
 ## Run with Docker (recommended)
 
 Requires Docker Engine/Desktop with Compose v2. PHP and Node do not need to be installed on the host.

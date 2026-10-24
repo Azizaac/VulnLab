@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
+    "update:new": "node scripts/start-update.mjs",
     "build": "tsc --noEmit && vite build",
     "lint": "eslint resources/js tests/e2e && prettier --check resources/js resources/css",
     "format": "prettier --write resources/js resources/css",
