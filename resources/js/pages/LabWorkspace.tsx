@@ -53,6 +53,45 @@ type Props = {
     recommendations: LabCard[];
 };
 export default function LabWorkspace(props: Props) {
+    if (!Object.keys(props.lab.routes).length)
+        return (
+            <AppShell title={props.lab.title}>
+                <Head title={props.lab.title} />
+                <div className="v5-title">
+                    <div>
+                        <p className="v5-eyebrow">LAB / METADATA</p>
+                        <h1>{props.lab.title}</h1>
+                    </div>
+                    <Link href="/labs" className="v5-button secondary">
+                        Kembali ke Lab
+                    </Link>
+                </div>
+                <section className="v5-card v5-form">
+                    <p className="v5-note">
+                        Runtime belum tersedia untuk metadata ini. Tidak ada
+                        sesi latihan atau hasil HTTP yang dibuat.
+                    </p>
+                    <SafeMarkdown html={props.lab.scenario_html} />
+                    <h2>Instruksi</h2>
+                    <ol>
+                        {props.lab.instructions.map((s) => (
+                            <li key={s.position}>{s.body}</li>
+                        ))}
+                    </ol>
+                    <h2>Referensi</h2>
+                    {props.lab.sources.map((s) => (
+                        <a
+                            href={s.url}
+                            key={s.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            {s.title} ↗
+                        </a>
+                    ))}
+                </section>
+            </AppShell>
+        );
     return <Workspace key={props.lab.id} {...props} />;
 }
 function Workspace({

@@ -8,6 +8,9 @@ public/build
 public/hot
 database/*.sqlite*
 storage/logs/*
+# Private learner files and disposable test disks never enter application images.
+storage/app/**
+storage/framework/testing/**
 storage/framework/sessions/*
 storage/framework/views/*
 storage/framework/cache/data/*

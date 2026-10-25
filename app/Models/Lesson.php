@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\VisibleInCatalog;
 use Illuminate\Database\Eloquent\Model;
 
 class Lesson extends Model
 {
+    use VisibleInCatalog;
+
     protected $guarded = ['id'];
 
     protected $hidden = ['source_snapshot'];
@@ -22,7 +25,7 @@ class Lesson extends Model
 
     public function sources()
     {
-        return $this->hasMany(LessonSource::class);
+        return $this->hasMany(LessonSource::class)->where('catalog_active', true);
     }
 
     public function prerequisites()
@@ -32,7 +35,7 @@ class Lesson extends Model
 
     public function questions()
     {
-        return $this->hasMany(QuizQuestion::class);
+        return $this->hasMany(QuizQuestion::class)->where('catalog_active', true);
     }
 
     public function labs()

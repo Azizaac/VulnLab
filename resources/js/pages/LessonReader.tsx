@@ -55,6 +55,8 @@ type Question = {
     choices: { id: number; text: string }[];
 };
 export default function LessonReader(props: {
+    quiz_context: string;
+    passing_score: number;
     courses: Course[];
     lesson: Lesson;
     questions: Question[];
@@ -64,12 +66,16 @@ export default function LessonReader(props: {
     return <Reader key={props.lesson.id} {...props} />;
 }
 function Reader({
+    quiz_context,
+    passing_score,
     courses,
     lesson,
     questions,
     attempts: initialAttempts,
     exampleHtml,
 }: {
+    quiz_context: string;
+    passing_score: number;
     courses: Course[];
     lesson: Lesson;
     questions: Question[];
@@ -105,6 +111,7 @@ function Reader({
                 "POST",
                 {
                     submission_id: submission,
+                    quiz_context,
                     answers: questions.map((q) => ({
                         question_id: q.id,
                         choice_id: answers[q.id],
@@ -470,10 +477,18 @@ function Reader({
                             <div className="quiz-panel">
                                 <h2>Cek pemahamanmu</h2>
                                 <p>
-                                    2 soal · ambang lulus 70% (dua jawaban
-                                    benar). Boleh mencoba ulang. Hasil bukan
-                                    bukti lab selesai atau skill terverifikasi.
+                                    {questions.length} soal · ambang lulus{" "}
+                                    {passing_score}%. Boleh mencoba ulang. Hasil
+                                    bukan bukti lab selesai atau skill
+                                    terverifikasi.
                                 </p>
+                                {!questions.length && (
+                                    <p className="v5-note">
+                                        Bank kuis belum diterbitkan. Bacaan
+                                        tetap tersedia; penyelesaian kuis
+                                        menunggu materi penilaian.
+                                    </p>
+                                )}
                                 {!current.read && (
                                     <p className="prerequisite-callout">
                                         Baca materi dan tandai sudah dibaca

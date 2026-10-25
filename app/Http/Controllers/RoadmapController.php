@@ -19,10 +19,13 @@ class RoadmapController extends Controller
         return Inertia::render('Dashboard', $roadmap->overview($request->user()));
     }
 
-    public function index(Request $request, RoadmapService $roadmap, ?Phase $phase = null): Response
+    public function index(Request $request, RoadmapService $roadmap, ?string $phase = null): Response
     {
+        $overview = $roadmap->overview($request->user());
+        abort_if($phase !== null && (! ctype_digit($phase) || (! collect($overview['phases'])->contains('id', (int) $phase) && ! Phase::whereKey($phase)->exists())), 404);
+
         return Inertia::render('Roadmap', [
-            ...$roadmap->overview($request->user()), 'selectedPhase' => $phase?->id,
+            ...$overview, 'selectedPhase' => $phase === null ? null : (int) $phase,
             'search' => mb_substr((string) $request->query('search', ''), 0, 100),
         ]);
     }

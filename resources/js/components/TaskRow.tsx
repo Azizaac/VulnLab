@@ -117,29 +117,42 @@ export default function TaskRow({ task }: { task: Task }) {
                         </Link>
                     </div>
                 )}
-                {task.status === "available" && (
-                    <Button
-                        size="sm"
-                        variant="outline"
-                        disabled={form.processing}
-                        onClick={() => update("in_progress")}
-                    >
-                        <Play size={13} />
-                        Mulai
-                    </Button>
+                {task.task_type === "report" && (
+                    <Link href="/reports">
+                        Buka laporan internal · penyelesaian diverifikasi server
+                    </Link>
                 )}
-                {(task.status === "available" ||
-                    task.status === "in_progress") && (
-                    <Button
-                        size="sm"
-                        disabled={form.processing}
-                        onClick={() => update("completed")}
-                        aria-label={`Tandai direview: ${task.title}`}
-                    >
-                        <Check size={14} />
-                        Tandai direview
-                    </Button>
+                {task.task_type !== "checklist" && (
+                    <span className="v5-note">
+                        Selesaikan aktivitas terkait; progres diperiksa dari
+                        hasil server.
+                    </span>
                 )}
+                {task.task_type === "checklist" &&
+                    task.status === "available" && (
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={form.processing}
+                            onClick={() => update("in_progress")}
+                        >
+                            <Play size={13} />
+                            Mulai
+                        </Button>
+                    )}
+                {task.task_type === "checklist" &&
+                    (task.status === "available" ||
+                        task.status === "in_progress") && (
+                        <Button
+                            size="sm"
+                            disabled={form.processing}
+                            onClick={() => update("completed")}
+                            aria-label={`Tandai direview: ${task.title}`}
+                        >
+                            <Check size={14} />
+                            Tandai direview
+                        </Button>
+                    )}
                 {task.status === "locked" && (
                     <span className="locked-caption">
                         <LockKeyhole size={13} />

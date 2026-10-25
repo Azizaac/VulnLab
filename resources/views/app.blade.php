@@ -5,6 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#101827">
         <script>
+            document.documentElement.dataset.density = @json(auth()->user()?->density ?? 'comfortable');
+            document.documentElement.dataset.motion = @json(auth()->user()?->reduced_motion ? 'reduced' : 'system');
             const preference = @json(auth()->user()?->theme ?? 'system');
             document.documentElement.dataset.theme = preference === 'system'
                 ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')

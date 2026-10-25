@@ -10,7 +10,9 @@ export default function Error({ status }: { status: number }) {
               ? "Konten tidak ditemukan"
               : status === 419
                 ? "Sesi berakhir"
-                : "Halaman belum dapat dimuat";
+                : status === 429
+                  ? "Terlalu banyak permintaan"
+                  : "Halaman belum dapat dimuat";
     return (
         <main className="error-page">
             <Head title={title} />
@@ -21,7 +23,9 @@ export default function Error({ status }: { status: number }) {
                 <p>
                     {status === 403
                         ? "Halaman atau data ini bukan milik akunmu."
-                        : "Kembali ke dashboard atau muat ulang untuk mencoba lagi. Progres yang sudah tersimpan tetap ada."}
+                        : status === 429
+                          ? "Tunggu sebentar sebelum mencoba lagi. Progres yang sudah tersimpan tetap ada."
+                          : "Kembali ke dashboard atau muat ulang untuk mencoba lagi. Progres yang sudah tersimpan tetap ada."}
                 </p>
                 <div className="error-actions">
                     {status === 419 && (

@@ -1,7 +1,8 @@
 FROM php:8.4-fpm-alpine AS php-base
-RUN apk add --no-cache icu-libs libzip oniguruma sqlite-libs \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev libzip-dev oniguruma-dev sqlite-dev \
-    && docker-php-ext-install pdo_mysql pdo_sqlite intl zip mbstring \
+RUN apk add --no-cache icu-libs libzip oniguruma sqlite-libs libpng libjpeg-turbo libwebp \
+    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS icu-dev libzip-dev oniguruma-dev sqlite-dev libpng-dev libjpeg-turbo-dev libwebp-dev \
+    && docker-php-ext-configure gd --with-jpeg --with-webp \
+    && docker-php-ext-install pdo_mysql pdo_sqlite intl zip mbstring gd \
     && apk del .build-deps
 WORKDIR /var/www/html
 

@@ -23,6 +23,7 @@ class AuthController extends Controller
         });
         Auth::login($user);
         $request->session()->regenerate();
+        $request->session()->put('auth_epoch', (int) $user->auth_epoch);
 
         return redirect()->route('dashboard');
     }
@@ -31,6 +32,7 @@ class AuthController extends Controller
     {
         $request->authenticate();
         $request->session()->regenerate();
+        $request->session()->put('auth_epoch', (int) $request->user()->auth_epoch);
 
         return redirect()->intended(route('dashboard'));
     }

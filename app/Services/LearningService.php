@@ -28,11 +28,11 @@ class LearningService
     {
         $lessons = $this->summaries($user);
 
-        return Module::with('path')->orderBy('id')->get()->filter(fn ($m) => $m->path->is_course)->map(function ($m) use ($lessons) {
+        return Module::with('path')->where('catalog_visible', true)->orderBy('id')->get()->filter(fn ($m) => $m->path?->catalog_visible && $m->path->is_course)->map(function ($m) use ($lessons) {
             $rows = $lessons->where('module_id', $m->id)->values();
             $ids = $rows->pluck('id');
 
-            return ['id' => $m->id, 'title' => $m->path->title, 'description' => $m->path->description, 'outcomes' => json_decode($m->path->outcomes, true), 'difficulty' => $m->path->difficulty, 'section' => $m->title, 'minutes' => $rows->sum('minutes'), 'completed' => $rows->where('completed', true)->count(), 'lessons' => $rows, 'prerequisites' => $rows->flatMap(fn ($l) => $l['prerequisites'])->reject(fn ($p) => $ids->contains($p['id']))->unique('id')->values(), 'sources' => DB::table('lesson_sources')->whereIn('lesson_id', $ids)->get(['title', 'url'])->unique('url')->values()];
+            return ['id' => $m->id, 'title' => $m->path->title, 'description' => $m->path->description, 'outcomes' => json_decode($m->path->outcomes, true), 'difficulty' => $m->path->difficulty, 'section' => $m->title, 'minutes' => $rows->sum('minutes'), 'completed' => $rows->where('completed', true)->count(), 'lessons' => $rows, 'prerequisites' => $rows->flatMap(fn ($l) => $l['prerequisites'])->reject(fn ($p) => $ids->contains($p['id']))->unique('id')->values(), 'sources' => DB::table('lesson_sources')->where('catalog_active', true)->whereIn('lesson_id', $ids)->get(['title', 'url'])->unique('url')->values()];
         })->values()->all();
     }
 
@@ -78,7 +78,7 @@ class LearningService
             if (! $p?->read_at) {
                 throw ValidationException::withMessages(['lesson' => 'Tandai bacaan sudah dipahami sebelum mengerjakan kuis.']);
             }
-            $questions = $lesson->questions()->with('choices')->get();
+            [$questions, $passingScore, $revisionId] = app(QuizPresentationService::class)->canonical($user, $lesson, $data['quiz_context'] ?? null);
             $answers = collect($data['answers']);
             if ($questions->isEmpty() || $answers->count() !== $questions->count() || $answers->pluck('question_id')->unique()->count() !== $questions->count() || $answers->pluck('question_id')->diff($questions->pluck('id'))->isNotEmpty()) {
                 throw ValidationException::withMessages(['answers' => 'Jawab semua soal lesson ini tepat satu kali.']);
@@ -96,8 +96,8 @@ class LearningService
                 $feedback[] = ['question' => $q->question, 'selected' => $choice->text, 'correct' => $choice->is_correct, 'answer' => $q->choices->firstWhere('is_correct', true)->text, 'explanation' => $q->explanation];
             }
             $score = (int) round(100 * $earned / $questions->sum('points'));
-            $passed = $score >= 70;
-            $attempt = QuizAttempt::create(['user_id' => $user->id, 'lesson_id' => $lesson->id, 'submission_id' => $data['submission_id'], 'score' => $score, 'passed' => $passed, 'feedback' => $feedback, 'created_at' => now()]);
+            $passed = $score >= $passingScore;
+            $attempt = QuizAttempt::create(['user_id' => $user->id, 'lesson_id' => $lesson->id, 'quiz_revision_id' => $revisionId, 'submission_id' => $data['submission_id'], 'score' => $score, 'passed' => $passed, 'feedback' => $feedback, 'created_at' => now()]);
             if ($passed && ! $p->quiz_passed_at) {
                 $p->quiz_passed_at = now();
                 $p->completed_at = now();

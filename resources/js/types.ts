@@ -26,9 +26,15 @@ export type Phase = {
     weeks: Week[];
 };
 export type RoadmapProps = {
+    template_update_available?: boolean;
     nextLab?: import("./labs").LabCard | null;
     nextLesson?: import("./learning").LessonSummary | null;
-    plan: { starts_on: string; timezone: string; ends_on: string } | null;
+    plan: {
+        starts_on: string;
+        timezone: string;
+        ends_on: string;
+        template_revision_id?: number | null;
+    } | null;
     today: { date: string; day: number | null; tasks: Task[] };
     legacyProgress: { title: string; completed_at: string }[];
     phases: Phase[];
@@ -60,6 +66,11 @@ export type SharedProps = {
             email: string;
             timezone: string;
             theme: "light" | "dark" | "system";
+            role?: string;
+            permissions?: string[];
+            avatar_url?: string | null;
+            reduced_motion?: boolean;
+            density?: string;
         };
     };
     flash: { success?: string };

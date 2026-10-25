@@ -17,6 +17,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:auth-register');
 });
 Route::middleware('auth')->group(function () {
+    require __DIR__.'/v5.php';
     require __DIR__.'/sprint4-analytics.php';
     require __DIR__.'/sprint4-reports.php';
     Route::get('/labs', [LabController::class, 'index'])->name('labs');

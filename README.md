@@ -144,4 +144,6 @@ Generated from real React pages with deterministic dummy learner plans:
 - [Notes desktop dark](docs/screenshots/sprint2/notes-desktop-dark-viewport.png)
 - [Notes mobile dark](docs/screenshots/sprint2/notes-mobile-dark-viewport.png)
 
-See [Sprint 2 report](docs/sprint-2.md) and [previous visual QA](docs/visual-qa.md) for the implemented-page matrices, comparison against the supplied poster, limitations, and fixes. The full seven-page release gate awaits the remaining sprints. Historical implementation decisions remain in `docs/implementation-plan.md`.
+See [Sprint 2 report](docs/sprint-2.md) and [previous visual QA](docs/visual-qa.md) for the original matrices, poster comparison and historical fixes. The latest validated scope is recorded in [V5 implementation status](docs/V5_IMPLEMENTATION_STATUS.md). Historical implementation decisions remain in `docs/implementation-plan.md`.
+
+V5 adds a protected Admin Studio, editorial revisions, quiz/lab/roadmap management, and private Profile/Settings. See [V5 operations and permissions](docs/v5-admin-account.md) and [executed V5 validation](docs/V5_IMPLEMENTATION_STATUS.md). Administrator access is granted only to an existing account through the protected local operator command; no default admin credentials are seeded.

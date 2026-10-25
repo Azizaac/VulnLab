@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ContentEntry;
 use App\Models\Lab;
 use App\Models\LabCategory;
 use App\Models\LabHint;
@@ -17,7 +18,10 @@ class LabSeeder extends Seeder
     {
         DB::transaction(function () {
             foreach (json_decode(file_get_contents(database_path('data/labs-sprint3.json')), true, 512, JSON_THROW_ON_ERROR) as $row) {
-                $lesson = Lesson::where('slug', $row['lesson_slug'])->firstOrFail();
+                if (ContentEntry::where('kind', 'lab')->where('slug', $row['slug'])->where('is_managed', true)->exists()) {
+                    continue;
+                }
+                $lesson = Lesson::withoutGlobalScopes()->where('slug', $row['lesson_slug'])->firstOrFail();
                 $category = LabCategory::firstOrCreate(['name' => $row['category']]);
                 $spec = LabSpec::firstOrCreate(['slug' => $row['slug']], ['title' => $row['title'], 'lesson_id' => $lesson->id, 'difficulty' => $row['difficulty'], 'goal' => $row['objectives'][0]]);
                 $data = collect($row)->except('instructions', 'hints', 'category', 'lesson_slug')->all();

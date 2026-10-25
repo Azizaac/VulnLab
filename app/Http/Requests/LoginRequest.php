@@ -31,7 +31,7 @@ class LoginRequest extends FormRequest
         if (RateLimiter::tooManyAttempts($key, 5)) {
             throw ValidationException::withMessages(['email' => 'Terlalu banyak percobaan. Coba lagi dalam '.RateLimiter::availableIn($key).' detik.']);
         }
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        if (! Auth::attempt([...$this->only('email', 'password'), 'suspended_at' => null], $this->boolean('remember'))) {
             RateLimiter::hit($key, 60);
             throw ValidationException::withMessages(['email' => 'Email atau kata sandi tidak cocok.']);
         }

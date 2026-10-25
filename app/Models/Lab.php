@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Concerns\VisibleInCatalog;
 use Illuminate\Database\Eloquent\Model;
 
 class Lab extends Model
 {
+    use VisibleInCatalog;
+
     protected $guarded = ['id'];
 
     protected $hidden = ['solution_md', 'secure_code'];
@@ -22,7 +25,7 @@ class Lab extends Model
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class);
+        return $this->belongsTo(Lesson::class)->withoutGlobalScopes();
     }
 
     public function instructions()

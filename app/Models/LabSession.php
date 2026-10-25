@@ -21,6 +21,6 @@ class LabSession extends Model
 
     public function lab()
     {
-        return $this->belongsTo(Lab::class);
+        return $this->belongsTo(Lab::class)->withoutGlobalScopes();
     }
 }

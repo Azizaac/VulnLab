@@ -23,7 +23,7 @@ export default defineConfig({
             LABS_ENABLED: 'true', LAB_RUNNER_URL: 'http://127.0.0.1:8090', LAB_RUNNER_TOKEN: runnerToken,
             APP_KEY: 'base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
             DB_CONNECTION: 'sqlite', DB_DATABASE: `${process.cwd()}/database/e2e.sqlite`,
-            SESSION_DRIVER: 'file', CACHE_STORE: 'database', CACHE_PREFIX: `vulnlab_e2e_${Date.now()}`, LOG_CHANNEL: 'single',
+            SESSION_DRIVER: 'database', CACHE_STORE: 'database', CACHE_PREFIX: `vulnlab_e2e_${Date.now()}`, LOG_CHANNEL: 'single',
         },
     },
 });

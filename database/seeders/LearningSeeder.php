@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\ContentEntry;
 use App\Models\LabSpec;
 use App\Models\LearningPath;
 use App\Models\Lesson;
@@ -18,6 +19,8 @@ class LearningSeeder extends Seeder
     public function run(): void
     {
         DB::transaction(function () {
+            $managedLessons = ContentEntry::where('kind', 'lesson')->where('is_managed', true)->pluck('subject_id')->all();
+            $managedQuizzes = ContentEntry::where('kind', 'quiz')->where('is_managed', true)->pluck('subject_id')->all();
             $courses = [
                 ['Web Security Fundamentals', 'Bangun cara berpikir keamanan dari browser hingga perbaikan server.', [1, 5, 15, 16, 17, 25]],
                 ['HTTP, Cookies & Sessions', 'Baca percakapan web dan pahami bagaimana sesi bekerja.', [2, 3, 4]],
@@ -43,8 +46,11 @@ class LearningSeeder extends Seeder
             $original = $this->data('lessons-v4.json');
             $lessons = [];
             foreach ($original as $row) {
-                $lesson = Lesson::firstOrCreate(['source_id' => $row['id']], ['module_id' => $modules[$row['id']], 'slug' => $row['slug'], 'title' => $row['title'], 'difficulty' => $row['level'], 'estimated_minutes' => $row['estimated_minutes'], 'sort_order' => (int) substr($row['id'], 1), 'body_md' => $row['body_md'], 'enrichment' => $enrichment[$row['id']], 'source_snapshot' => $row, 'editorial_status' => $row['editorial_status'], 'authored_at' => $row['authored_at'], 'reviewed_at' => null]);
+                $lesson = Lesson::withoutGlobalScopes()->firstOrCreate(['source_id' => $row['id']], ['module_id' => $modules[$row['id']], 'slug' => $row['slug'], 'title' => $row['title'], 'difficulty' => $row['level'], 'estimated_minutes' => $row['estimated_minutes'], 'sort_order' => (int) substr($row['id'], 1), 'body_md' => $row['body_md'], 'enrichment' => $enrichment[$row['id']], 'source_snapshot' => $row, 'editorial_status' => $row['editorial_status'], 'authored_at' => $row['authored_at'], 'reviewed_at' => null]);
                 $lessons[$row['id']] = $lesson;
+                if (in_array($lesson->id, $managedLessons)) {
+                    continue;
+                }
                 $supplement = $lesson->enrichment + $enrichment[$row['id']];
                 if ($supplement !== $lesson->enrichment) {
                     $lesson->update(['enrichment' => $supplement]);
@@ -54,9 +60,15 @@ class LearningSeeder extends Seeder
                 }
             }
             foreach ($original as $row) {
+                if (in_array($lessons[$row['id']]->id, $managedLessons)) {
+                    continue;
+                }
                 $lessons[$row['id']]->prerequisites()->syncWithoutDetaching(array_map(fn ($key) => $lessons[$key]->id, $row['prerequisites']));
             }
             foreach ($this->data('questions-v4.json') as $row) {
+                if (in_array($lessons[$row['lesson_id']]->id, $managedQuizzes)) {
+                    continue;
+                }
                 $q = QuizQuestion::firstOrCreate(['source_id' => $row['id']], ['lesson_id' => $lessons[$row['lesson_id']]->id, 'question' => $row['question'], 'explanation' => $row['explanation'], 'points' => $row['points']]);
                 foreach (collect($row['options'])->shuffle() as $option) {
                     QuizChoice::firstOrCreate(['quiz_question_id' => $q->id, 'source_key' => $option['id']], ['text' => $option['text'], 'is_correct' => $row['correct_option'] === $option['id']]);

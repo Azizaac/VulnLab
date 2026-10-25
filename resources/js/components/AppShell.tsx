@@ -12,6 +12,11 @@ import {
     X,
     ChartNoAxesCombined,
     FileText,
+    UserRound,
+    Settings,
+    ShieldCheck,
+    PanelsTopLeft,
+    Bell,
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import BrandMark from "./BrandMark";
@@ -72,6 +77,9 @@ export default function AppShell({
                             Vuln<span>Lab</span>
                         </span>
                     </Link>
+                    {url.startsWith("/studio") && (
+                        <span className="v5-pill v5-shell-badge">Studio</span>
+                    )}
                     <nav className="top-nav" aria-label="Navigasi utama">
                         <Link
                             href="/dashboard"
@@ -203,7 +211,11 @@ export default function AppShell({
                                 setOpen(true);
                             }}
                         >
-                            {auth.user.name.slice(0, 1).toUpperCase()}
+                            {auth.user.avatar_url ? (
+                                <img src={auth.user.avatar_url} alt="" />
+                            ) : (
+                                auth.user.name.slice(0, 1).toUpperCase()
+                            )}
                         </button>
                     </div>
                 </div>
@@ -229,6 +241,45 @@ export default function AppShell({
                             <X size={20} />
                         </Dialog.Close>
                         <nav aria-label="Navigasi akun">
+                            <Link
+                                href="/profile"
+                                onClick={() => setOpen(false)}
+                            >
+                                <UserRound size={19} />
+                                Profil Saya
+                            </Link>
+                            <Link
+                                href="/settings/general"
+                                onClick={() => setOpen(false)}
+                            >
+                                <Settings size={19} />
+                                Pengaturan
+                            </Link>
+                            <Link
+                                href="/settings/security"
+                                onClick={() => setOpen(false)}
+                            >
+                                <ShieldCheck size={19} />
+                                Keamanan
+                            </Link>
+                            <Link
+                                href="/notifications"
+                                onClick={() => setOpen(false)}
+                            >
+                                <Bell size={19} />
+                                Notifikasi
+                            </Link>
+                            {auth.user.permissions?.includes(
+                                "studio.access",
+                            ) && (
+                                <Link
+                                    href="/studio"
+                                    onClick={() => setOpen(false)}
+                                >
+                                    <PanelsTopLeft size={19} />
+                                    Admin Studio
+                                </Link>
+                            )}
                             <Link
                                 href="/progress"
                                 onClick={() => setOpen(false)}

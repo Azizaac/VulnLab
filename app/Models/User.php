@@ -35,6 +35,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'permission_grants', 'account_preferences', 'avatar_path', 'auth_epoch',
     ];
 
     /**
@@ -47,6 +48,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'account_preferences' => 'array', 'permission_grants' => 'array',
+            'suspended_at' => 'datetime', 'reduced_motion' => 'boolean', 'auth_epoch' => 'integer',
         ];
     }
 }

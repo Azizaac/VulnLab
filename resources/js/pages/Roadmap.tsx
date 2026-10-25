@@ -39,6 +39,7 @@ export default function Roadmap({
     nextTask,
     selectedPhase,
     search = "",
+    template_update_available,
 }: RoadmapProps & { selectedPhase: number | null; search: string }) {
     const requestedDay = Number(
         new URLSearchParams(window.location.search).get("day"),
@@ -59,10 +60,15 @@ export default function Roadmap({
     const [all, setAll] = useState(!!search || !!selectedPhase);
     const nodes = useRef<(HTMLButtonElement | null)[]>([]);
     const listHeading = useRef<HTMLHeadingElement>(null);
-    const stages = stageNames.map((title, index) => {
-        const items = tasks.filter(
-            (task) => Math.floor((task.day - 1) / 18) === index,
-        );
+    const names = plan?.template_revision_id
+        ? phases.map((p) => p.title)
+        : stageNames;
+    const inStage = (task: (typeof tasks)[number], index: number) =>
+        plan?.template_revision_id
+            ? task.phase_id === phases[index]?.id
+            : Math.floor((task.day - 1) / 18) === index;
+    const stages = names.map((title, index) => {
+        const items = tasks.filter((task) => inStage(task, index));
         const done = items.filter((task) => task.status === "completed").length;
         return {
             title,
@@ -84,7 +90,7 @@ export default function Roadmap({
     const selected = stages[stage];
     const matches = tasks.filter(
         (task) =>
-            (all || Math.floor((task.day - 1) / 18) === stage) &&
+            (all || inStage(task, stage)) &&
             (!selectedPhase || task.phase_id === selectedPhase) &&
             (category === "Semua" ||
                 phases.find((phase) => phase.id === task.phase_id)?.category ===
@@ -116,11 +122,11 @@ export default function Roadmap({
     function keyNode(event: KeyboardEvent<HTMLButtonElement>, index: number) {
         let next = index;
         if (event.key === "ArrowRight" || event.key === "ArrowDown")
-            next = (index + 1) % 5;
+            next = (index + 1) % stages.length;
         else if (event.key === "ArrowLeft" || event.key === "ArrowUp")
-            next = (index + 4) % 5;
+            next = (index + stages.length - 1) % stages.length;
         else if (event.key === "Home") next = 0;
-        else if (event.key === "End") next = 4;
+        else if (event.key === "End") next = stages.length - 1;
         else return;
         event.preventDefault();
         nodes.current[next]?.focus();
@@ -129,6 +135,12 @@ export default function Roadmap({
     return (
         <AppShell title="Roadmap">
             <Head title="Roadmap 90 Hari" />
+            {template_update_available && (
+                <p className="v5-note">
+                    Template baru tersedia untuk pendaftaran berikutnya. Rencana
+                    dan progresmu tetap memakai versi yang kamu mulai.
+                </p>
+            )}
             <section
                 className="journey-map"
                 aria-label="Peta perjalanan lima tahap"
@@ -162,8 +174,8 @@ export default function Roadmap({
                             }}
                             className={`stage-node stage-${index + 1} ${stage === index ? "chosen" : ""}`}
                             style={{
-                                left: `${positions[index][0]}%`,
-                                top: `${positions[index][1]}%`,
+                                left: `${stages.length === 5 ? positions[index][0] : 10 + (index * 75) / Math.max(1, stages.length - 1)}%`,
+                                top: `${stages.length === 5 ? positions[index][1] : 85 - (index * 65) / Math.max(1, stages.length - 1)}%`,
                             }}
                             aria-pressed={stage === index}
                             aria-label={`Tahap ${index + 1}: ${item.title}, ${item.status}, ${item.percent}%`}

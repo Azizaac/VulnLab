@@ -7,6 +7,7 @@ use App\Models\LabProgress;
 use App\Models\Lesson;
 use App\Models\QuizAttempt;
 use App\Services\LearningService;
+use App\Services\QuizPresentationService;
 use App\Services\SafeMarkdown;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -33,7 +34,7 @@ class LearningController extends Controller
             'exampleHtml' => $markdown->render($lesson->enrichment['example_md'] ?? ''),
             'courses' => $service->courses($request->user()),
             'lesson' => ['id' => $lesson->id, 'slug' => $lesson->slug, 'title' => $lesson->title, 'html' => $markdown->render($lesson->body_md), 'enrichment' => $lesson->enrichment, 'minutes' => $lesson->estimated_minutes, 'sources' => $lesson->sources, 'labs' => $labLinks, 'authored_at' => $lesson->authored_at, 'reviewed_at' => $lesson->reviewed_at, 'editorial_status' => $lesson->editorial_status],
-            'questions' => $lesson->questions->map(fn ($q) => ['id' => $q->id, 'question' => $q->question, 'choices' => $q->choices->shuffle()->map(fn ($c) => ['id' => $c->id, 'text' => $c->text])->values()]),
+            ...app(QuizPresentationService::class)->present($request->user(), $lesson),
             'attempts' => QuizAttempt::where('user_id', $request->user()->id)->where('lesson_id', $lesson->id)->latest('id')->limit(20)->get(['id', 'score', 'passed', 'feedback', 'created_at']),
         ]);
     }
@@ -50,6 +51,7 @@ class LearningController extends Controller
     {
         $data = $request->validate(['submission_id' => 'required|uuid', 'answers' => 'required|array|max:50', 'answers.*' => 'required|array:question_id,choice_id', 'answers.*.question_id' => 'required|integer', 'answers.*.choice_id' => 'required|integer', 'score' => 'prohibited', 'passed' => 'prohibited', 'user_id' => 'prohibited', 'xp' => 'prohibited', 'lab_solved' => 'prohibited', 'skill_demonstrated' => 'prohibited']);
 
+        $data['quiz_context'] = $request->validate(['quiz_context' => 'nullable|uuid'])['quiz_context'] ?? null;
         $attempt = $service->grade($request->user(), $lesson, $data);
 
         return response()->json([

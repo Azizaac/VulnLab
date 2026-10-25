@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ActivityEvent;
+use App\Models\ContentRevision;
 use App\Models\LabProgress;
 use App\Models\Phase;
 use App\Models\RoadmapDay;
@@ -23,6 +24,9 @@ class RoadmapService
             User::whereKey($user->id)->lockForUpdate()->firstOrFail();
             if ($existing = RoadmapPlan::where('user_id', $user->id)->first()) {
                 return $existing;
+            }
+            if ($revision = app(RoadmapTemplateService::class)->latest()) {
+                return app(RoadmapTemplateService::class)->enroll($user, $startsOn, $timezone, $revision);
             }
             $templates = DB::table('roadmap_day_templates')->orderBy('day_number')->get();
             if ($templates->count() !== 90) {
@@ -83,6 +87,9 @@ class RoadmapService
             foreach ($days as $day) {
                 $date = CarbonImmutable::parse($startsOn, $timezone)->addDays($day->day_number - 1);
                 $day->update(['scheduled_on' => $date->toDateString()]);
+                if ($plan->template_revision_id) {
+                    continue;
+                }
                 $mode = match ($date->dayOfWeekIso) {
                     1 => 'Teori dan contoh', 2 => 'Latihan pertanyaan mandiri', 3 => 'Simulasi skenario dummy',
                     4 => 'Rancangan perbaikan', 5 => 'Analisis kasus lanjutan', 6 => 'Draf laporan dan catatan', 7 => 'Review ringan dan rekap',
@@ -152,6 +159,10 @@ class RoadmapService
         $labCards = app(LabService::class)->catalog($user);
         $labsByLesson = $labCards->keyBy(fn ($l) => $l['lesson']['id']);
         $plan = RoadmapPlan::where('user_id', $user->id)->with('days.items')->first();
+        if ($plan?->template_revision_id) {
+            app(RoadmapTemplateService::class)->syncVerified($user, $plan);
+            $plan->load('days.items');
+        }
         $today = CarbonImmutable::now($plan?->timezone ?? $user->timezone)->toDateString();
         $items = $plan?->days->flatMap->items->keyBy('id') ?? collect();
         $days = $plan?->days->keyBy('day_number') ?? collect();
@@ -167,21 +178,32 @@ class RoadmapService
                     'prerequisite' => $items->get($item->prerequisite_item_id)?->title, 'deferred' => false,
                     'status' => $item->status === 'available' && $item->prerequisite_item_id && $items->get($item->prerequisite_item_id)?->status !== 'completed' ? 'locked' : $item->status,
                     'completed_at' => $item->completed_at?->toIso8601String(),
-                    'lesson' => $lessonMap->get($lessonLinks->get($day->day_number)),
-                    'lab' => $item->category === 'practice' ? $labsByLesson->get($lessonLinks->get($day->day_number)) : null,
+                    'lesson' => $lessonMap->get($item->completion_kind === 'quiz' ? $item->linked_subject_id : $lessonLinks->get($day->day_number)),
+                    'lab' => $item->completion_kind === 'lab' ? $labCards->firstWhere('id', $item->linked_subject_id) : ($item->category === 'practice' ? $labsByLesson->get($lessonLinks->get($day->day_number)) : null),
                 ]))->values(),
             ])->values(),
         ])->filter(fn ($phase) => $phase['weeks']->contains(fn ($week) => $week['tasks']->isNotEmpty()))->values();
         $tasks = $phases->flatMap(fn ($phase) => $phase['weeks']->flatMap(fn ($week) => $week['tasks']));
+        if ($plan?->template_revision_id) {
+            $snapshot = ContentRevision::findOrFail($plan->template_revision_id)->data_json;
+            $phases = collect($snapshot['stages'])->map(function ($stage, $index) use ($tasks, $snapshot) {
+                $dayNumbers = collect($snapshot['days'])->where('stage_key', $stage['key'])->pluck('day_number');
+                $stageTasks = $tasks->whereIn('day', $dayNumbers)->map(fn ($task) => [...$task, 'phase_id' => $index + 1]);
+
+                return ['id' => $index + 1, 'title' => $stage['title'], 'category' => $stage['category'], 'milestone' => $stage['milestone'], 'weeks' => $stageTasks->groupBy('week')->map(fn ($rows, $week) => ['id' => $week, 'number' => $week, 'title' => 'Minggu '.$week, 'tasks' => $rows->values()])->values()];
+            })->filter(fn ($phase) => $phase['weeks']->isNotEmpty())->values();
+            $tasks = $phases->flatMap(fn ($phase) => $phase['weeks']->flatMap(fn ($week) => $week['tasks']));
+        }
         $done = $tasks->where('status', 'completed');
         $next = $tasks->firstWhere('status', 'in_progress') ?? $tasks->firstWhere('status', 'available');
         $todayDay = $days->first(fn ($day) => $day->scheduled_on->toDateString() === $today);
         $legacy = UserTaskProgress::where('user_id', $user->id)->where('status', 'done')->join('roadmap_tasks', 'roadmap_tasks.id', '=', 'user_task_progress.roadmap_task_id')->select('roadmap_tasks.title', 'user_task_progress.completed_at')->get();
 
         return [
+            'template_update_available' => ($latest = app(RoadmapTemplateService::class)->latest()) && $plan && $latest->id !== $plan->template_revision_id,
             'nextLesson' => $lessonSummaries->first(fn ($l) => ! $l['completed'] && ! $l['locked']),
             'nextLab' => $labCards->first(fn ($lab) => $lab['status'] !== 'solved' && $lab['available']),
-            'plan' => $plan ? ['starts_on' => $plan->starts_on->toDateString(), 'timezone' => $plan->timezone, 'ends_on' => $days->last()->scheduled_on->toDateString()] : null,
+            'plan' => $plan ? ['starts_on' => $plan->starts_on->toDateString(), 'timezone' => $plan->timezone, 'template_revision_id' => $plan->template_revision_id, 'ends_on' => $days->last()->scheduled_on->toDateString()] : null,
             'today' => ['date' => $today, 'day' => $todayDay?->day_number, 'tasks' => $tasks->where('date', $today)->values()],
             'phases' => $phases, 'nextTask' => $next, 'recommendations' => $tasks->where('status', 'available')->take(3)->values(),
             'stats' => [
