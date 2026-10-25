@@ -1,0 +1,276 @@
+{
+  "checked_at": "2026-10-25T03:55:09.223Z",
+  "scope": "Planning-only safe checks on this Windows workspace / existing local Docker; NOT the Ubuntu aaPanel server",
+  "source_commit": "9df28d25d404f6685409b0a391cee54a6cc6ff71",
+  "branch": "codex/2026-10-25-103929-sprint7-deployment-planning",
+  "php": {
+    "version": "8.4.27",
+    "extensions": [
+      "Core",
+      "bcmath",
+      "calendar",
+      "ctype",
+      "date",
+      "hash",
+      "iconv",
+      "json",
+      "pcre",
+      "random",
+      "readline",
+      "Reflection",
+      "SPL",
+      "session",
+      "tokenizer",
+      "zlib",
+      "libxml",
+      "dom",
+      "filter",
+      "standard",
+      "PDO",
+      "openssl",
+      "mysqlnd",
+      "SimpleXML",
+      "xml",
+      "xmlreader",
+      "xmlwriter",
+      "curl",
+      "fileinfo",
+      "mbstring",
+      "Phar",
+      "pdo_mysql",
+      "pdo_sqlite",
+      "sqlite3",
+      "zip",
+      "intl",
+      "gd"
+    ],
+    "gd": {
+      "JPEG Support": true,
+      "PNG Support": true,
+      "WebP Support": true
+    }
+  },
+  "versions": {
+    "node": "v24.19.0",
+    "laravel": "v12.70.1",
+    "inertia_php": "v2.0.28",
+    "react": "19.3.1",
+    "vite": "7.3.7"
+  },
+  "local_runtime": {
+    "php": "8.4.27",
+    "mysql_client": "mysql  Ver 8.4.13 for Linux on x86_64 (MySQL Community Server - GPL)",
+    "mysql_server": "NOT RUN"
+  },
+  "checks": [
+    {
+      "check": "local_compose_parse",
+      "status": "PASS",
+      "command": "docker compose -f compose.yaml -f compose.labs.yaml config --quiet"
+    },
+    {
+      "check": "local_container_inspection",
+      "status": "PASS",
+      "scope": "Existing local Docker only; no environment/credential output"
+    },
+    {
+      "check": "loopback_/up",
+      "status": "PASS",
+      "http_status": 200
+    },
+    {
+      "check": "loopback_/ready",
+      "status": "PASS",
+      "http_status": 200,
+      "body": {
+        "ready": true,
+        "database": true,
+        "storage": true
+      }
+    },
+    {
+      "check": "loopback_/login",
+      "status": "PASS",
+      "http_status": 200,
+      "defense_headers": true
+    },
+    {
+      "check": "loopback_/.env",
+      "status": "PASS",
+      "http_status": 403
+    }
+  ],
+  "containers": [
+    {
+      "name": "vulnlab-app-1",
+      "running": true,
+      "health": null,
+      "image": "vulnlab-app",
+      "user": "10001:10001",
+      "read_only": true,
+      "privileged": false,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "networks": [
+        "vulnlab_core",
+        "vulnlab_labcontrol"
+      ],
+      "published_ports": {
+        "9000/tcp": null
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/var/www/html/storage"
+        }
+      ]
+    },
+    {
+      "name": "vulnlab-web-1",
+      "running": true,
+      "health": null,
+      "image": "vulnlab-web",
+      "user": "101:101",
+      "read_only": true,
+      "privileged": false,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "networks": [
+        "vulnlab_core",
+        "vulnlab_frontend"
+      ],
+      "published_ports": {
+        "8080/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8088"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "vulnlab-db-1",
+      "running": true,
+      "health": "healthy",
+      "image": "mysql:8.4",
+      "user": "mysql",
+      "read_only": false,
+      "privileged": false,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "networks": [
+        "vulnlab_core"
+      ],
+      "published_ports": {
+        "3306/tcp": null,
+        "33060/tcp": null
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "destination": "/var/lib/mysql"
+        }
+      ]
+    },
+    {
+      "name": "vulnlab-sandbox-shop-1",
+      "running": true,
+      "health": null,
+      "image": "vulnlab-sandbox-shop",
+      "user": "node",
+      "read_only": true,
+      "privileged": false,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "networks": [
+        "vulnlab-sandbox_training"
+      ],
+      "published_ports": {
+        "8080/tcp": null
+      },
+      "mounts": []
+    },
+    {
+      "name": "vulnlab-sandbox-runner-1",
+      "running": true,
+      "health": null,
+      "image": "vulnlab-sandbox-runner",
+      "user": "node",
+      "read_only": true,
+      "privileged": false,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "networks": [
+        "vulnlab-sandbox_edge",
+        "vulnlab-sandbox_training",
+        "vulnlab_labcontrol"
+      ],
+      "published_ports": {
+        "8090/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "8090"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "vulnlab-sandbox-verifier-1",
+      "running": true,
+      "health": null,
+      "image": "vulnlab-sandbox-verifier",
+      "user": "node",
+      "read_only": true,
+      "privileged": false,
+      "cap_drop": [
+        "ALL"
+      ],
+      "security_options": [
+        "no-new-privileges:true"
+      ],
+      "networks": [
+        "vulnlab-sandbox_training"
+      ],
+      "published_ports": {
+        "8091/tcp": null
+      },
+      "mounts": []
+    }
+  ],
+  "server_inventory": "UNKNOWN / NOT CONTACTED",
+  "infrastructure_changes": [],
+  "executed_nonpersistent_checks": {
+    "composer_validate": "PASS",
+    "composer_platform_no_dev": "PASS on local Windows PHP",
+    "typescript_no_emit": "PASS",
+    "sqlite_regressions": {
+      "tests": 7,
+      "assertions": 156,
+      "duration_seconds": 11.77
+    },
+    "schedule_default_host": "FAIL: Docker DB hostname unavailable; no target contacted",
+    "schedule_array_cache": "PASS registration only; no scheduled task executed"
+  }
+}

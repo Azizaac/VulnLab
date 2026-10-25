@@ -153,3 +153,7 @@ V5 adds a protected Admin Studio, editorial revisions, quiz/lab/roadmap manageme
 The current release decision, actual results and limitations are recorded in [release readiness](docs/qa/RELEASE_READINESS.md), with the [121-case matrix](docs/qa/QA_TEST_MATRIX.csv), [security scope](docs/qa/02_SECURITY.md), [content review](docs/qa/04_CONTENT_AUDIT.md) and [reproduction guide](docs/qa/README.md). This update does not authorize production/aaPanel deployment or start Sprint 7.
 
 `/up` reports process liveness; `/ready` reports database/storage readiness with sanitized 503 responses when unavailable. Private page history is encrypted and cleared across authentication transitions. Studio filters use current revisions; catalog reference queries are batched. Existing learner data and V4/V5 designs are preserved.
+
+## Sprint 7 deployment plan
+
+The [aaPanel home-server planning package](docs/deploy/README.md) covers compatibility, isolated staging, Cloudflare Access/Tunnel, secrets, recovery, monitoring and disabled hosted labs. [Private-beta activation is currently NO-GO](docs/deploy/RELEASE_DECISION.md): real server inventory and implementation/acceptance prerequisites remain unresolved. **Deployment NOT started; approval required.** No SSH, aaPanel/DNS changes or lab exposure occurred. Run `node scripts/check-deployment-plan.mjs` for safe local package-structure checks; this does not validate the actual server.

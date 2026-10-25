@@ -1,0 +1,58 @@
+# INERT PLANNING TEMPLATE. Integrate only after approval and C01-C04 tests.
+# Render __PORT__, __HOST__, __ROOT__, __FPM_SOCKET__, __FASTCGI_PARAMS__.
+# Include the following log_format ONCE in http context, not inside server:
+# log_format vulnlab_minimal '$time_iso8601 $request_id $request_method $uri $status $body_bytes_sent $request_time';
+server {
+    listen 127.0.0.1:__PORT__ default_server;
+    server_name _;
+    return 444;
+}
+server {
+    listen 127.0.0.1:__PORT__;
+    server_name __HOST__;
+    root __ROOT__/current/public;
+    index index.php;
+    charset utf-8;
+    server_tokens off;
+    client_max_body_size 6m;
+    access_log __ROOT__/shared/nginx/access.log vulnlab_minimal;
+    error_log __ROOT__/shared/nginx/error.log warn;
+    add_header X-Content-Type-Options nosniff always;
+    add_header X-Frame-Options DENY always;
+    add_header Referrer-Policy strict-origin-when-cross-origin always;
+    location ~ ^/register(?:/|$) { return 404; }
+    location ~ ^/(?:lab-sessions/|labs/[^/]+/(?:sessions|hints|solution)(?:/|$)) { return 503; }
+    location ~ ^/(?:storage|vendor|docs|tests|sandbox|backups)(?:/|$) { return 404; }
+    location ~ /\. { deny all; }
+    location ~* \.(?:sql|dump|bak|log|env|ini|pem|key|zip|tar|gz)(?:$|/) { return 404; }
+    location / { try_files $uri $uri/ /index.php?$query_string; }
+    location = /index.php {
+        include __FASTCGI_PARAMS__;
+        fastcgi_pass unix:__FPM_SOCKET__;
+        fastcgi_param SCRIPT_FILENAME $realpath_root/index.php;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        # Only this loopback connector is trusted by planned Laravel middleware.
+        # Access signature/audience checks and origin-bypass review are mandatory.
+        fastcgi_param HTTP_X_FORWARDED_FOR $http_cf_connecting_ip;
+        fastcgi_param HTTP_X_FORWARDED_PROTO https;
+        fastcgi_param HTTP_X_FORWARDED_PORT 443;
+        fastcgi_param HTTP_X_FORWARDED_HOST "";
+        fastcgi_param HTTP_FORWARDED "";
+        fastcgi_param HTTP_X_REQUEST_ID $request_id;
+        fastcgi_hide_header X-Powered-By;
+        fastcgi_hide_header X-Content-Type-Options;
+        fastcgi_hide_header X-Frame-Options;
+        fastcgi_hide_header Referrer-Policy;
+        fastcgi_read_timeout 60s;
+    }
+    location ~* \.php(?:/|$) { return 404; }
+    # Append-only deploy-owned hashed assets survive current-symlink changes.
+    # The release's own public/build/manifest.json stays release-specific.
+    location /build/assets/ {
+        alias __ROOT__/shared/public-build-assets/;
+        expires 7d;
+        autoindex off;
+    }
+    # No fastcgi/proxy cache for private Inertia/account/API responses.
+    # Keep CSP and Cache-Control from Laravel; never override export sandbox CSP.
+}

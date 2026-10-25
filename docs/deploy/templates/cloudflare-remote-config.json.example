@@ -1,0 +1,23 @@
+{
+  "config": {
+    "ingress": [
+      {
+        "hostname": "staging.learn.example.com",
+        "service": "http://127.0.0.1:18080",
+        "originRequest": {
+          "httpHostHeader": "staging.learn.example.com",
+          "access": {"required": true, "teamName": "REPLACE_TEAM", "audTag": ["REPLACE_STAGING_AUDIENCE"]}
+        }
+      },
+      {
+        "hostname": "learn.example.com",
+        "service": "http://127.0.0.1:18081",
+        "originRequest": {
+          "httpHostHeader": "learn.example.com",
+          "access": {"required": true, "teamName": "REPLACE_TEAM", "audTag": ["REPLACE_BETA_AUDIENCE"]}
+        }
+      },
+      {"service": "http_status:404"}
+    ]
+  }
+}

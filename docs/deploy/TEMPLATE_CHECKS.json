@@ -1,0 +1,10 @@
+{
+  "checked_at": "2026-10-25T04:02:49.892Z",
+  "nginx_syntax": "PASS",
+  "scope": "Cached local Nginx image; --network none; no listeners started; temporary config only; NOT target aaPanel integration or FPM connectivity",
+  "cloudflare_json": "PASS structural parser and safety assertions only; no Cloudflare API",
+  "systemd": "NOT RUN: target systemd not available",
+  "cloudflared": "NOT RUN: binary not installed",
+  "package": "PASS: required documents/relative links and env/unit/Nginx structure",
+  "command": "node scripts/check-deployment-plan.mjs"
+}
