@@ -1,0 +1,2 @@
+issue_id,severity,area,title,reproduction_steps,expected,actual,assignee,status,test_id,evidence_path,fix_commit,retest_result
+BUG-001,P1,Authorization,Example only - replace,steps,expected,actual,,OPEN,SEC-01,,,NOT_RUN

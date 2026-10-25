@@ -58,6 +58,27 @@ echo json_encode(['delta'=>$delta]);`;
 ]);`));
     assert.deepEqual(state, { xp: 30, rewards: 2, events: 2, badges: 2 });
     console.log('Two simultaneous PHP processes, 12 completion deliveries: exactly 30 XP, 2 rewards, 2 events and 2 achievements. MySQL concurrency passed.');
+    // Database race test with deterministic runner proof. Real runtime proof is
+    // exercised separately by the eight-lab HTTP/browser suites.
+    const proof = `config(['labs.enabled'=>true]);
+$app->instance(App\\Contracts\\LabRunnerAdapter::class,new class implements App\\Contracts\\LabRunnerAdapter {
+public function provision(App\\Models\\LabSession $s):array{return ['ready'=>true];}
+public function request(App\\Models\\LabSession $s,array $r):array{return [];}
+public function evidence(App\\Models\\LabSession $s):array{return ['eligible'=>true,'generation'=>$s->generation,'lab'=>$s->lab->slug];}
+public function stop(App\\Models\\LabSession $s):array{return ['stopped'=>true];}
+});
+$user=App\\Models\\User::firstOrFail(); Illuminate\\Support\\Facades\\Auth::login($user);`;
+    await php(proof+`app(App\\Services\\LabService::class)->start($user,App\\Models\\Lab::where('slug','order-idor')->firstOrFail());echo 'lab fixture ready';`);
+    const flagDeadline=(Date.now()+5000)/1000;
+    const flagWorker=proof+`usleep((int)max(0,(${flagDeadline}-microtime(true))*1000000));
+$s=App\\Models\\LabSession::firstOrFail();$delta=0;
+foreach(range(1,3)as $i){$input=['generation'=>$s->generation,'flag'=>$s->flag_secret,'submission_id'=>(string)Illuminate\\Support\\Str::uuid()];$r=app(App\\Services\\LabFlagValidation::class)->submit($s,$input);if(!$r['success'])exit(3);$delta+=$r['xp_delta'];}
+echo json_encode(['delta'=>$delta]);`;
+    const flags=await Promise.all([php(flagWorker),php(flagWorker)]);
+    assert.equal(flags.reduce((sum,out)=>sum+JSON.parse(out).delta,0),50);
+    const flagState=JSON.parse(await php(`echo json_encode(['solves'=>App\\Models\\LabProgress::count(),'attempts'=>App\\Models\\LabAttempt::count(),'xp'=>(int)Illuminate\\Support\\Facades\\DB::table('xp_transactions')->where('source_type','lab')->sum('amount')]);`));
+    assert.deepEqual(flagState,{solves:1,attempts:6,xp:50});
+    console.log('Two simultaneous PHP processes, 6 valid flag deliveries with fixture proof: exactly 1 persisted solve and 50 XP. No duplicate reward.');
 } finally {
     if (created) sql(`REVOKE ALL PRIVILEGES ON \`${database}\`.* FROM '${username}'@'%'; DROP DATABASE \`${database}\`;`);
 }

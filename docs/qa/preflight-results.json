@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-10-25T01:16:56.443Z",
+  "checks": {
+    "debug_disabled": true,
+    "app_key_present": true,
+    "local_environment": true,
+    "session_encrypted": true,
+    "http_only": true,
+    "learner_db_not_published": true
+  },
+  "real_http_outage": {
+    "liveness": 200,
+    "readiness": 503,
+    "session_driver": "database",
+    "cache_store": "database",
+    "sanitized": true
+  },
+  "public_tls": false,
+  "production_approved": false,
+  "future_requirements": [
+    "TLS and secure cookies",
+    "production environment and secret rotation",
+    "off-host backups and monitored restore",
+    "separate training host review",
+    "scheduled export/session cleanup",
+    "independent security/content review"
+  ]
+}

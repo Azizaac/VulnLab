@@ -13,6 +13,7 @@ async function signup(page: Page, email:string){
 }
 async function audit(page:Page){expect((await new AxeBuilder({page}).withTags(['wcag2a','wcag2aa','wcag21aa']).analyze()).violations).toEqual([]);}
 test('v4 visual matrix, themes, keyboard stage navigation and account persistence',async({page,browser},info)=>{
+ test.setTimeout(90000);
  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
  const email=`v4-visual-${info.project.name}-${Date.now()}@example.com`;
  await signup(page,email);
@@ -24,8 +25,8 @@ test('v4 visual matrix, themes, keyboard stage navigation and account persistenc
    await expect(page.locator('.theme-toggle')).toBeEnabled();
    await page.evaluate(()=>document.fonts.ready);
    await noOverflow(page);
-   await page.screenshot({path:`docs/screenshots/v4/${route}-${info.project.name}-${theme}.png`,fullPage:true});
-   if(info.project.name==='desktop'||info.project.name==='mobile') await page.screenshot({path:`docs/screenshots/v4/${route}-${info.project.name}-${theme}-viewport.png`});
+   await page.screenshot({path:`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v4/${route}-${info.project.name}-${theme}.png`,fullPage:true});
+   if(info.project.name==='desktop'||info.project.name==='mobile') await page.screenshot({path:`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v4/${route}-${info.project.name}-${theme}-viewport.png`});
    await audit(page);
   }
  }

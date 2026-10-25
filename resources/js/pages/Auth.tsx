@@ -2,6 +2,7 @@ import { Head, Link, useForm } from "@inertiajs/react";
 import { ArrowRight, Check, ShieldCheck, Terminal } from "lucide-react";
 import type { FormEvent } from "react";
 import { Button } from "../components/ui/button";
+import { focusFirstError } from "../feedback";
 
 export default function Auth({ mode }: { mode: "login" | "register" }) {
     const register = mode === "register";
@@ -20,6 +21,7 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
     function submit(event: FormEvent) {
         event.preventDefault();
         form.post(register ? "/register" : "/login", {
+            onError: focusFirstError,
             onFinish: () => form.reset("password", "password_confirmation"),
         });
     }

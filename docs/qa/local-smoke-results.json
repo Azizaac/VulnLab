@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-10-25T01:17:26.600Z",
+  "scope": "Updated loopback Docker app only; no login to learner accounts",
+  "statuses": {
+    "/up": 200,
+    "/ready": 200,
+    "/login": 200,
+    "/.env": 403
+  },
+  "headers_and_nonce": "PASS",
+  "dev_server_absent": true
+}

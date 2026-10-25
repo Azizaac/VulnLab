@@ -1,6 +1,24 @@
 import { test, expect, type Page } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 test.use({ actionTimeout: 10000 });
+const temporarySessions = new WeakMap<Page, Map<string, number>>();
+test.beforeEach(async ({page}) => {
+    const sessions = new Map<string, number>();
+    temporarySessions.set(page, sessions);
+    page.on('response', async response => {
+        if (response.status() === 200 && response.request().method() === 'POST' && /\/(labs\/[^/]+\/sessions|lab-sessions\/[^/]+\/reset)$/.test(response.url())) {
+            const body = await response.json().catch(() => null);
+            if (body?.session?.id) sessions.set(body.session.id, body.session.generation);
+        }
+    });
+});
+test.afterEach(async ({page}) => {
+    const cookie = (await page.context().cookies()).find(c => c.name === 'XSRF-TOKEN');
+    for (const [id, generation] of temporarySessions.get(page) ?? []) {
+        const response = await page.request.post(`/lab-sessions/${id}/stop`, {data: {generation}, headers: {'Accept':'application/json', ...(cookie ? {'X-XSRF-TOKEN':decodeURIComponent(cookie.value)} : {})}});
+        expect([204,410]).toContain(response.status());
+    }
+});
 async function signup(page: Page, name: string) {
     await page.goto("/register");
     await page.getByLabel("Nama", { exact: true }).fill("Lab Learner");
@@ -187,11 +205,11 @@ test("first two labs: real HTTP, flag validation, reset, XP, persistence, themes
         await panel(page, "Response");
         await audit(page);
         await page.screenshot({
-            path: `docs/screenshots/sprint3/workspace-${info.project.name}-${theme}.png`,
+            path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint3/workspace-${info.project.name}-${theme}.png`,
             fullPage: true,
         });
         await page.screenshot({
-            path: `docs/screenshots/sprint3/workspace-${info.project.name}-${theme}-viewport.png`,
+            path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint3/workspace-${info.project.name}-${theme}-viewport.png`,
         });
     }
     await page.goto("/labs");
@@ -208,7 +226,7 @@ test("first two labs: real HTTP, flag validation, reset, XP, persistence, themes
         await expect(page.locator(".theme-toggle")).toBeEnabled();
         await audit(page);
         await page.screenshot({
-            path: `docs/screenshots/sprint3/catalog-${info.project.name}-${theme}.png`,
+            path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint3/catalog-${info.project.name}-${theme}.png`,
             fullPage: true,
         });
     }

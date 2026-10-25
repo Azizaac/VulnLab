@@ -62,6 +62,7 @@ export default function LessonReader(props: {
     questions: Question[];
     attempts: Attempt[];
     exampleHtml: string;
+    clarification?: string | null;
 }) {
     return <Reader key={props.lesson.id} {...props} />;
 }
@@ -73,6 +74,7 @@ function Reader({
     questions,
     attempts: initialAttempts,
     exampleHtml,
+    clarification,
 }: {
     quiz_context: string;
     passing_score: number;
@@ -81,6 +83,7 @@ function Reader({
     questions: Question[];
     attempts: Attempt[];
     exampleHtml: string;
+    clarification?: string | null;
 }) {
     const all = courses.flatMap((c) => c.lessons).sort((a, b) => a.id - b.id);
     const current = all.find((l) => l.id === lesson.id)!;
@@ -97,7 +100,10 @@ function Reader({
     const [copied, setCopied] = useState(false);
     const [submission, setSubmission] = useState(() => crypto.randomUUID());
     const codes = new DOMParser()
-        .parseFromString(exampleHtml || lesson.html, "text/html")
+        .parseFromString(
+            clarification || exampleHtml || lesson.html,
+            "text/html",
+        )
         .querySelectorAll("pre");
     const codeHtml = Array.from(codes)
         .map((c) => c.outerHTML)
@@ -406,6 +412,14 @@ function Reader({
                                     </p>
                                 </section>
                                 <SafeMarkdown html={lesson.html} />
+                                {clarification && (
+                                    <section
+                                        className="technical-note"
+                                        aria-label="Klarifikasi materi"
+                                    >
+                                        <SafeMarkdown html={clarification} />
+                                    </section>
+                                )}
                                 <section className="technical-note">
                                     <h2>Di balik konsep</h2>
                                     <p>{lesson.enrichment.technical}</p>

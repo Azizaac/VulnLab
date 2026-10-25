@@ -27,12 +27,13 @@ class LearningService
     public function courses(User $user): array
     {
         $lessons = $this->summaries($user);
+        $sources = DB::table('lesson_sources')->where('catalog_active', true)->whereIn('lesson_id', $lessons->pluck('id'))->get(['lesson_id', 'title', 'url'])->groupBy('lesson_id');
 
-        return Module::with('path')->where('catalog_visible', true)->orderBy('id')->get()->filter(fn ($m) => $m->path?->catalog_visible && $m->path->is_course)->map(function ($m) use ($lessons) {
+        return Module::with('path')->where('catalog_visible', true)->orderBy('id')->get()->filter(fn ($m) => $m->path?->catalog_visible && $m->path->is_course)->map(function ($m) use ($lessons, $sources) {
             $rows = $lessons->where('module_id', $m->id)->values();
             $ids = $rows->pluck('id');
 
-            return ['id' => $m->id, 'title' => $m->path->title, 'description' => $m->path->description, 'outcomes' => json_decode($m->path->outcomes, true), 'difficulty' => $m->path->difficulty, 'section' => $m->title, 'minutes' => $rows->sum('minutes'), 'completed' => $rows->where('completed', true)->count(), 'lessons' => $rows, 'prerequisites' => $rows->flatMap(fn ($l) => $l['prerequisites'])->reject(fn ($p) => $ids->contains($p['id']))->unique('id')->values(), 'sources' => DB::table('lesson_sources')->where('catalog_active', true)->whereIn('lesson_id', $ids)->get(['title', 'url'])->unique('url')->values()];
+            return ['id' => $m->id, 'title' => $m->path->title, 'description' => $m->path->description, 'outcomes' => json_decode($m->path->outcomes, true), 'difficulty' => $m->path->difficulty, 'section' => $m->title, 'minutes' => $rows->sum('minutes'), 'completed' => $rows->where('completed', true)->count(), 'lessons' => $rows, 'prerequisites' => $rows->flatMap(fn ($l) => $l['prerequisites'])->reject(fn ($p) => $ids->contains($p['id']))->unique('id')->values(), 'sources' => $rows->flatMap(fn ($l) => $sources->get($l['id'], collect()))->map(fn ($s) => ['title' => $s->title, 'url' => $s->url])->unique('url')->values()];
         })->values()->all();
     }
 

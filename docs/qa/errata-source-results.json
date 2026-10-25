@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-25T01:18:16.964393+00:00",
+  "results": [
+    {
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/GET",
+      "status": 200,
+      "final_url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Methods/GET"
+    },
+    {
+      "url": "https://laravel.com/docs/12.x/authorization",
+      "status": 200,
+      "final_url": "https://laravel.com/framework/docs/12.x/authorization"
+    }
+  ]
+}

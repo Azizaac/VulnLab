@@ -475,6 +475,10 @@ fieldset:disabled textarea {
 .v5-quiz-choice .v5-field {
     flex: 1;
 }
+.v5-filter-toggle {
+    min-height: 40px;
+    padding: 8px 4px;
+}
 .v5-diff details {
     border: 1px solid var(--border);
     border-radius: 10px;

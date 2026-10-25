@@ -1,0 +1,9 @@
+Continue working in the EXISTING VulnLab Laravel + Inertia React + MySQL repository. DO NOT rebuild the app.
+
+Read docs/prd-v6/MASTER_PRD_SPRINT6_FINAL_QA.md, docs/prd-v6/testing/QA_TEST_MATRIX.csv, and the V4/V5 references inside docs/prd-v6/references/. Inspect the ACTUAL code, data model, running environment and existing test suites before making changes.
+
+Execute Sprint 6: full learner/Admin/Profile regression QA, source-based content integrity review, secure core and isolated sandbox security audit, visual polish to V4/V5 design, global validation UX review, responsive/accessibility tests, and release readiness evaluation. Fix verifiable defects without wiping user data, altering existing working features unnecessarily, or inventing metrics/test results. Use checkpoint documents under docs/qa and run actual automated/browser tests where possible. Track cases as PASS, FAIL, BLOCKED, or NOT RUN with commands, evidence and issues. If tests/tools cannot run, disclose why.
+
+Priority: block release for authz leaks, fake grading/XP, destructive migrations, missing private data safeguards, or insecure lab isolation. If real labs cannot be safely run, leave them disabled and honestly label content-only mode. Keep both dark/light themes, horizontal navigation, mountain roadmap and V5 editorial/profile experience. Do not open external security targets.
+
+Produce docs/qa/RELEASE_READINESS.md with GO / CONDITIONAL CONTENT-ONLY / NO-GO and actual proof. DO NOT start Sprint 7, deploy aaPanel, change production DNS, Cloudflare, router or server config. START with baseline audit and tests, then fix defects and rerun.

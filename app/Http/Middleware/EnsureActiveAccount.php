@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class EnsureActiveAccount
 {
@@ -19,6 +20,7 @@ class EnsureActiveAccount
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
+                Inertia::clearHistory();
 
                 return $request->expectsJson() ? response()->json(['message' => 'Sesi berakhir. Silakan masuk kembali.'], 401) : redirect('/login');
             }

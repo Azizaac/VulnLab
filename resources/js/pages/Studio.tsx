@@ -254,7 +254,9 @@ export default function Studio({
                 <button className="v5-button secondary">Cari</button>
             </form>
             <details>
-                <summary>Filter jalur & reviewer</summary>
+                <summary className="v5-filter-toggle">
+                    Filter jalur & reviewer
+                </summary>
                 <div className="v5-grid two">
                     <Field name="path_id" label="Jalur belajar">
                         <select

@@ -69,6 +69,10 @@ export function normalizeLaravelError(error: unknown): NormalizedError {
             "Perubahan lokal tetap tersedia. Periksa versi tersimpan sebelum mencoba lagi.",
         ],
         410: ["Sesi lab berakhir", "Mulai ulang lab untuk mencoba lagi."],
+        408: [
+            "Waktu tunggu habis",
+            "Hasil penyimpanan belum dapat dipastikan. Simpan salinan lokal dan periksa status sebelum mencoba lagi.",
+        ],
         413: [
             "Bukti terlalu besar",
             "Ukuran maksimal setiap file adalah 5 MiB. Pilih file yang lebih kecil lalu coba lagi.",

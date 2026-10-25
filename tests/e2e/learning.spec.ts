@@ -105,11 +105,11 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
         await page.evaluate(() => document.fonts.ready);
         await audit(page);
         await page.screenshot({
-            path: `docs/screenshots/sprint2/learning-${info.project.name}-${theme}.png`,
+            path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint2/learning-${info.project.name}-${theme}.png`,
             fullPage: true,
         });
         await page.screenshot({
-            path: `docs/screenshots/sprint2/learning-${info.project.name}-${theme}-viewport.png`,
+            path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint2/learning-${info.project.name}-${theme}-viewport.png`,
         });
     }
     await page.goto("/notes?lesson=1");
@@ -151,11 +151,11 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
         await audit(page);
         await expect(page.getByLabel("Isi catatan Markdown")).toBeVisible();
         await page.screenshot({
-            path: `docs/screenshots/sprint2/notes-${info.project.name}-${theme}.png`,
+            path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint2/notes-${info.project.name}-${theme}.png`,
             fullPage: true,
         });
         await page.screenshot({
-            path: `docs/screenshots/sprint2/notes-${info.project.name}-${theme}-viewport.png`,
+            path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint2/notes-${info.project.name}-${theme}-viewport.png`,
         });
     }
     if (info.project.name === "desktop") {

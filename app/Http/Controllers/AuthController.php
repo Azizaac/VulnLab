@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
@@ -24,6 +25,7 @@ class AuthController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
         $request->session()->put('auth_epoch', (int) $user->auth_epoch);
+        Inertia::clearHistory();
 
         return redirect()->route('dashboard');
     }
@@ -33,6 +35,7 @@ class AuthController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
         $request->session()->put('auth_epoch', (int) $request->user()->auth_epoch);
+        Inertia::clearHistory();
 
         return redirect()->intended(route('dashboard'));
     }
@@ -42,6 +45,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        Inertia::clearHistory();
 
         return redirect()->route('login');
     }

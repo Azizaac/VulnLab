@@ -24,3 +24,5 @@
 /res-*.txt
 /sandbox/.env
 /sandbox/node_modules/
+__pycache__/
+*.pyc

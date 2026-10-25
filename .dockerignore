@@ -23,5 +23,7 @@ VulnLab_PRD_v4_Visual_Match_Codex
 VulnLab_PRD_Sprint4_Combined_Codex_v4.1
 design
 docs/screenshots
+docs/qa/screenshots
+docs/prd-v6
 # Vulnerable source is NEVER copied into the Laravel image.
 sandbox

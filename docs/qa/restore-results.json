@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-10-25T01:03:17.890Z",
+  "source_modified": false,
+  "private_dump": true,
+  "restores": [
+    {
+      "label": "current",
+      "status": "PASS",
+      "durable_tables": 50,
+      "verified": [
+        "SQL restore",
+        "original-column hashes",
+        "additive migrations",
+        "readiness",
+        "authentication",
+        "90-day roadmap",
+        "catalog reads",
+        "note persistence with rollback"
+      ]
+    },
+    {
+      "label": "pre_v5",
+      "status": "PASS",
+      "durable_tables": 42,
+      "verified": [
+        "SQL restore",
+        "original-column hashes",
+        "additive migrations",
+        "readiness",
+        "authentication",
+        "90-day roadmap",
+        "catalog reads",
+        "note persistence with rollback"
+      ]
+    }
+  ]
+}

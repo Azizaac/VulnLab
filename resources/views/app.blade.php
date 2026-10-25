@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#101827">
-        <script>
+        <script nonce="{{ Vite::cspNonce() }}">
             document.documentElement.dataset.density = @json(auth()->user()?->density ?? 'comfortable');
             document.documentElement.dataset.motion = @json(auth()->user()?->reduced_motion ? 'reduced' : 'system');
             const preference = @json(auth()->user()?->theme ?? 'system');

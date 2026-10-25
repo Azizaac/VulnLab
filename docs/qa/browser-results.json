@@ -1,0 +1,509 @@
+{
+  "checked_at": "2026-10-25T01:21:24.839297+00:00",
+  "engine": "Chromium 156",
+  "full_run_stats": {
+    "startTime": "2026-10-25T00:47:19.754Z",
+    "duration": 1136661.213,
+    "expected": 45,
+    "skipped": 7,
+    "unexpected": 3,
+    "flaky": 0
+  },
+  "initial_failures": [
+    {
+      "project": "desktop",
+      "file": "labs.spec.ts",
+      "title": "remaining six labs: real vulnerable and secure responses, browser XSS proof and persistent solves",
+      "status": "failed",
+      "duration_ms": 17439
+    },
+    {
+      "project": "desktop",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: actual Chromium tab zoom at 200 percent",
+      "status": "failed",
+      "duration_ms": 12324
+    }
+  ],
+  "retests": [
+    {
+      "report": "browser-retest-v6.json",
+      "stats": {
+        "startTime": "2026-10-25T01:16:44.560Z",
+        "duration": 92372.197,
+        "expected": 3,
+        "skipped": 1,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "results": [
+        {
+          "project": "desktop",
+          "file": "v6.spec.ts",
+          "title": "Sprint 6: CSP, private history, narrow reflow, keyboard and reduced motion",
+          "status": "passed",
+          "duration_ms": 33372
+        },
+        {
+          "project": "desktop",
+          "file": "v6.spec.ts",
+          "title": "Sprint 6: actual Chromium tab zoom at 200 percent",
+          "status": "passed",
+          "duration_ms": 19335
+        },
+        {
+          "project": "mobile320",
+          "file": "v6.spec.ts",
+          "title": "Sprint 6: CSP, private history, narrow reflow, keyboard and reduced motion",
+          "status": "passed",
+          "duration_ms": 35423
+        },
+        {
+          "project": "mobile320",
+          "file": "v6.spec.ts",
+          "title": "Sprint 6: actual Chromium tab zoom at 200 percent",
+          "status": "skipped",
+          "duration_ms": 2
+        }
+      ]
+    },
+    {
+      "report": "browser-retest-lab.json",
+      "stats": {
+        "startTime": "2026-10-25T01:19:34.926Z",
+        "duration": 48775.145,
+        "expected": 2,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "results": [
+        {
+          "project": "desktop",
+          "file": "labs.spec.ts",
+          "title": "first two labs: real HTTP, flag validation, reset, XP, persistence, themes and mobile",
+          "status": "passed",
+          "duration_ms": 19868
+        },
+        {
+          "project": "desktop",
+          "file": "labs.spec.ts",
+          "title": "remaining six labs: real vulnerable and secure responses, browser XSS proof and persistent solves",
+          "status": "passed",
+          "duration_ms": 26680
+        }
+      ]
+    },
+    {
+      "report": "browser-retest-mobile.json",
+      "stats": {
+        "startTime": "2026-10-25T01:15:51.378Z",
+        "duration": 24258.262000000002,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "results": [
+        {
+          "project": "mobile",
+          "file": "journey.spec.ts",
+          "title": "v4 visual matrix, themes, keyboard stage navigation and account persistence",
+          "status": "passed",
+          "duration_ms": 22087
+        }
+      ]
+    }
+  ],
+  "final_unique_passed": 48,
+  "intentional_skips": 7,
+  "intermediate_harness_run": "Interrupted after an added errata assertion queried button instead of the existing tab role; fresh final V6 run uses the corrected locator and bounded action timeout.",
+  "final_results": [
+    {
+      "project": "desktop",
+      "file": "journey.spec.ts",
+      "title": "v4 visual matrix, themes, keyboard stage navigation and account persistence",
+      "status": "passed",
+      "duration_ms": 24779
+    },
+    {
+      "project": "desktop",
+      "file": "journey.spec.ts",
+      "title": "mutations require CSRF and focus is visible",
+      "status": "passed",
+      "duration_ms": 703
+    },
+    {
+      "project": "mobile",
+      "file": "journey.spec.ts",
+      "title": "v4 visual matrix, themes, keyboard stage navigation and account persistence",
+      "status": "passed",
+      "duration_ms": 22087
+    },
+    {
+      "project": "mobile",
+      "file": "journey.spec.ts",
+      "title": "mutations require CSRF and focus is visible",
+      "status": "passed",
+      "duration_ms": 881
+    },
+    {
+      "project": "mobile360",
+      "file": "journey.spec.ts",
+      "title": "v4 visual matrix, themes, keyboard stage navigation and account persistence",
+      "status": "passed",
+      "duration_ms": 23214
+    },
+    {
+      "project": "mobile360",
+      "file": "journey.spec.ts",
+      "title": "mutations require CSRF and focus is visible",
+      "status": "passed",
+      "duration_ms": 699
+    },
+    {
+      "project": "mobile320",
+      "file": "journey.spec.ts",
+      "title": "v4 visual matrix, themes, keyboard stage navigation and account persistence",
+      "status": "passed",
+      "duration_ms": 27026
+    },
+    {
+      "project": "mobile320",
+      "file": "journey.spec.ts",
+      "title": "mutations require CSRF and focus is visible",
+      "status": "passed",
+      "duration_ms": 869
+    },
+    {
+      "project": "tablet",
+      "file": "journey.spec.ts",
+      "title": "v4 visual matrix, themes, keyboard stage navigation and account persistence",
+      "status": "passed",
+      "duration_ms": 25110
+    },
+    {
+      "project": "tablet",
+      "file": "journey.spec.ts",
+      "title": "mutations require CSRF and focus is visible",
+      "status": "passed",
+      "duration_ms": 962
+    },
+    {
+      "project": "desktop",
+      "file": "labs.spec.ts",
+      "title": "first two labs: real HTTP, flag validation, reset, XP, persistence, themes and mobile",
+      "status": "passed",
+      "duration_ms": 19868
+    },
+    {
+      "project": "desktop",
+      "file": "labs.spec.ts",
+      "title": "remaining six labs: real vulnerable and secure responses, browser XSS proof and persistent solves",
+      "status": "passed",
+      "duration_ms": 26680
+    },
+    {
+      "project": "mobile",
+      "file": "labs.spec.ts",
+      "title": "first two labs: real HTTP, flag validation, reset, XP, persistence, themes and mobile",
+      "status": "passed",
+      "duration_ms": 25802
+    },
+    {
+      "project": "mobile",
+      "file": "labs.spec.ts",
+      "title": "remaining six labs: real vulnerable and secure responses, browser XSS proof and persistent solves",
+      "status": "passed",
+      "duration_ms": 34672
+    },
+    {
+      "project": "mobile360",
+      "file": "labs.spec.ts",
+      "title": "first two labs: real HTTP, flag validation, reset, XP, persistence, themes and mobile",
+      "status": "passed",
+      "duration_ms": 21537
+    },
+    {
+      "project": "mobile360",
+      "file": "labs.spec.ts",
+      "title": "remaining six labs: real vulnerable and secure responses, browser XSS proof and persistent solves",
+      "status": "passed",
+      "duration_ms": 33463
+    },
+    {
+      "project": "mobile320",
+      "file": "labs.spec.ts",
+      "title": "first two labs: real HTTP, flag validation, reset, XP, persistence, themes and mobile",
+      "status": "passed",
+      "duration_ms": 25676
+    },
+    {
+      "project": "mobile320",
+      "file": "labs.spec.ts",
+      "title": "remaining six labs: real vulnerable and secure responses, browser XSS proof and persistent solves",
+      "status": "passed",
+      "duration_ms": 35402
+    },
+    {
+      "project": "tablet",
+      "file": "labs.spec.ts",
+      "title": "first two labs: real HTTP, flag validation, reset, XP, persistence, themes and mobile",
+      "status": "passed",
+      "duration_ms": 21112
+    },
+    {
+      "project": "tablet",
+      "file": "labs.spec.ts",
+      "title": "remaining six labs: real vulnerable and secure responses, browser XSS proof and persistent solves",
+      "status": "passed",
+      "duration_ms": 33000
+    },
+    {
+      "project": "desktop",
+      "file": "learning.spec.ts",
+      "title": "learning, server quiz, autosave, private markdown workspace and visual matrix",
+      "status": "passed",
+      "duration_ms": 29768
+    },
+    {
+      "project": "mobile",
+      "file": "learning.spec.ts",
+      "title": "learning, server quiz, autosave, private markdown workspace and visual matrix",
+      "status": "passed",
+      "duration_ms": 22346
+    },
+    {
+      "project": "mobile360",
+      "file": "learning.spec.ts",
+      "title": "learning, server quiz, autosave, private markdown workspace and visual matrix",
+      "status": "passed",
+      "duration_ms": 23677
+    },
+    {
+      "project": "mobile320",
+      "file": "learning.spec.ts",
+      "title": "learning, server quiz, autosave, private markdown workspace and visual matrix",
+      "status": "passed",
+      "duration_ms": 21990
+    },
+    {
+      "project": "tablet",
+      "file": "learning.spec.ts",
+      "title": "learning, server quiz, autosave, private markdown workspace and visual matrix",
+      "status": "passed",
+      "duration_ms": 23697
+    },
+    {
+      "project": "desktop",
+      "file": "sprint4.spec.ts",
+      "title": "Sprint 4: genuine progress, private report autosave/review/evidence/export and visual themes",
+      "status": "passed",
+      "duration_ms": 26849
+    },
+    {
+      "project": "mobile",
+      "file": "sprint4.spec.ts",
+      "title": "Sprint 4: genuine progress, private report autosave/review/evidence/export and visual themes",
+      "status": "passed",
+      "duration_ms": 18660
+    },
+    {
+      "project": "mobile360",
+      "file": "sprint4.spec.ts",
+      "title": "Sprint 4: genuine progress, private report autosave/review/evidence/export and visual themes",
+      "status": "passed",
+      "duration_ms": 20147
+    },
+    {
+      "project": "mobile320",
+      "file": "sprint4.spec.ts",
+      "title": "Sprint 4: genuine progress, private report autosave/review/evidence/export and visual themes",
+      "status": "passed",
+      "duration_ms": 17599
+    },
+    {
+      "project": "tablet",
+      "file": "sprint4.spec.ts",
+      "title": "Sprint 4: genuine progress, private report autosave/review/evidence/export and visual themes",
+      "status": "passed",
+      "duration_ms": 19989
+    },
+    {
+      "project": "desktop",
+      "file": "v5-quiz.spec.ts",
+      "title": "V5 Quiz Builder: choice radio, localized validation, autosave and key-free learner preview",
+      "status": "passed",
+      "duration_ms": 13476
+    },
+    {
+      "project": "mobile",
+      "file": "v5-quiz.spec.ts",
+      "title": "V5 Quiz Builder: choice radio, localized validation, autosave and key-free learner preview",
+      "status": "passed",
+      "duration_ms": 10979
+    },
+    {
+      "project": "mobile360",
+      "file": "v5-quiz.spec.ts",
+      "title": "V5 Quiz Builder: choice radio, localized validation, autosave and key-free learner preview",
+      "status": "passed",
+      "duration_ms": 12370
+    },
+    {
+      "project": "mobile320",
+      "file": "v5-quiz.spec.ts",
+      "title": "V5 Quiz Builder: choice radio, localized validation, autosave and key-free learner preview",
+      "status": "passed",
+      "duration_ms": 10762
+    },
+    {
+      "project": "tablet",
+      "file": "v5-quiz.spec.ts",
+      "title": "V5 Quiz Builder: choice radio, localized validation, autosave and key-free learner preview",
+      "status": "passed",
+      "duration_ms": 13944
+    },
+    {
+      "project": "desktop",
+      "file": "v5.spec.ts",
+      "title": "V5 account: persistent profile, real sessions, private export, theme rollback and accessible settings",
+      "status": "passed",
+      "duration_ms": 32400
+    },
+    {
+      "project": "desktop",
+      "file": "v5.spec.ts",
+      "title": "V5 Studio: author to reviewer to publisher to learner, conflict, metadata and roadmap controls",
+      "status": "passed",
+      "duration_ms": 42065
+    },
+    {
+      "project": "mobile",
+      "file": "v5.spec.ts",
+      "title": "V5 account: persistent profile, real sessions, private export, theme rollback and accessible settings",
+      "status": "passed",
+      "duration_ms": 25770
+    },
+    {
+      "project": "mobile",
+      "file": "v5.spec.ts",
+      "title": "V5 Studio: author to reviewer to publisher to learner, conflict, metadata and roadmap controls",
+      "status": "passed",
+      "duration_ms": 35697
+    },
+    {
+      "project": "mobile360",
+      "file": "v5.spec.ts",
+      "title": "V5 account: persistent profile, real sessions, private export, theme rollback and accessible settings",
+      "status": "passed",
+      "duration_ms": 26447
+    },
+    {
+      "project": "mobile360",
+      "file": "v5.spec.ts",
+      "title": "V5 Studio: author to reviewer to publisher to learner, conflict, metadata and roadmap controls",
+      "status": "passed",
+      "duration_ms": 39512
+    },
+    {
+      "project": "mobile320",
+      "file": "v5.spec.ts",
+      "title": "V5 account: persistent profile, real sessions, private export, theme rollback and accessible settings",
+      "status": "passed",
+      "duration_ms": 24006
+    },
+    {
+      "project": "mobile320",
+      "file": "v5.spec.ts",
+      "title": "V5 Studio: author to reviewer to publisher to learner, conflict, metadata and roadmap controls",
+      "status": "passed",
+      "duration_ms": 38461
+    },
+    {
+      "project": "tablet",
+      "file": "v5.spec.ts",
+      "title": "V5 account: persistent profile, real sessions, private export, theme rollback and accessible settings",
+      "status": "passed",
+      "duration_ms": 28481
+    },
+    {
+      "project": "tablet",
+      "file": "v5.spec.ts",
+      "title": "V5 Studio: author to reviewer to publisher to learner, conflict, metadata and roadmap controls",
+      "status": "passed",
+      "duration_ms": 37151
+    },
+    {
+      "project": "desktop",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: CSP, private history, narrow reflow, keyboard and reduced motion",
+      "status": "passed",
+      "duration_ms": 33372
+    },
+    {
+      "project": "desktop",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: actual Chromium tab zoom at 200 percent",
+      "status": "passed",
+      "duration_ms": 19335
+    },
+    {
+      "project": "mobile",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: CSP, private history, narrow reflow, keyboard and reduced motion",
+      "status": "skipped",
+      "duration_ms": 75
+    },
+    {
+      "project": "mobile",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: actual Chromium tab zoom at 200 percent",
+      "status": "skipped",
+      "duration_ms": 1
+    },
+    {
+      "project": "mobile360",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: CSP, private history, narrow reflow, keyboard and reduced motion",
+      "status": "skipped",
+      "duration_ms": 88
+    },
+    {
+      "project": "mobile360",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: actual Chromium tab zoom at 200 percent",
+      "status": "skipped",
+      "duration_ms": 1
+    },
+    {
+      "project": "mobile320",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: CSP, private history, narrow reflow, keyboard and reduced motion",
+      "status": "passed",
+      "duration_ms": 35423
+    },
+    {
+      "project": "mobile320",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: actual Chromium tab zoom at 200 percent",
+      "status": "skipped",
+      "duration_ms": 2
+    },
+    {
+      "project": "tablet",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: CSP, private history, narrow reflow, keyboard and reduced motion",
+      "status": "skipped",
+      "duration_ms": 85
+    },
+    {
+      "project": "tablet",
+      "file": "v6.spec.ts",
+      "title": "Sprint 6: actual Chromium tab zoom at 200 percent",
+      "status": "skipped",
+      "duration_ms": 1
+    }
+  ],
+  "scope": "45 existing workflow/viewport combinations plus 3 V6 combinations. Initial failures retained; latest focused results supersede them. Not a claim that the initial full run was clean."
+}

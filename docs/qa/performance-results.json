@@ -1,0 +1,73 @@
+{
+  "environment": "Windows local PHP 8.4.27 SQLite and Docker MySQL 8.4.13; seeded disposable fixtures; observational wall-clock timings, not an SLA",
+  "before": {
+    "catalog": {
+      "modules": [
+        10,
+        30
+      ],
+      "queries": [
+        19,
+        39
+      ],
+      "source_queries": [
+        10,
+        30
+      ]
+    }
+  },
+  "sqlite": {
+    "catalog": {
+      "small": {
+        "modules": 10,
+        "queries": 10,
+        "sources": 1,
+        "ms": 9.84
+      },
+      "large": {
+        "modules": 30,
+        "queries": 10,
+        "sources": 1,
+        "ms": 9.21
+      }
+    },
+    "studio": {
+      "small": {
+        "queries": 11,
+        "ms": 19.03
+      },
+      "large": {
+        "queries": 11,
+        "ms": 17.68
+      },
+      "added_entries": 30
+    }
+  },
+  "mysql": {
+    "catalog": {
+      "small": {
+        "modules": 10,
+        "queries": 8,
+        "sources": 1,
+        "ms": 20.88
+      },
+      "large": {
+        "modules": 30,
+        "queries": 8,
+        "sources": 1,
+        "ms": 12.78
+      }
+    },
+    "studio": {
+      "small": {
+        "queries": 11,
+        "ms": 23.68
+      },
+      "large": {
+        "queries": 11,
+        "ms": 19.02
+      },
+      "added_entries": 30
+    }
+  }
+}

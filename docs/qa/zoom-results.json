@@ -1,0 +1,14 @@
+{
+  "checked_at": "2026-10-25T01:17:38.520Z",
+  "method": "chrome.tabs.setZoom",
+  "zoom": 2,
+  "before": {
+    "width": 1424,
+    "dpr": 1
+  },
+  "after": {
+    "width": 712,
+    "dpr": 2
+  },
+  "routes": 9
+}

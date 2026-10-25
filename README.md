@@ -147,3 +147,9 @@ Generated from real React pages with deterministic dummy learner plans:
 See [Sprint 2 report](docs/sprint-2.md) and [previous visual QA](docs/visual-qa.md) for the original matrices, poster comparison and historical fixes. The latest validated scope is recorded in [V5 implementation status](docs/V5_IMPLEMENTATION_STATUS.md). Historical implementation decisions remain in `docs/implementation-plan.md`.
 
 V5 adds a protected Admin Studio, editorial revisions, quiz/lab/roadmap management, and private Profile/Settings. See [V5 operations and permissions](docs/v5-admin-account.md) and [executed V5 validation](docs/V5_IMPLEMENTATION_STATUS.md). Administrator access is granted only to an existing account through the protected local operator command; no default admin credentials are seeded.
+
+## Sprint 6 QA
+
+The current release decision, actual results and limitations are recorded in [release readiness](docs/qa/RELEASE_READINESS.md), with the [121-case matrix](docs/qa/QA_TEST_MATRIX.csv), [security scope](docs/qa/02_SECURITY.md), [content review](docs/qa/04_CONTENT_AUDIT.md) and [reproduction guide](docs/qa/README.md). This update does not authorize production/aaPanel deployment or start Sprint 7.
+
+`/up` reports process liveness; `/ready` reports database/storage readiness with sanitized 503 responses when unavailable. Private page history is encrypted and cleared across authentication transitions. Studio filters use current revisions; catalog reference queries are batched. Existing learner data and V4/V5 designs are preserved.

@@ -59,9 +59,9 @@ async function screenshot(
     viewport: string,
     theme: string,
 ) {
-    fs.mkdirSync("docs/screenshots/v5", { recursive: true });
+    fs.mkdirSync(`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5`, { recursive: true });
     await page.screenshot({
-        path: `docs/screenshots/v5/${name}-${viewport}-${theme}.png`,
+        path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5/${name}-${viewport}-${theme}.png`,
         fullPage: true,
     });
 }

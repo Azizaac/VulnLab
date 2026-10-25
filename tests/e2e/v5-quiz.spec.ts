@@ -124,9 +124,9 @@ test("V5 Quiz Builder: choice radio, localized validation, autosave and key-free
             () => document.documentElement.scrollWidth <= window.innerWidth,
         ),
     ).toBe(true);
-    fs.mkdirSync("docs/screenshots/v5", { recursive: true });
+    fs.mkdirSync(`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5`, { recursive: true });
     await page.screenshot({
-        path: `docs/screenshots/v5/quiz-builder-${info.project.name}-light.png`,
+        path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5/quiz-builder-${info.project.name}-light.png`,
         fullPage: true,
     });
     const themeResponse = await page.evaluate(async () => {
@@ -154,7 +154,7 @@ test("V5 Quiz Builder: choice radio, localized validation, autosave and key-free
         ).violations,
     ).toEqual([]);
     await page.screenshot({
-        path: `docs/screenshots/v5/studio-${info.project.name}-dark.png`,
+        path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5/studio-${info.project.name}-dark.png`,
         fullPage: true,
     });
     expect(errors).toEqual([]);

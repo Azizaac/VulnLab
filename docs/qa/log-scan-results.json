@@ -1,0 +1,12 @@
+{
+  "checked_at": "2026-10-25T01:20:00.436Z",
+  "inputs": 54,
+  "secret_classes": [
+    "APP_KEY",
+    "DB_PASSWORD",
+    "MYSQL_ROOT_PASSWORD",
+    "LAB_RUNNER_TOKEN"
+  ],
+  "findings": [],
+  "scope": "Exact configured secrets and concrete runtime flags in local app/sandbox logs and this QA run logs. Not a guarantee for unrelated systems or preexisting remote log stores."
+}

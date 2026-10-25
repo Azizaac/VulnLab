@@ -104,7 +104,7 @@ test("Sprint 4: genuine progress, private report autosave/review/evidence/export
     await page.getByLabel("Jenis aktivitas").selectOption("all");
     await audit(page);
 
-    fs.mkdirSync("docs/screenshots/sprint4", { recursive: true });
+    fs.mkdirSync(`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint4`, { recursive: true });
     for (const theme of ["light", "dark"] as const) {
         const current = await page.locator("html").getAttribute("data-theme");
         if (current !== theme)
@@ -123,7 +123,7 @@ test("Sprint 4: genuine progress, private report autosave/review/evidence/export
         );
         await expect(page.locator(".loading-shimmer")).toHaveCount(0);
         await page.screenshot({
-            path: `docs/screenshots/sprint4/progress-${info.project.name}-${theme}.png`,
+            path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint4/progress-${info.project.name}-${theme}.png`,
             fullPage: true,
         });
     }
@@ -307,7 +307,7 @@ test("Sprint 4: genuine progress, private report autosave/review/evidence/export
             );
             await expect(page.locator(".loading-shimmer")).toHaveCount(0);
             await page.screenshot({
-                path: `docs/screenshots/sprint4/reports-${info.project.name}-${theme}.png`,
+                path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint4/reports-${info.project.name}-${theme}.png`,
                 fullPage: true,
             });
         }
@@ -375,7 +375,7 @@ test("Sprint 4: genuine progress, private report autosave/review/evidence/export
             );
             await expect(page.locator(".loading-shimmer")).toHaveCount(0);
             await page.screenshot({
-                path: `docs/screenshots/sprint4/progress-evidence-${info.project.name}-${theme}.png`,
+                path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint4/progress-evidence-${info.project.name}-${theme}.png`,
                 fullPage: true,
             });
         }

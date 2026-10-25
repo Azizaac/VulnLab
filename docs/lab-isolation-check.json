@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-10-25T00:17:46.593Z",
+  "checked_at": "2026-10-25T01:17:30.286Z",
   "shop_networks": [
     "vulnlab-sandbox_training"
   ],
@@ -27,20 +27,35 @@
     "runner loopback only",
     "internal training network",
     "no core DB access by name or address",
-    "external TCP egress blocked from shop and verifier",
-    "no core .env in sandbox"
+    "no core .env in sandbox",
+    "core web/admin listener unreachable by name and address",
+    "owned host gateway listeners blocked",
+    "metadata address blocked",
+    "separate bridge canary reachable from positive control but blocked from shop and verifier"
   ],
   "probe_results": {
     "shop": [
       "db:3306 blocked",
       "172.18.0.3:3306 blocked",
-      "1.1.1.1:443 blocked"
+      "app:9000 blocked",
+      "web:8080 blocked",
+      "172.18.0.4:8080 blocked",
+      "host.docker.internal:8088 blocked",
+      "host.docker.internal:8090 blocked",
+      "169.254.169.254:80 blocked",
+      "172.23.0.2:8080 blocked"
     ],
     "verifier": [
       "db:3306 blocked",
       "172.18.0.3:3306 blocked",
-      "1.1.1.1:443 blocked"
+      "app:9000 blocked",
+      "web:8080 blocked",
+      "172.18.0.4:8080 blocked",
+      "host.docker.internal:8088 blocked",
+      "host.docker.internal:8090 blocked",
+      "169.254.169.254:80 blocked",
+      "172.23.0.2:8080 blocked"
     ]
   },
-  "scope": "Local Docker checks. Trusted runner has an edge network for loopback publishing; its outbound HTTP destinations are fixed in code. No public deployment."
+  "scope": "Local Docker checks. Trusted runner has an edge network for loopback publishing; its outbound HTTP destinations are fixed in code. No public deployment. Egress tested against an owned positive-control container on a separate routable bridge; no public target was probed. A TCP refusal to the core web listener also prevents HTTP /studio access. This is a shared local Docker host, not independent virtualization."
 }

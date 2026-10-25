@@ -24,6 +24,9 @@ class LearningController extends Controller
         $lesson->load('sources', 'labs', 'questions.choices');
         $interactive = Lab::where('lesson_id', $lesson->id)->get()->keyBy('lab_spec_id');
         $solved = LabProgress::where('user_id', $request->user()->id)->pluck('lab_id');
+        $erratum = config('content-errata.'.$lesson->slug);
+        $clarification = $erratum && hash_equals($erratum['sha256'], hash('sha256', $lesson->body_md))
+            ? $markdown->render($erratum['markdown']) : null;
         $labLinks = $lesson->labs->map(function ($spec) use ($interactive, $solved) {
             $lab = $interactive->get($spec->id);
 
@@ -32,6 +35,7 @@ class LearningController extends Controller
 
         return Inertia::render('LessonReader', [
             'exampleHtml' => $markdown->render($lesson->enrichment['example_md'] ?? ''),
+            'clarification' => $clarification,
             'courses' => $service->courses($request->user()),
             'lesson' => ['id' => $lesson->id, 'slug' => $lesson->slug, 'title' => $lesson->title, 'html' => $markdown->render($lesson->body_md), 'enrichment' => $lesson->enrichment, 'minutes' => $lesson->estimated_minutes, 'sources' => $lesson->sources, 'labs' => $labLinks, 'authored_at' => $lesson->authored_at, 'reviewed_at' => $lesson->reviewed_at, 'editorial_status' => $lesson->editorial_status],
             ...app(QuizPresentationService::class)->present($request->user(), $lesson),

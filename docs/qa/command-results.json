@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-10-25T01:21:24.839297+00:00",
+  "timezone": "Asia/Jakarta",
+  "environment": "Local/test only; no production/aaPanel deployment",
+  "backend_sqlite": {
+    "tests": 103,
+    "assertions": 2106
+  },
+  "backend_mysql": {
+    "tests": 103,
+    "assertions": 2106
+  },
+  "frontend_unit_tests": 11,
+  "frontend_unit_files": 4,
+  "typescript_build": "PASS",
+  "eslint_prettier": "PASS",
+  "php_style": "PASS",
+  "concurrency": {
+    "learning_deliveries": 12,
+    "learning_xp": 30,
+    "flag_deliveries": 6,
+    "lab_solves": 1,
+    "lab_xp": 50,
+    "flag_proof": "deterministic fixture; real runtime proof tested separately"
+  },
+  "real_lab_scenarios": 8,
+  "transport_checks": 4,
+  "learning_urls_reached": 24,
+  "lab_urls_reached": 8,
+  "composer_advisories": 0,
+  "npm_vulnerabilities": 0,
+  "restores": 2,
+  "core_durable_tables": 50,
+  "browser_unique_passed": 48,
+  "browser_intentional_skips": 7,
+  "raw_logs": "Ignored .tools/v6; raw credentials, trace bodies and SQL dumps are not published",
+  "lighthouse": "NOT RUN",
+  "screen_reader": "NOT RUN",
+  "cross_engine": "NOT RUN",
+  "public_deployment": "NOT RUN / not authorized"
+}

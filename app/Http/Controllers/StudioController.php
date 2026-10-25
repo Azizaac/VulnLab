@@ -34,17 +34,26 @@ class StudioController extends Controller
             'quizzes' => 'quiz', 'labs' => 'lab', 'roadmap' => 'roadmap', default => $r->input('kind')
         };
         $query = ContentEntry::with(['revisions' => fn ($q) => $q->limit(1)])->when($kind, fn ($q) => $q->where('kind', $kind));
+        $latest = fn ($q) => $q->whereRaw('number = (select max(r.number) from content_revisions r where r.content_entry_id = content_entries.id)');
         if ($r->filled('q')) {
-            $query->whereHas('revisions', fn ($q) => $q->where('data_json->title', 'like', '%'.$r->input('q').'%'));
+            $query->whereHas('revisions', fn ($q) => $latest($q)->where('data_json->title', 'like', '%'.$r->input('q').'%'));
         }
         if ($r->filled('difficulty')) {
-            $query->whereHas('revisions', fn ($q) => $q->where('data_json->difficulty', $r->input('difficulty')));
+            $query->whereHas('revisions', fn ($q) => $latest($q)->where('data_json->difficulty', $r->input('difficulty')));
         }
         if ($r->filled('path_id')) {
-            $query->whereHas('revisions', fn ($q) => $q->whereIn('data_json->module_id', DB::table('modules')->where('learning_path_id', $r->integer('path_id'))->pluck('id')));
+            $pathId = $r->integer('path_id');
+            $modules = DB::table('modules')->where('learning_path_id', $pathId)->pluck('id');
+            $lessons = DB::table('lessons')->whereIn('module_id', $modules)->pluck('id');
+            $query->where(function ($q) use ($latest, $pathId, $modules, $lessons) {
+                $q->where(fn ($q) => $q->where('kind', 'path')->where('subject_id', $pathId))
+                    ->orWhere(fn ($q) => $q->where('kind', 'module')->whereHas('revisions', fn ($q) => $latest($q)->where('data_json->path_id', $pathId)))
+                    ->orWhere(fn ($q) => $q->where('kind', 'lesson')->whereHas('revisions', fn ($q) => $latest($q)->whereIn('data_json->module_id', $modules)))
+                    ->orWhere(fn ($q) => $q->whereIn('kind', ['quiz', 'lab'])->whereHas('revisions', fn ($q) => $latest($q)->whereIn('data_json->lesson_id', $lessons)));
+            });
         }
         if ($r->filled('reviewer_id')) {
-            $query->whereHas('revisions', fn ($q) => $q->where('approved_by', $r->integer('reviewer_id')));
+            $query->whereHas('revisions', fn ($q) => $latest($q)->where('approved_by', $r->integer('reviewer_id')));
         }
         $status = $section === 'reviews' ? 'in_review' : $r->input('status');
         if ($status === 'archived') {

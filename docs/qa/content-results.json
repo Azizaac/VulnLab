@@ -1,0 +1,248 @@
+{
+  "checked_at": "2026-10-25T00:48:58.022291+00:00",
+  "scope": "Versioned starter curriculum structural review; source reachability and semantic review documented separately. Not independent human approval.",
+  "counts": {
+    "lessons": 25,
+    "questions": 50,
+    "labs": 8,
+    "roadmap_days": 90
+  },
+  "checks": [
+    "unique IDs/slugs",
+    "two single-choice questions per lesson",
+    "one valid key and explanation",
+    "HTTPS references",
+    "complete lesson/question links",
+    "acyclic prerequisites",
+    "linked lab scenarios",
+    "90 unique days at 120 minutes"
+  ],
+  "independent_expert_approvals_added": 0,
+  "lessons": [
+    {
+      "id": "L001",
+      "slug": "client-server",
+      "title": "Cara Browser dan Server Berkomunikasi",
+      "body_sha256": "944930f950a97db8b52c57a65045e07df723b02c7e448aa8e7acd6c049712896",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L002",
+      "slug": "http-methods",
+      "title": "HTTP Methods: GET, POST, PUT, PATCH, DELETE",
+      "body_sha256": "89c280b072e143f77bf147f245f52989ab5b62acdba2d1263ac3240430acd3bd",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L003",
+      "slug": "status-headers",
+      "title": "Membaca Status Code dan Header HTTP",
+      "body_sha256": "cabfdacdc337a62f009d50e7b450fcda2c14ba7da7c7695b314b36c352058d48",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L004",
+      "slug": "cookies-sessions",
+      "title": "Cookies, Session, dan Identitas Login",
+      "body_sha256": "af3e6a1b78318ee2d8ce6a0328d98e8f15e99ae823507405143d3bf8d9594b79",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L005",
+      "slug": "origin-cors",
+      "title": "Same-Origin Policy dan CORS",
+      "body_sha256": "6a9e4093ac05d3d77998c7635519df2ad8f61b0ae8f6bde35ecc0b2e2c716dd7",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L006",
+      "slug": "rest-api-json",
+      "title": "Dasar REST API, JSON, dan Endpoint",
+      "body_sha256": "0a8d8572d3777bcf5dbdd4b1d6c64bda2adf288164074fd4c69cbf7047e3cbd2",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": true
+    },
+    {
+      "id": "L007",
+      "slug": "authentication-authorization",
+      "title": "Authentication vs Authorization",
+      "body_sha256": "9fa09a98ba9d9a4bdb0aab0064cdee6fbfc389281d241c8f6fec6f3ca804e34d",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L008",
+      "slug": "session-lifecycle",
+      "title": "Login, Logout, dan Siklus Sesi",
+      "body_sha256": "ba2d5b8e5924a1bfa056cc928ad01681e242155a40886f325826ca8a312167c2",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L009",
+      "slug": "idor",
+      "title": "IDOR: Referensi Objek Tanpa Otorisasi",
+      "body_sha256": "44811736479d4186e23adc3d04577270e99992423660401a50fd2f2d84338e4d",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L010",
+      "slug": "bola",
+      "title": "BOLA: IDOR pada Resource API",
+      "body_sha256": "f54112d480b8d01dc4e9b4bbc486385ba0ccc1ab50efe38530a01217f0fd5466",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L011",
+      "slug": "bfla",
+      "title": "Broken Function Level Authorization",
+      "body_sha256": "6776119497048725c6a72b6ea8a613bc2f6b94e772683640ccb0edbeca491950",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L012",
+      "slug": "csrf",
+      "title": "CSRF dan Permintaan Berbasis Session",
+      "body_sha256": "542dddc2202e1a207bfaebb14840315fe760dc18fc608f16783f58fdf189bad8",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L013",
+      "slug": "xss-basics",
+      "title": "Cross-Site Scripting: Saat Input Jadi Script",
+      "body_sha256": "a0e0eb2596214c3182e742553510a4c6d715a6bf04b0e9bb3e50302472d73df2",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L014",
+      "slug": "sql-injection",
+      "title": "SQL Injection dan Query Berparameter",
+      "body_sha256": "f1cbc8f66dcddadc013196fa4220d3def0526f6e3f47b7805761b557b6cecb29",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L015",
+      "slug": "input-validation",
+      "title": "Input Validation: Bentuk dan Makna",
+      "body_sha256": "08f3a81622ec8a1ab4fdf253f15ddf3535d130b63f700fffb6121d0949f37101",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L016",
+      "slug": "ssrf-intro",
+      "title": "SSRF: Server Diminta Mengakses Alamat Lain",
+      "body_sha256": "2936a069cecb98d81cd75462de7808bb4b4ec3941c04f48d7df777ee93fc6643",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L017",
+      "slug": "file-upload",
+      "title": "Risiko File Upload",
+      "body_sha256": "9007ef551a9363c58842f6bac91fed21690bf6a8aa5e9b49b798ba7222e55cb7",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L018",
+      "slug": "business-logic",
+      "title": "Business Logic: Saat Aturan Toko Bisa Dilewati",
+      "body_sha256": "010c04d319a570ee6e6cc615aa01a755f72bfc57e484960b79f18dea74ae20ef",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L019",
+      "slug": "burp-repeater",
+      "title": "Burp Proxy dan Repeater untuk Pemula",
+      "body_sha256": "5540d0d2c53bcc1f6c4a115c4ce4f7183c0d0197da7a3c0acdca629937061ae8",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L020",
+      "slug": "jwt-fundamentals",
+      "title": "JWT: Header, Payload, Signature",
+      "body_sha256": "b8cb130dac125dfd77ceb0f7e6ffd313417ca8d42b419f6a1885ac758f3cbcdd",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L021",
+      "slug": "mass-assignment",
+      "title": "Mass Assignment dan Properti Terlarang",
+      "body_sha256": "8c902d15f2e394e1f99a9950d34f5dfe13f914e4445a847d79b032531f16deed",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L022",
+      "slug": "graphql-intro",
+      "title": "GraphQL: Query, Mutation, dan Authorization",
+      "body_sha256": "fbfea89dbeb9932e03588b0d619549b4da8ed734a21f83ceb3324e3d8d3c63c8",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L023",
+      "slug": "scoping-recon",
+      "title": "Recon, Scope, dan Pengujian Berizin",
+      "body_sha256": "22e341bba9469c1184ad59bc19bf1a85bfec1e8fae34cfba4d1dc7c142752136",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L024",
+      "slug": "vuln-reporting",
+      "title": "Menulis Laporan Bug yang Bisa Direproduksi",
+      "body_sha256": "3436c9a190c0468442d2c965604b17ed177acf41c83719f1df3d507fbeeefa04",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": false
+    },
+    {
+      "id": "L025",
+      "slug": "laravel-fixes",
+      "title": "Memperbaiki Temuan di Laravel",
+      "body_sha256": "adabe12ec31762463fb5562c7359dd4c4b0e981d38869089544b776eee43a3a0",
+      "editorial_status": "research_draft_unreviewed",
+      "reviewed_at": null,
+      "clarification": true
+    }
+  ]
+}
