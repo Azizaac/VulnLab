@@ -203,6 +203,130 @@ class StudioAndAccountTest extends TestCase
         $this->actingAs($this->editor)->patchJson('/studio/revisions/'.$r->id, ['version' => 1, 'data' => $data])->assertUnprocessable()->assertJsonValidationErrors('questions.0.choices');
     }
 
+    public function test_quiz_draft_can_reference_unpublished_lesson_without_publishing_it(): void
+    {
+        $workflow = app(ContentWorkflow::class);
+        $lessonData = $this->entry()->published->data_json;
+        $lessonData['slug'] = 'draft-lesson-parent';
+        $lessonData['title'] = 'Draft lesson parent';
+        $lessonData['summary'] = 'Ringkasan untuk pengujian.';
+        $lesson = $workflow->create($this->editor, 'lesson', $lessonData);
+        $quizData = $this->entry('quiz')->published->data_json;
+        unset($quizData['lesson_id']);
+        $quizData['lesson_entry_id'] = $lesson->content_entry_id;
+        $quizData['slug'] = 'draft-lesson-quiz';
+        $quizData['title'] = 'Kuis draft lesson';
+        $quiz = $workflow->create($this->editor, 'quiz', $quizData);
+        $this->assertNull($quiz->entry->subject_id);
+        $this->assertDatabaseCount('lessons', 25);
+        $this->assertDatabaseCount('quiz_questions', 50);
+        $this->actingAs($this->learner)->get('/learning/draft-lesson-parent')->assertNotFound();
+        $this->actingAs($this->editor)->get('/studio/content/'.$quiz->content_entry_id.'/edit')->assertOk()->assertInertia(fn (Assert $page) => $page->where('revisions.0.data_json.lesson_entry_id', $lesson->content_entry_id));
+        $pathId = DB::table('modules')->where('id', $lessonData['module_id'])->value('learning_path_id');
+        $this->get('/studio/quizzes?path_id='.$pathId.'&q=draft-lesson-quiz')->assertOk();
+        $this->get('/studio/quizzes?path_id='.$pathId.'&q=Kuis%20draft%20lesson')->assertInertia(fn (Assert $page) => $page->has('entries.data', 1)->where('entries.data.0.id', $quiz->content_entry_id));
+        $this->postJson('/studio/content', ['kind' => 'quiz', 'data' => [...$quizData, 'slug' => 'duplicate-parent']])->assertUnprocessable();
+        $this->patchJson('/studio/revisions/'.$quiz->id, ['version' => 1, 'data' => [...$quizData, 'lesson_id' => Lesson::first()->id]])->assertUnprocessable();
+        $otherLesson = $workflow->create($this->editor, 'lesson', [...$lessonData, 'slug' => 'other-draft-parent']);
+        $this->patchJson('/studio/revisions/'.$quiz->id, ['version' => 1, 'data' => [...$quizData, 'lesson_entry_id' => $otherLesson->content_entry_id]])->assertUnprocessable();
+        $this->postJson('/studio/content', ['kind' => 'quiz', 'data' => [...$quizData, 'slug' => 'invalid-parent', 'lesson_entry_id' => $this->entry('quiz')->id]])->assertUnprocessable();
+        $this->actingAs($this->learner)->postJson('/studio/content', ['kind' => 'quiz', 'data' => [...$quizData, 'slug' => 'unauthorized-quiz']])->assertForbidden();
+        $this->actingAs($this->editor);
+        $this->postJson('/studio/content/'.$lesson->content_entry_id.'/archive')->assertForbidden();
+
+        $quiz = $workflow->transition($this->editor, $quiz, 'submit', $quiz->lock_version);
+        $this->postJson('/studio/revisions/'.$quiz->id.'/review', ['version' => $quiz->lock_version, 'decision' => 'approve', 'notes' => 'Self review', 'checks' => array_fill_keys(ContentSchema::CHECKS, true)])->assertForbidden();
+        $quiz = $workflow->transition($this->reviewer, $quiz, 'approve', $quiz->lock_version, ['notes' => 'Fixture review', 'checks' => array_fill_keys(ContentSchema::CHECKS, true)]);
+        $this->actingAs($this->admin)->postJson('/studio/revisions/'.$quiz->id.'/publish', ['version' => $quiz->lock_version])->assertUnprocessable()->assertJsonValidationErrors('lesson_id');
+        $this->postJson('/studio/content/'.$lesson->content_entry_id.'/archive')->assertUnprocessable();
+        $this->assertSame('approved', $quiz->fresh()->status);
+
+        $this->publish($lesson);
+        $parentId = $lesson->entry->fresh()->subject_id;
+        $this->assertNotNull($parentId);
+        $this->actingAs($this->editor)->postJson('/studio/content', ['kind' => 'quiz', 'data' => [...$quizData, 'slug' => 'duplicate-direct', 'lesson_id' => $parentId, 'lesson_entry_id' => null]])->assertUnprocessable();
+        $published = $workflow->transition($this->admin, $quiz->fresh(), 'publish', $quiz->fresh()->lock_version);
+        $this->assertSame($parentId, $published->entry->fresh()->subject_id);
+        $this->assertArrayHasKey('lesson_entry_id', $published->data_json);
+        $this->assertArrayNotHasKey('lesson_id', $published->data_json);
+        $this->assertDatabaseCount('quiz_questions', 52);
+        $this->actingAs($this->editor)->get('/studio/quizzes?path_id='.$pathId.'&q=Kuis%20draft%20lesson')->assertInertia(fn (Assert $page) => $page->has('entries.data', 1)->where('entries.data.0.id', $quiz->content_entry_id));
+
+        $publishedLesson = Lesson::findOrFail($parentId);
+        $this->actingAs($this->learner)->get('/learning/'.$publishedLesson->slug)->assertInertia(fn (Assert $page) => $page->has('quiz_context')->missing('questions.0.explanation')->missing('questions.0.choices.0.is_correct'));
+        $this->post('/learning/'.$publishedLesson->slug.'/read')->assertRedirect();
+        $context = app(QuizPresentationService::class)->present($this->learner, $publishedLesson);
+        $answers = $publishedLesson->questions()->with('choices')->get()->map(fn ($q) => ['question_id' => $q->id, 'choice_id' => $q->choices->firstWhere('is_correct', true)->id])->all();
+        $next = $workflow->draft($this->editor, $published->entry->fresh());
+        $this->publish($next);
+        $this->actingAs($this->learner)->postJson('/learning/'.$publishedLesson->slug.'/quiz', ['submission_id' => (string) Str::uuid(), 'quiz_context' => $context['quiz_context'], 'answers' => $answers])->assertOk()->assertJsonPath('score', 100);
+    }
+
+    public function test_quiz_source_keys_survive_reordering_edits_and_publication(): void
+    {
+        $workflow = app(ContentWorkflow::class);
+        $lessonData = $this->entry()->published->data_json;
+        $lessonData['slug'] = 'source-lesson';
+        $lessonData['title'] = 'Source lesson';
+        $lessonData['summary'] = 'Ringkasan untuk pengujian.';
+        $lesson = $workflow->create($this->editor, 'lesson', $lessonData);
+        $data = $this->entry('quiz')->published->data_json;
+        unset($data['lesson_id']);
+        $data['lesson_entry_id'] = $lesson->content_entry_id;
+        $data['slug'] = 'source-quiz';
+        $data['questions'][0]['source_key'] = 'Q051';
+        $data['questions'][1]['source_key'] = 'Q052';
+        $invalid = $data;
+        $invalid['questions'][1]['source_key'] = 'Q051';
+        $this->actingAs($this->editor)->postJson('/studio/content', ['kind' => 'quiz', 'data' => $invalid])->assertUnprocessable()->assertJsonValidationErrors('questions.0.source_key');
+        $quiz = $workflow->create($this->editor, 'quiz', $data);
+        $otherLesson = $workflow->create($this->editor, 'lesson', [...$lessonData, 'slug' => 'other-source-lesson']);
+        $collision = [...$data, 'slug' => 'other-source-quiz', 'lesson_entry_id' => $otherLesson->content_entry_id];
+        $this->postJson('/studio/content', ['kind' => 'quiz', 'data' => $collision])->assertUnprocessable();
+        $this->assertDatabaseMissing('content_entries', ['slug' => 'other-source-quiz']);
+        $swapped = $data;
+        $swapped['questions'][0]['source_key'] = 'Q052';
+        $swapped['questions'][1]['source_key'] = 'Q051';
+        $this->patchJson('/studio/revisions/'.$quiz->id, ['version' => 1, 'data' => $swapped])->assertUnprocessable()->assertJsonValidationErrors('questions');
+        $stripped = $data;
+        unset($stripped['questions'][0]['source_key']);
+        $this->patchJson('/studio/revisions/'.$quiz->id, ['version' => 1, 'data' => $stripped])->assertUnprocessable()->assertJsonValidationErrors('questions');
+        $removed = $data;
+        array_shift($removed['questions']);
+        $this->patchJson('/studio/revisions/'.$quiz->id, ['version' => 1, 'data' => $removed])->assertUnprocessable()->assertJsonValidationErrors('questions');
+        $data['questions'] = array_reverse($data['questions']);
+        $data['questions'][0]['explanation'] = 'Penjelasan baru.';
+        $quiz = $workflow->save($this->editor, $quiz, $data, 1);
+        $this->assertSame(['Q052', 'Q051'], array_column($quiz->data_json['questions'], 'source_key'));
+        $this->publish($lesson);
+        $this->publish($quiz);
+        $lessonId = $lesson->entry->fresh()->subject_id;
+        $this->assertSame(['Q052', 'Q051'], DB::table('quiz_questions')->where('lesson_id', $lessonId)->orderBy('id')->pluck('editorial_source_key')->all());
+        $this->actingAs($this->learner)->get('/learning/source-lesson')->assertInertia(fn (Assert $page) => $page->missing('questions.0.editorial_source_key')->missing('questions.0.choices.0.is_correct'));
+    }
+
+    public function test_zero_source_key_is_reserved_and_cannot_be_removed(): void
+    {
+        $workflow = app(ContentWorkflow::class);
+        $lessonData = $this->entry()->published->data_json;
+        $lessonData['slug'] = 'zero-source-lesson';
+        $lessonData['title'] = 'Zero source lesson';
+        $lesson = $workflow->create($this->editor, 'lesson', $lessonData);
+        $other = $workflow->create($this->editor, 'lesson', [...$lessonData, 'slug' => 'zero-source-other']);
+        $data = $this->entry('quiz')->published->data_json;
+        unset($data['lesson_id']);
+        $data['lesson_entry_id'] = $lesson->content_entry_id;
+        $data['slug'] = 'zero-source-quiz';
+        $data['questions'][0]['source_key'] = '0';
+        $quiz = $workflow->create($this->editor, 'quiz', $data);
+        $this->assertDatabaseHas('quiz_source_keys', ['source_key' => '0', 'content_entry_id' => $quiz->content_entry_id]);
+        $stripped = $data;
+        unset($stripped['questions'][0]['source_key']);
+        $this->actingAs($this->editor)->patchJson('/studio/revisions/'.$quiz->id, ['version' => 1, 'data' => $stripped])->assertUnprocessable()->assertJsonValidationErrors('questions');
+        $this->postJson('/studio/content', ['kind' => 'quiz', 'data' => [...$data, 'slug' => 'zero-source-duplicate', 'lesson_entry_id' => $other->content_entry_id]])->assertUnprocessable();
+        $this->assertDatabaseMissing('content_entries', ['slug' => 'zero-source-duplicate']);
+    }
+
     public function test_lab_metadata_cannot_modify_runner_or_points_and_preserves_runtime_fields(): void
     {
         $r = $this->draft('lab');

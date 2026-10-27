@@ -414,12 +414,18 @@ function Editor({ entry, revisions, choices, reviews, saves }: Props) {
                                 }
                             >
                                 <select
+                                    disabled={entry.kind === "quiz"}
                                     value={
-                                        entry.kind === "lesson"
-                                            ? data.module_id
-                                            : entry.kind === "module"
-                                              ? data.path_id
-                                              : data.lesson_id
+                                        entry.kind === "quiz" &&
+                                        data.lesson_entry_id
+                                            ? `draft:${data.lesson_entry_id}`
+                                            : entry.kind === "quiz"
+                                              ? `lesson:${data.lesson_id}`
+                                              : entry.kind === "lesson"
+                                                ? data.module_id
+                                                : entry.kind === "module"
+                                                  ? data.path_id
+                                                  : data.lesson_id
                                     }
                                     onChange={(e) =>
                                         patch({
@@ -433,17 +439,49 @@ function Editor({ entry, revisions, choices, reviews, saves }: Props) {
                                         })
                                     }
                                 >
-                                    {(entry.kind === "lesson"
-                                        ? choices.modules
-                                        : entry.kind === "module"
-                                          ? choices.paths
-                                          : choices.lessons
-                                    ).map((m) => (
-                                        <option key={m.id} value={m.id}>
-                                            {m.title}
-                                        </option>
-                                    ))}
+                                    {entry.kind === "quiz" ? (
+                                        <>
+                                            {choices.lessons.map((m) => (
+                                                <option
+                                                    key={`lesson:${m.id}`}
+                                                    value={`lesson:${m.id}`}
+                                                >
+                                                    {m.title}
+                                                </option>
+                                            ))}
+                                            {choices.lessonEntries.map((m) => (
+                                                <option
+                                                    key={`draft:${m.id}`}
+                                                    value={`draft:${m.id}`}
+                                                >
+                                                    {m.title} (
+                                                    {m.published
+                                                        ? "terbit"
+                                                        : "draft"}
+                                                    )
+                                                </option>
+                                            ))}
+                                        </>
+                                    ) : (
+                                        (entry.kind === "lesson"
+                                            ? choices.modules
+                                            : entry.kind === "module"
+                                              ? choices.paths
+                                              : choices.lessons
+                                        ).map((m) => (
+                                            <option key={m.id} value={m.id}>
+                                                {m.title}
+                                            </option>
+                                        ))
+                                    )}
                                 </select>
+                                {entry.kind === "quiz" &&
+                                    data.lesson_entry_id && (
+                                        <small>
+                                            Lesson terkait harus terbit sebelum
+                                            kuis dapat diterbitkan.
+                                        </small>
+                                    )}
                             </Field>
                         )}
                         {["lesson", "path", "lab"].includes(entry.kind) && (
@@ -1766,6 +1804,11 @@ function QuizQuestion({
     return (
         <section className="v5-subcard v5-form">
             <h3>Soal {index + 1}</h3>
+            {q.source_key && (
+                <p>
+                    ID sumber: <code>{q.source_key}</code>
+                </p>
+            )}
             <Field
                 name={`questions.${index}.question`}
                 label="Pertanyaan"
@@ -1910,6 +1953,12 @@ function QuizQuestion({
                     className="v5-button secondary"
                     type="button"
                     onClick={remove}
+                    disabled={!!q.source_key}
+                    title={
+                        q.source_key
+                            ? "Soal impor mempertahankan ID sumber."
+                            : undefined
+                    }
                 >
                     Hapus soal
                 </button>

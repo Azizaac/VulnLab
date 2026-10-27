@@ -56,7 +56,7 @@ class ContentCatalog
             $l = Lesson::withoutGlobalScopes()->with('questions.choices', 'sources')->findOrFail($id);
             $sources = $this->sources($l->sources->toArray());
 
-            return ['title' => 'Kuis: '.$l->title, 'slug' => 'quiz-'.$l->slug, 'lesson_id' => $l->id, 'passing_score' => 70, 'randomize' => true, 'sources' => $sources, 'questions' => $l->questions->map(fn ($q) => ['question' => $q->question, 'explanation' => $q->explanation, 'difficulty' => $l->difficulty, 'source_url' => $sources[0]['url'] ?? 'https://owasp.org/', 'choices' => $q->choices->map(fn ($c) => ['text' => $c->text, 'is_correct' => (bool) $c->is_correct])->all()])->all()];
+            return ['title' => 'Kuis: '.$l->title, 'slug' => 'quiz-'.$l->slug, 'lesson_id' => $l->id, 'passing_score' => 70, 'randomize' => true, 'sources' => $sources, 'questions' => $l->questions->map(fn ($q) => [...($q->editorial_source_key !== null && $q->editorial_source_key !== '' ? ['source_key' => $q->editorial_source_key] : []), 'question' => $q->question, 'explanation' => $q->explanation, 'difficulty' => $l->difficulty, 'source_url' => $sources[0]['url'] ?? 'https://owasp.org/', 'choices' => $q->choices->map(fn ($c) => ['text' => $c->text, 'is_correct' => (bool) $c->is_correct])->all()])->all()];
         }
         if ($kind === 'lab') {
             $l = Lab::withoutGlobalScopes()->with('instructions', 'hints')->findOrFail($id);
@@ -104,10 +104,13 @@ class ContentCatalog
                 DB::table('lesson_sources')->insert(['lesson_id' => $l->id, 'title' => $s['title'], 'url' => $s['url'], 'catalog_active' => true, 'revision_id' => $revision->id]);
             }
         } elseif ($entry->kind === 'quiz') {
-            $entry->subject_id = $d['lesson_id'];
-            DB::table('quiz_questions')->where('lesson_id', $d['lesson_id'])->update(['catalog_active' => false]);
+            $lessonId = $entry->parent_lesson_entry_id
+                ? ContentEntry::whereKey($entry->parent_lesson_entry_id)->value('subject_id')
+                : $d['lesson_id'];
+            $entry->subject_id = $lessonId;
+            DB::table('quiz_questions')->where('lesson_id', $lessonId)->update(['catalog_active' => false]);
             foreach ($d['questions'] as $i => $q) {
-                $questionId = DB::table('quiz_questions')->insertGetId(['lesson_id' => $d['lesson_id'], 'source_id' => 'revision-'.$revision->id.'-'.$i, 'question' => $q['question'], 'explanation' => $q['explanation'], 'points' => 10, 'catalog_active' => true]);
+                $questionId = DB::table('quiz_questions')->insertGetId(['lesson_id' => $lessonId, 'source_id' => 'revision-'.$revision->id.'-'.$i, 'editorial_source_key' => $q['source_key'] ?? null, 'question' => $q['question'], 'explanation' => $q['explanation'], 'points' => 10, 'catalog_active' => true]);
                 foreach ($q['choices'] as $j => $c) {
                     DB::table('quiz_choices')->insert(['quiz_question_id' => $questionId, 'source_key' => (string) $j, 'text' => $c['text'], 'is_correct' => $c['is_correct']]);
                 }

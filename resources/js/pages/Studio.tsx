@@ -78,7 +78,10 @@ export default function Studio({
     );
     const [title, setTitle] = useState("");
     const [slug, setSlug] = useState("");
-    const [createLesson, setCreateLesson] = useState(choices.lessons[0]?.id);
+    const createLesson = choices.lessons[0]?.id;
+    const [quizParent, setQuizParent] = useState(
+        `lesson:${choices.lessons[0]?.id ?? ""}`,
+    );
     const [search, setSearch] = useState(filters.q ?? "");
     const [selectedUser, setSelectedUser] = useState<ManagedUser | null>(null);
     const [password, setPassword] = useState("");
@@ -115,7 +118,9 @@ export default function Studio({
             if (kind === "quiz")
                 data = {
                     ...base,
-                    lesson_id: defaultLesson,
+                    ...(quizParent.startsWith("draft:")
+                        ? { lesson_entry_id: Number(quizParent.slice(6)) }
+                        : { lesson_id: Number(quizParent.slice(7)) }),
                     passing_score: 70,
                     randomize: true,
                     questions: [],
@@ -491,16 +496,27 @@ export default function Studio({
                     {kind === "quiz" && (
                         <Field name="create_lesson" label="Lesson untuk kuis">
                             <select
-                                value={createLesson}
-                                onChange={(e) =>
-                                    setCreateLesson(Number(e.target.value))
-                                }
+                                value={quizParent}
+                                onChange={(e) => setQuizParent(e.target.value)}
                             >
                                 {choices.lessons.map((lesson) => (
-                                    <option key={lesson.id} value={lesson.id}>
+                                    <option
+                                        key={lesson.id}
+                                        value={`lesson:${lesson.id}`}
+                                    >
                                         {lesson.title}
                                     </option>
                                 ))}
+                                {choices.lessonEntries
+                                    .filter((lesson) => !lesson.published)
+                                    .map((lesson) => (
+                                        <option
+                                            key={`draft:${lesson.id}`}
+                                            value={`draft:${lesson.id}`}
+                                        >
+                                            {lesson.title} (draft)
+                                        </option>
+                                    ))}
                             </select>
                         </Field>
                     )}

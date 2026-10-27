@@ -34,6 +34,7 @@ export type ChoiceLists = {
     paths: { id: number; title: string }[];
     modules: { id: number; title: string; learning_path_id: number }[];
     lessons: { id: number; title: string }[];
+    lessonEntries: { id: number; title: string; published: boolean }[];
     categories: { id: number; name: string }[];
     reviewers: { id: number; name: string }[];
 };
@@ -44,6 +45,7 @@ export type Source = {
     license: string;
 };
 export type QuizItem = {
+    source_key?: string | null;
     question: string;
     explanation: string;
     difficulty: string;
@@ -81,6 +83,7 @@ export type ContentData = {
     body_md?: string;
     example_md?: string;
     lesson_id?: number;
+    lesson_entry_id?: number;
     passing_score?: number;
     randomize?: boolean;
     questions?: QuizItem[];

@@ -14,7 +14,7 @@ class ContentSchema
 
     public const CHECKS = ['accuracy', 'clarity', 'safety', 'references', 'license'];
 
-    public function validate(string $kind, array $data, bool $publishing = false, ?ContentEntry $entry = null): array
+    public function validate(string $kind, array $data, bool $publishing = false, ?ContentEntry $entry = null, bool $requirePublishedParent = true): array
     {
         $required = $publishing ? 'required' : 'nullable';
         $rules = [
@@ -33,8 +33,11 @@ class ContentSchema
                 'body_md' => "$required|string|max:150000", 'example_md' => 'nullable|string|max:30000',
             ],
             'quiz' => [
-                'lesson_id' => ['required', 'integer', Rule::exists('lessons', 'id')], 'passing_score' => 'required|integer|min:1|max:100', 'randomize' => 'required|boolean',
-                'questions' => 'present|array|max:50'.($publishing ? '|min:1' : ''), 'questions.*' => 'array:question,explanation,difficulty,source_url,choices',
+                'lesson_id' => ['nullable', 'integer', Rule::exists('lessons', 'id')],
+                'lesson_entry_id' => ['nullable', 'integer', Rule::exists('content_entries', 'id')->where('kind', 'lesson')],
+                'passing_score' => 'required|integer|min:1|max:100', 'randomize' => 'required|boolean',
+                'questions' => 'present|array|max:50'.($publishing ? '|min:1' : ''), 'questions.*' => 'array:question,explanation,difficulty,source_url,choices,source_key',
+                'questions.*.source_key' => 'nullable|string|max:80|regex:/^[A-Za-z0-9][A-Za-z0-9_-]*$/|distinct',
                 'questions.*.question' => 'required|string|max:3000', 'questions.*.explanation' => 'required|string|max:6000',
                 'questions.*.difficulty' => 'required|in:Pemula,Menengah,Lanjutan', 'questions.*.source_url' => 'required|url:https|max:1000',
                 'questions.*.choices' => 'required|array|min:2|max:6', 'questions.*.choices.*' => 'array:text,is_correct',
@@ -72,7 +75,7 @@ class ContentSchema
         if ($publishing && $kind === 'lesson' && ! DB::table('modules')->join('learning_paths', 'learning_paths.id', '=', 'modules.learning_path_id')->where('modules.id', $data['module_id'])->where('modules.catalog_visible', true)->where('learning_paths.catalog_visible', true)->where('learning_paths.is_course', true)->exists()) {
             throw ValidationException::withMessages(['module_id' => 'Pilih modul dari jalur belajar terbit.']);
         }
-        if ($publishing && in_array($kind, ['quiz', 'lab']) && ! DB::table('lessons')->where('id', $data['lesson_id'])->where('catalog_visible', true)->exists()) {
+        if ($publishing && $kind === 'lab' && ! DB::table('lessons')->where('id', $data['lesson_id'])->where('catalog_visible', true)->exists()) {
             throw ValidationException::withMessages(['lesson_id' => 'Lesson terkait harus masih terbit.']);
         }
         if ($entry && $data['slug'] !== $entry->slug) {
@@ -85,13 +88,26 @@ class ContentSchema
             $this->acyclic($graph);
         }
         if ($kind === 'quiz') {
+            $lessonId = $validated['lesson_id'] ?? null;
+            $parentId = $validated['lesson_entry_id'] ?? null;
+            if ((bool) $lessonId === (bool) $parentId) {
+                throw ValidationException::withMessages(['lesson_id' => 'Pilih tepat satu lesson atau draft lesson.']);
+            }
+            $parent = $parentId ? ContentEntry::whereKey($parentId)->where('kind', 'lesson')->where('is_archived', false)->first() : null;
+            if ($parentId && ! $parent) {
+                throw ValidationException::withMessages(['lesson_entry_id' => 'Draft lesson tidak tersedia.']);
+            }
+            if ($entry && (($entry->parent_lesson_entry_id && (int) $entry->parent_lesson_entry_id !== (int) $parentId) || (! $entry->parent_lesson_entry_id && $entry->subject_id && (int) $entry->subject_id !== (int) $lessonId))) {
+                throw ValidationException::withMessages(['lesson_id' => 'Bank kuis terikat pada lesson awal.']);
+            }
+            $resolved = $parent ? ($parent->published_revision_id ? $parent->subject_id : null) : $lessonId;
+            if ($publishing && ($requirePublishedParent || ! $parentId) && (! $resolved || ! DB::table('lessons')->where('id', $resolved)->where('catalog_visible', true)->exists())) {
+                throw ValidationException::withMessages(['lesson_id' => 'Terbitkan lesson terkait sebelum menerbitkan kuis.']);
+            }
             foreach ($validated['questions'] as $i => $q) {
                 if (collect($q['choices'])->where('is_correct', true)->count() !== 1 || collect($q['choices'])->map(fn ($c) => mb_strtolower(trim($c['text'])))->unique()->count() !== count($q['choices'])) {
                     throw ValidationException::withMessages(["questions.$i.choices" => 'Tepat satu jawaban benar dan 2–6 pilihan berbeda diperlukan.']);
                 }
-            }
-            if ($entry?->subject_id && $entry->subject_id !== (int) $validated['lesson_id']) {
-                throw ValidationException::withMessages(['lesson_id' => 'Bank kuis terikat pada lesson awal.']);
             }
         }
         if ($kind === 'roadmap') {

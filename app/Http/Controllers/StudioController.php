@@ -45,11 +45,13 @@ class StudioController extends Controller
             $pathId = $r->integer('path_id');
             $modules = DB::table('modules')->where('learning_path_id', $pathId)->pluck('id');
             $lessons = DB::table('lessons')->whereIn('module_id', $modules)->pluck('id');
-            $query->where(function ($q) use ($latest, $pathId, $modules, $lessons) {
+            $lessonEntries = ContentEntry::where('kind', 'lesson')->whereHas('revisions', fn ($q) => $q->whereRaw('number = (select max(r.number) from content_revisions r where r.content_entry_id = content_revisions.content_entry_id)')->whereIn('data_json->module_id', $modules))->pluck('id');
+            $query->where(function ($q) use ($latest, $pathId, $modules, $lessons, $lessonEntries) {
                 $q->where(fn ($q) => $q->where('kind', 'path')->where('subject_id', $pathId))
                     ->orWhere(fn ($q) => $q->where('kind', 'module')->whereHas('revisions', fn ($q) => $latest($q)->where('data_json->path_id', $pathId)))
                     ->orWhere(fn ($q) => $q->where('kind', 'lesson')->whereHas('revisions', fn ($q) => $latest($q)->whereIn('data_json->module_id', $modules)))
-                    ->orWhere(fn ($q) => $q->whereIn('kind', ['quiz', 'lab'])->whereHas('revisions', fn ($q) => $latest($q)->whereIn('data_json->lesson_id', $lessons)));
+                    ->orWhere(fn ($q) => $q->whereIn('kind', ['quiz', 'lab'])->whereHas('revisions', fn ($q) => $latest($q)->whereIn('data_json->lesson_id', $lessons)))
+                    ->orWhere(fn ($q) => $q->where('kind', 'quiz')->whereIn('parent_lesson_entry_id', $lessonEntries));
             });
         }
         if ($r->filled('reviewer_id')) {
@@ -80,7 +82,7 @@ class StudioController extends Controller
 
     private function choices(): array
     {
-        return ['paths' => DB::table('learning_paths')->where('catalog_visible', true)->get(['id', 'title']), 'modules' => DB::table('modules')->where('catalog_visible', true)->get(['id', 'title', 'learning_path_id']), 'lessons' => DB::table('lessons')->where('catalog_visible', true)->get(['id', 'title']), 'categories' => DB::table('lab_categories')->get(['id', 'name']), 'reviewers' => User::whereIn('role', ['admin', 'reviewer'])->get(['id', 'name'])];
+        return ['paths' => DB::table('learning_paths')->where('catalog_visible', true)->get(['id', 'title']), 'modules' => DB::table('modules')->where('catalog_visible', true)->get(['id', 'title', 'learning_path_id']), 'lessons' => DB::table('lessons')->where('catalog_visible', true)->get(['id', 'title']), 'lessonEntries' => ContentEntry::where('kind', 'lesson')->where('is_archived', false)->where(fn ($q) => $q->whereNull('subject_id')->orWhereIn('id', ContentEntry::whereNotNull('parent_lesson_entry_id')->select('parent_lesson_entry_id')))->with('revisions')->get()->map(fn ($e) => ['id' => $e->id, 'title' => $e->revisions->first()?->data_json['title'] ?? $e->slug, 'published' => (bool) $e->published_revision_id]), 'categories' => DB::table('lab_categories')->get(['id', 'name']), 'reviewers' => User::whereIn('role', ['admin', 'reviewer'])->get(['id', 'name'])];
     }
 
     public function edit(Request $r, ContentEntry $entry)
