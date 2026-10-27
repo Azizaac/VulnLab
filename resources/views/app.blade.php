@@ -7,7 +7,13 @@
         <script nonce="{{ Vite::cspNonce() }}">
             document.documentElement.dataset.density = @json(auth()->user()?->density ?? 'comfortable');
             document.documentElement.dataset.motion = @json(auth()->user()?->reduced_motion ? 'reduced' : 'system');
-            const preference = @json(auth()->user()?->theme ?? 'system');
+            let preference = @json(auth()->user()?->theme ?? 'system');
+            if (@json(!auth()->check())) {
+                try {
+                    const savedTheme = localStorage.getItem('vulnlab-theme');
+                    if (savedTheme === 'light' || savedTheme === 'dark') preference = savedTheme;
+                } catch { /* Storage may be disabled. */ }
+            }
             document.documentElement.dataset.theme = preference === 'system'
                 ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
                 : preference;

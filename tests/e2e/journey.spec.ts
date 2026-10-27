@@ -73,5 +73,11 @@ async function exerciseChecklist(page:Page,email:string){
 }
 test('mutations require CSRF and focus is visible',async({page,request})=>{
  expect((await request.post('/login',{data:{email:'forged@example.com'}})).status()).toBe(419);
- await page.goto('/login');await page.keyboard.press('Tab');await expect(page.getByLabel('Email',{exact:true})).toBeFocused();expect(await page.getByLabel('Email',{exact:true}).evaluate(el=>getComputedStyle(el).outlineStyle)).not.toBe('none');
+ await page.goto('/login');
+ const email=page.getByLabel('Email',{exact:true});
+ await page.keyboard.press('Tab');await expect(page.locator('.theme-toggle')).toBeFocused();
+ await page.keyboard.press('Tab');await expect(page.getByRole('link',{name:'Masuk',exact:true})).toBeFocused();
+ await page.keyboard.press('Tab');await expect(page.getByRole('link',{name:'Daftar',exact:true})).toBeFocused();
+ await page.keyboard.press('Tab');await expect(email).toBeFocused();
+ expect(await email.evaluate(el=>getComputedStyle(el).outlineStyle)).not.toBe('none');
 });

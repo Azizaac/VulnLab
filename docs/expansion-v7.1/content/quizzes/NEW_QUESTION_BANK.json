@@ -1,0 +1,542 @@
+[
+  {
+    "id": "Q051",
+    "lesson_id": "N026",
+    "question": "Kenapa pesan permintaan reset sebaiknya sama untuk akun yang ada dan tidak?",
+    "options": [
+      "Supaya UI lebih cepat",
+      "Untuk mengurangi enumerasi akun",
+      "Supaya token tidak perlu kedaluwarsa",
+      "Untuk menghindari hashing password"
+    ],
+    "correct_index": 1,
+    "explanation": "Respons konsisten membantu mengurangi perbedaan yang memberi petunjuk apakah email terdaftar.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q052",
+    "lesson_id": "N026",
+    "question": "Setelah tautan reset digunakan, apa perilaku aman tokennya?",
+    "options": [
+      "Bisa digunakan lagi selama 30 hari",
+      "Disimpan sebagai cookie utama",
+      "Dibatalkan setelah sekali pakai",
+      "Ditampilkan di log aplikasi"
+    ],
+    "correct_index": 2,
+    "explanation": "Token harus berumur terbatas dan tidak dapat digunakan kembali setelah berhasil dipakai.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q053",
+    "lesson_id": "N026",
+    "question": "Apakah validasi identitas akun cukup hanya dengan email input reset?",
+    "options": [
+      "Ya, email adalah bukti identitas",
+      "Tidak, perlu token yang dibuktikan lewat kanal pengguna",
+      "Ya, jika email panjang",
+      "Ya, jika HTTP 200"
+    ],
+    "correct_index": 1,
+    "explanation": "Alamat email pada form bukan bukti bahwa peminta menguasai akun.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q054",
+    "lesson_id": "N027",
+    "question": "Kapan CSRF paling relevan?",
+    "options": [
+      "Ketika browser otomatis mengirim cookie untuk aksi yang mengubah state",
+      "Saat browser membuka gambar publik",
+      "Saat server memakai JSON",
+      "Saat URL panjang"
+    ],
+    "correct_index": 0,
+    "explanation": "CSRF berkaitan dengan permintaan berstate yang ikut terautentikasi otomatis tanpa bukti niat pemilik sesi.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q055",
+    "lesson_id": "N027",
+    "question": "Apa fungsi token anti-CSRF?",
+    "options": [
+      "Enkripsi seluruh database",
+      "Mengaitkan permintaan perubahan dengan sesi/form yang sah",
+      "Mempercepat request",
+      "Mengganti semua authorization"
+    ],
+    "correct_index": 1,
+    "explanation": "Token anti-CSRF membantu server memeriksa asal/niat permintaan, tetapi bukan pengganti otorisasi.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q056",
+    "lesson_id": "N027",
+    "question": "Apakah SameSite saja cukup untuk semua CSRF?",
+    "options": [
+      "Selalu",
+      "Hanya di Firefox",
+      "Tidak; lihat arsitektur dan proteksi lainnya",
+      "Hanya bila cookie besar"
+    ],
+    "correct_index": 2,
+    "explanation": "SameSite adalah defense-in-depth; sifat origin, subdomain dan flow aplikasi tetap penting.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q057",
+    "lesson_id": "N028",
+    "question": "Mengapa menerima path dari pengguna langsung berisiko?",
+    "options": [
+      "URL selalu rusak",
+      "Aplikasi bisa memilih file di luar root izin",
+      "Karena file PDF tidak aman",
+      "Karena semua download perlu login sosial"
+    ],
+    "correct_index": 1,
+    "explanation": "Path yang dikendalikan klien dapat menunjuk ke area file yang tidak semestinya tanpa canonicalization dan kontrol akses.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q058",
+    "lesson_id": "N028",
+    "question": "Cara utama memilih file invoice yang aman?",
+    "options": [
+      "Menggunakan ID server dengan pemeriksaan kepemilikan",
+      "Mempercayai nama dari URL",
+      "Menyembunyikan link saja",
+      "Menambah extension .pdf"
+    ],
+    "correct_index": 0,
+    "explanation": "ID yang dipetakan server plus owner policy lebih aman daripada path mentah dari browser.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q059",
+    "lesson_id": "N028",
+    "question": "Apakah 404 selalu berarti traversal dicegah?",
+    "options": [
+      "Ya",
+      "Tidak; bisa file memang tidak ada atau akses dimask",
+      "Ya untuk Nginx",
+      "Hanya saat query GET"
+    ],
+    "correct_index": 1,
+    "explanation": "Perlu kontrol pembanding dan bukti akses yang melanggar batas.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q060",
+    "lesson_id": "N029",
+    "question": "Apakah ekstensi .png dari browser menjamin isi benar-benar gambar?",
+    "options": [
+      "Ya",
+      "Tidak",
+      "Jika ukurannya kecil",
+      "Jika nama file acak"
+    ],
+    "correct_index": 1,
+    "explanation": "Nama dan MIME klien dapat dipalsukan, server harus memvalidasi tipe konten.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q061",
+    "lesson_id": "N029",
+    "question": "Di mana file upload berisiko tinggi sebaiknya disimpan?",
+    "options": [
+      "Dalam root yang dapat mengeksekusi PHP",
+      "Dalam direktori non-eksekusi dengan akses terkontrol",
+      "Di folder vendor",
+      "Pada cookie"
+    ],
+    "correct_index": 1,
+    "explanation": "Penyimpanan non-eksekusi, validasi dan akses terotorisasi mengurangi risiko.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q062",
+    "lesson_id": "N029",
+    "question": "Upload file ditolak. Bisakah langsung diklaim RCE?",
+    "options": [
+      "Bisa",
+      "Belum; butuh bukti eksekusi",
+      "Selalu bila HTTP 422",
+      "Hanya saat upload JPG"
+    ],
+    "correct_index": 1,
+    "explanation": "Penolakan upload tidak membuktikan adanya kemampuan eksekusi kode.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q063",
+    "lesson_id": "N030",
+    "question": "Di GraphQL, apa yang harus dilindungi selain root query?",
+    "options": [
+      "Hanya CSS",
+      "Resolver objek dan field yang mengandung data sensitif",
+      "Nama browser",
+      "Jam server"
+    ],
+    "correct_index": 1,
+    "explanation": "Nested resolver tetap harus mengecek pemilik objek dan izin field.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q064",
+    "lesson_id": "N030",
+    "question": "Apakah introspection aktif otomatis berarti vulnerability?",
+    "options": [
+      "Ya",
+      "Tidak selalu",
+      "Selalu kritis",
+      "Hanya untuk aplikasi besar"
+    ],
+    "correct_index": 1,
+    "explanation": "Status introspection perlu konteks; isu nyata adalah data atau operasi tanpa izin.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q065",
+    "lesson_id": "N030",
+    "question": "Apa yang membatasi query terlalu kompleks?",
+    "options": [
+      "Query depth/cost limits",
+      "Mematikan HTTPS",
+      "Menghapus seluruh data",
+      "Mengganti React"
+    ],
+    "correct_index": 0,
+    "explanation": "Depth/cost controls membantu mencegah pemakaian resource tak terkendali.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q066",
+    "lesson_id": "N031",
+    "question": "Apa yang diatur oleh CORS?",
+    "options": [
+      "Izin baca respons lintas origin oleh browser",
+      "Izin user mengubah role server",
+      "Enkripsi password",
+      "Hak akses database"
+    ],
+    "correct_index": 0,
+    "explanation": "CORS mengatur akses browser terhadap respons origin lain, bukan permissions bisnis.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q067",
+    "lesson_id": "N031",
+    "question": "Apa risiko memantulkan Origin sembarang saat kredensial diizinkan?",
+    "options": [
+      "Browser selalu menolak",
+      "Halaman origin tak terpercaya mungkin dapat membaca respons terautentikasi",
+      "Server menjadi lebih cepat",
+      "HTTPS dinonaktifkan"
+    ],
+    "correct_index": 1,
+    "explanation": "Credentialed read dapat bocor jika origin yang diberi izin tidak dikendalikan.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q068",
+    "lesson_id": "N031",
+    "question": "Apakah curl dan browser selalu menerapkan aturan CORS yang sama?",
+    "options": [
+      "Ya",
+      "Tidak",
+      "Hanya saat HTTPS",
+      "Hanya untuk GET"
+    ],
+    "correct_index": 1,
+    "explanation": "CORS enforcement terutama dilakukan browser; curl menampilkan header tanpa kebijakan pembatasan yang sama.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q069",
+    "lesson_id": "N032",
+    "question": "Kenapa server tidak boleh mengikuti URL webhook apa saja?",
+    "options": [
+      "Karena request pasti gagal",
+      "Bisa mengakses jaringan yang tidak dimaksudkan",
+      "Karena URL selalu palsu",
+      "Supaya hanya pakai POST"
+    ],
+    "correct_index": 1,
+    "explanation": "URL dari user dapat mengarahkan server ke layanan internal/terlarang jika tanpa kontrol.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q070",
+    "lesson_id": "N032",
+    "question": "Selain URL allowlist aplikasi, apa perlindungan penting?",
+    "options": [
+      "Outbound network policy yang membatasi egress",
+      "Mematikan logging audit",
+      "Meningkatkan timeout tanpa batas",
+      "Membuka Docker socket"
+    ],
+    "correct_index": 0,
+    "explanation": "Jaringan perlu memblokir koneksi terlarang walaupun ada bypass pemeriksaan URL aplikasi.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q071",
+    "lesson_id": "N032",
+    "question": "Apa yang harus dilakukan terhadap redirect URL di SSRF defense?",
+    "options": [
+      "Mengikuti semua redirect",
+      "Memeriksa target setiap hop atau menolak redirect",
+      "Selalu mengambil favicon",
+      "Menghapus DNS"
+    ],
+    "correct_index": 1,
+    "explanation": "Tujuan redirect dapat pindah ke alamat terlarang; pengecekan hanya host awal tidak cukup.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q072",
+    "lesson_id": "N033",
+    "question": "Apa kegunaan state pada alur OAuth?",
+    "options": [
+      "Mengganti password pengguna",
+      "Mengaitkan callback dengan flow login yang dimulai sesi yang sama",
+      "Menyimpan avatar",
+      "Mengaktifkan CORS otomatis"
+    ],
+    "correct_index": 1,
+    "explanation": "State membantu mencegah callback/mixup yang tidak cocok dengan alur milik sesi.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q073",
+    "lesson_id": "N033",
+    "question": "Apa prinsip aman untuk redirect_uri?",
+    "options": [
+      "Terima string yang diawali nama domain saja",
+      "Validasi against registered exact allowed callbacks",
+      "Biarkan user memilih domain bebas",
+      "Gunakan HTTP tanpa TLS"
+    ],
+    "correct_index": 1,
+    "explanation": "Redirect URI harus mengikuti daftar callback yang telah disetujui, bukan matching longgar.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q074",
+    "lesson_id": "N033",
+    "question": "OAuth dan OIDC adalah hal yang sama?",
+    "options": [
+      "Ya",
+      "Tidak; OAuth berfokus pada authorization, OIDC pada identity layer",
+      "Keduanya database",
+      "Hanya OIDC memakai HTTP"
+    ],
+    "correct_index": 1,
+    "explanation": "OAuth adalah kerangka otorisasi; OIDC menambahkan layer identitas.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q075",
+    "lesson_id": "N034",
+    "question": "Akar race condition kupon sekali pakai yang terpakai dua kali?",
+    "options": [
+      "Browser gelap",
+      "Cek dan tulis status tidak atomik",
+      "Kupon terlalu pendek",
+      "Token user terlalu panjang"
+    ],
+    "correct_index": 1,
+    "explanation": "Dua transaksi membaca state yang sama sebelum salah satunya menandai sudah dipakai.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q076",
+    "lesson_id": "N034",
+    "question": "Apa contoh mitigasi race?",
+    "options": [
+      "Row lock/atomic update dan unique constraints",
+      "Disable tombol frontend saja",
+      "Menambah animasi",
+      "Mengurangi gambar"
+    ],
+    "correct_index": 0,
+    "explanation": "Perubahan state bisnis harus dilindungi transaksi/constraint di server.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q077",
+    "lesson_id": "N034",
+    "question": "Dua HTTP 200 berarti kupon pasti dipakai dua kali?",
+    "options": [
+      "Ya",
+      "Tidak; cek state akhir database fixture",
+      "Selalu jika request bersamaan",
+      "Hanya pada API JSON"
+    ],
+    "correct_index": 1,
+    "explanation": "Efek ekonomi ditentukan state akhir, bukan semata status respons.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q078",
+    "lesson_id": "N035",
+    "question": "Apa beda object authorization dengan property authorization?",
+    "options": [
+      "Tidak ada",
+      "Bisa boleh membaca objek, tetapi tidak semua field objek",
+      "Property hanya CSS",
+      "Objek hanya query SQL"
+    ],
+    "correct_index": 1,
+    "explanation": "Hak untuk objek tidak otomatis mencakup semua properti sensitif.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q079",
+    "lesson_id": "N035",
+    "question": "Apa praktik aman response API?",
+    "options": [
+      "Serialize semua kolom database",
+      "Gunakan explicit resource/field allowlist",
+      "Sertakan password hash untuk debugging",
+      "Jangan validasi role"
+    ],
+    "correct_index": 1,
+    "explanation": "Response API perlu memilih field sesuai kebutuhan dan izin pengguna.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  },
+  {
+    "id": "Q080",
+    "lesson_id": "N035",
+    "question": "Jika respons mengandung field is_admin, apakah sudah terbukti privilege escalation?",
+    "options": [
+      "Sudah pasti",
+      "Belum; perlu bukti bahwa keputusan/izin berubah",
+      "Selalu jika berisi false",
+      "Hanya bila field string"
+    ],
+    "correct_index": 1,
+    "explanation": "Nama field saja tidak cukup; perlu demonstrasi dampak izin nyata.",
+    "difficulty": "conceptual",
+    "revision": "1.0.0",
+    "editorial_status": "research_draft_unreviewed",
+    "published": false,
+    "answer_visibility": "server_after_attempt"
+  }
+]

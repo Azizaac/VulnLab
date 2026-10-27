@@ -1,11 +1,14 @@
 import { Head, Link, useForm } from "@inertiajs/react";
-import { ArrowRight, Check, ShieldCheck, Terminal } from "lucide-react";
-import type { FormEvent } from "react";
+import { ArrowRight, ShieldCheck } from "lucide-react";
+import { useState, type FormEvent } from "react";
 import { Button } from "../components/ui/button";
 import { focusFirstError } from "../feedback";
+import ThemeToggle from "../components/ThemeToggle";
 
 export default function Auth({ mode }: { mode: "login" | "register" }) {
     const register = mode === "register";
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const form = useForm({
         name: "",
         email: "",
@@ -28,69 +31,110 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
     return (
         <div className="auth-page">
             <Head title={register ? "Daftar" : "Masuk"} />
-            <section className="auth-story">
+            <section className="auth-story" aria-label="Tentang VulnLab">
                 <div className="brand">
                     <span className="brand-mark">
-                        <ShieldCheck />
-                    </span>
+                        <ShieldCheck aria-hidden="true" />
+                    </span>{" "}
                     VulnLab
                 </div>
                 <div className="auth-story-content">
                     <span className="eyebrow">
-                        YOUR SECURITY JOURNEY STARTS HERE
+                        Cybersecurity Learning Platform
                     </span>
                     <h1>
-                        Belajar memahami.
-                        <br />
-                        Berlatih melindungi.
+                        Belajar dengan <span>rasa ingin tahu.</span> Buktikan
+                        lewat praktik.
                     </h1>
                     <p>
-                        Bangun fondasi Web & API Security dengan langkah kecil
-                        yang terarah, setiap hari.
+                        Pelajari keamanan Web &amp; API dari referensi yang
+                        jelas, coba sendiri di lab lokal, dan lihat kemampuanmu
+                        tumbuh dengan progres yang terukur.
                     </p>
-                    <div className="terminal-card">
-                        <div className="terminal-dots">
-                            <i />
-                            <i />
-                            <i />
-                            <span>~/vulnlab/your-journey</span>
+                    <div className="auth-art" aria-hidden="true">
+                        <svg viewBox="0 0 450 140" fill="none">
+                            <path
+                                d="M20 112H432M22 112L83 70L145 98L205 32L275 74L335 52L431 112M20 112L112 93L171 105L224 81L298 104L360 89L430 112"
+                                stroke="currentColor"
+                                strokeOpacity=".4"
+                            />
+                            <circle
+                                cx="205"
+                                cy="32"
+                                r="6"
+                                fill="currentColor"
+                            />
+                            <path
+                                d="M205 32V7L236 17L205 27M128 10h50M153 2v16M309 25h70M344 15v20"
+                                stroke="currentColor"
+                                strokeOpacity=".5"
+                            />
+                            <circle
+                                cx="112"
+                                cy="93"
+                                r="3"
+                                fill="currentColor"
+                            />
+                            <circle
+                                cx="360"
+                                cy="89"
+                                r="3"
+                                fill="currentColor"
+                            />
+                        </svg>
+                    </div>
+                    <div className="auth-journey">
+                        <div>
+                            <span>01 / LEARN</span>
+                            <strong>Pelajari</strong>Materi terarah
                         </div>
-                        <p>
-                            <span>$</span> start learning --path web-api
-                        </p>
-                        <p>
-                            <Check size={14} /> 90 hari, roadmap terstruktur
-                        </p>
-                        <p>
-                            <Check size={14} /> 2 jam sehari, progres tersimpan
-                        </p>
-                        <p>
-                            <Check size={14} /> Latihan yang bertanggung jawab
-                        </p>
-                        <p className="terminal-ready">
-                            <Terminal size={15} /> Ready when you are.
-                        </p>
+                        <div>
+                            <span>02 / PRACTICE</span>
+                            <strong>Eksperimen</strong>Lab terkendali
+                        </div>
+                        <div>
+                            <span>03 / PROVE</span>
+                            <strong>Evaluasi</strong>Progres nyata
+                        </div>
                     </div>
                 </div>
                 <p className="auth-story-footer">
-                    Rasa ingin tahu. Arah yang jelas. Kebiasaan yang baik.
+                    CURIOUS MINDS. SAFER SOFTWARE.{" "}
+                    <span>VULNLAB / LEARNING EDITION</span>
                 </p>
             </section>
             <main className="auth-form-area">
-                <div className="auth-form-card">
+                <div className="auth-top">
                     <span className="auth-logo-mobile">
-                        <ShieldCheck size={24} /> VulnLab
+                        <ShieldCheck aria-hidden="true" /> VulnLab
                     </span>
-                    <span className="eyebrow">SELAMAT DATANG DI VULNLAB</span>
+                    <ThemeToggle />
+                </div>
+                <div className="auth-form-card">
+                    <span className="auth-tag">AKUN VULNLAB</span>
+                    <nav className="auth-tabs" aria-label="Mode autentikasi">
+                        <Link
+                            href="/login"
+                            aria-current={!register ? "page" : undefined}
+                        >
+                            Masuk
+                        </Link>
+                        <Link
+                            href="/register"
+                            aria-current={register ? "page" : undefined}
+                        >
+                            Daftar
+                        </Link>
+                    </nav>
                     <h2>
                         {register
-                            ? "Mulai perjalananmu."
-                            : "Senang melihatmu lagi."}
+                            ? "Mulai belajar dengan cara yang benar."
+                            : "Lanjutkan perjalanan belajarmu."}
                     </h2>
                     <p className="muted">
                         {register
-                            ? "Buat akun dan bangun kebiasaan belajar security."
-                            : "Masuk untuk melanjutkan perjalanan belajarmu."}
+                            ? "Bangun pemahaman, uji sendiri di lab, lalu catat progresmu."
+                            : "Masuk untuk melanjutkan modul, lab, dan progres terakhir."}
                     </p>
                     <form onSubmit={submit} className="auth-form">
                         {register && (
@@ -157,33 +201,50 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                         </div>
                         <div>
                             <label htmlFor="password">Kata sandi</label>
-                            <input
-                                id="password"
-                                name="password"
-                                aria-invalid={!!form.errors.password}
-                                type="password"
-                                autoComplete={
-                                    register
-                                        ? "new-password"
-                                        : "current-password"
-                                }
-                                required
-                                minLength={register ? 12 : undefined}
-                                value={form.data.password}
-                                onChange={(e) =>
-                                    form.setData("password", e.target.value)
-                                }
-                                aria-describedby={
-                                    [
-                                        register ? "password-help" : "",
-                                        form.errors.password
-                                            ? "password-error"
-                                            : "",
-                                    ]
-                                        .filter(Boolean)
-                                        .join(" ") || undefined
-                                }
-                            />
+                            <div className="auth-password">
+                                <input
+                                    id="password"
+                                    name="password"
+                                    aria-invalid={!!form.errors.password}
+                                    type={showPassword ? "text" : "password"}
+                                    autoComplete={
+                                        register
+                                            ? "new-password"
+                                            : "current-password"
+                                    }
+                                    required
+                                    minLength={register ? 12 : undefined}
+                                    value={form.data.password}
+                                    onChange={(e) =>
+                                        form.setData("password", e.target.value)
+                                    }
+                                    aria-describedby={
+                                        [
+                                            register ? "password-help" : "",
+                                            form.errors.password
+                                                ? "password-error"
+                                                : "",
+                                        ]
+                                            .filter(Boolean)
+                                            .join(" ") || undefined
+                                    }
+                                />
+                                <button
+                                    type="button"
+                                    className="auth-show-password"
+                                    aria-label={
+                                        showPassword
+                                            ? "Sembunyikan kata sandi"
+                                            : "Tampilkan kata sandi"
+                                    }
+                                    aria-pressed={showPassword}
+                                    onClick={() =>
+                                        setShowPassword(!showPassword)
+                                    }
+                                >
+                                    {showPassword ? "Sembunyikan" : "Lihat"}
+                                </button>
+                            </div>
                             {register && (
                                 <p id="password-help" className="input-help">
                                     Gunakan minimal 12 karakter.
@@ -205,30 +266,57 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                     <label htmlFor="password_confirmation">
                                         Ulangi kata sandi
                                     </label>
-                                    <input
-                                        id="password_confirmation"
-                                        name="password_confirmation"
-                                        aria-invalid={
-                                            !!form.errors.password_confirmation
-                                        }
-                                        aria-describedby={
-                                            form.errors.password_confirmation
-                                                ? "password_confirmation-error"
-                                                : undefined
-                                        }
-                                        type="password"
-                                        autoComplete="new-password"
-                                        required
-                                        value={form.data.password_confirmation}
-                                        onChange={(e) =>
-                                            form.setData(
-                                                "password_confirmation",
-                                                e.target.value,
-                                            )
-                                        }
-                                    />
-                                </div>
-                                <div>
+                                    <div className="auth-password">
+                                        <input
+                                            id="password_confirmation"
+                                            name="password_confirmation"
+                                            aria-invalid={
+                                                !!form.errors
+                                                    .password_confirmation
+                                            }
+                                            aria-describedby={
+                                                form.errors
+                                                    .password_confirmation
+                                                    ? "password_confirmation-error"
+                                                    : undefined
+                                            }
+                                            type={
+                                                showConfirmation
+                                                    ? "text"
+                                                    : "password"
+                                            }
+                                            autoComplete="new-password"
+                                            required
+                                            value={
+                                                form.data.password_confirmation
+                                            }
+                                            onChange={(e) =>
+                                                form.setData(
+                                                    "password_confirmation",
+                                                    e.target.value,
+                                                )
+                                            }
+                                        />
+                                        <button
+                                            type="button"
+                                            className="auth-show-password"
+                                            aria-label={
+                                                showConfirmation
+                                                    ? "Sembunyikan konfirmasi kata sandi"
+                                                    : "Tampilkan konfirmasi kata sandi"
+                                            }
+                                            aria-pressed={showConfirmation}
+                                            onClick={() =>
+                                                setShowConfirmation(
+                                                    !showConfirmation,
+                                                )
+                                            }
+                                        >
+                                            {showConfirmation
+                                                ? "Sembunyikan"
+                                                : "Lihat"}
+                                        </button>
+                                    </div>
                                     {form.errors.password_confirmation && (
                                         <p
                                             id="password_confirmation-error"
@@ -238,6 +326,8 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                             {form.errors.password_confirmation}
                                         </p>
                                     )}
+                                </div>
+                                <div>
                                     <label htmlFor="timezone">Zona waktu</label>
                                     <select
                                         id="timezone"
@@ -331,7 +421,7 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                         )
                                     }
                                 />{" "}
-                                Ingat saya
+                                Ingat perangkat ini
                             </label>
                         )}
                         <Button
@@ -354,8 +444,8 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                         </Link>
                     </p>
                     <p className="auth-legal">
-                        <ShieldCheck size={15} /> Untuk pembelajaran di
-                        lingkungan berizin.
+                        <ShieldCheck size={15} aria-hidden="true" /> Untuk
+                        pembelajaran di lingkungan berizin.
                     </p>
                 </div>
             </main>

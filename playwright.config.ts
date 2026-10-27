@@ -23,7 +23,7 @@ export default defineConfig({
             // Never copy it into reporter-serialized Playwright configuration.
             LABS_ENABLED: 'true', LAB_RUNNER_URL: 'http://127.0.0.1:8090',
             APP_KEY: 'base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
-            DB_CONNECTION: 'sqlite', DB_DATABASE: `${process.cwd()}/database/e2e.sqlite`,
+            DB_CONNECTION: 'sqlite', DB_DATABASE: process.env.E2E_DB_DATABASE || `${process.cwd()}/database/e2e.sqlite`,
             SESSION_DRIVER: 'database', CACHE_STORE: 'database', CACHE_PREFIX: `vulnlab_e2e_${Date.now()}`, LOG_CHANNEL: 'single',
         },
     },
