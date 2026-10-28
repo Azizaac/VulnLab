@@ -10,7 +10,8 @@ const dbEnv = {
     ...process.env,
     APP_ENV: "testing",
     DB_CONNECTION: "sqlite",
-    DB_DATABASE: `${process.cwd()}/database/e2e.sqlite`,
+    DB_DATABASE:
+        process.env.E2E_DB_DATABASE || `${process.cwd()}/database/e2e.sqlite`,
     SESSION_DRIVER: "database",
     APP_KEY: "base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
 };
@@ -59,7 +60,9 @@ async function screenshot(
     viewport: string,
     theme: string,
 ) {
-    fs.mkdirSync(`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5`, { recursive: true });
+    fs.mkdirSync(`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5`, {
+        recursive: true,
+    });
     await page.screenshot({
         path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5/${name}-${viewport}-${theme}.png`,
         fullPage: true,
@@ -439,6 +442,7 @@ test("V5 Studio: author to reviewer to publisher to learner, conflict, metadata 
     expect(await admin.locator('input[name="command"]').count()).toBe(0);
     await admin.goto("/studio/roadmap");
     await admin.locator(".v5-content-list a").first().click();
+    await expect(admin.getByRole("heading", { name: "Editor Roadmap", exact: true })).toBeVisible();
     if (
         await admin
             .getByRole("button", { name: "Buat revisi dari versi ini" })
@@ -468,6 +472,7 @@ test("V5 Studio: author to reviewer to publisher to learner, conflict, metadata 
         .getByLabel("Cari pengguna", { exact: true })
         .fill(`v5-learner-${nonce}@example.test`);
     await admin.getByRole("button", { name: "Cari", exact: true }).click();
+    await expect(admin).toHaveURL(/q=v5-learner-/);
     await admin
         .locator(".v5-row")
         .filter({ hasText: `v5-learner-${nonce}@example.test` })

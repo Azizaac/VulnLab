@@ -2,6 +2,7 @@ import { Head, Link, router } from "@inertiajs/react";
 import { useState, type FormEvent } from "react";
 import { Archive, FilePenLine, FileText, Plus, Search } from "lucide-react";
 import AppShell from "../components/AppShell";
+import "../../css/v8-workspaces.css";
 import {
     ConfirmDialog,
     EmptyState,
@@ -80,16 +81,14 @@ export default function Reports({
     return (
         <AppShell title="Laporan latihan">
             <Head title="Laporan" />
-            <div className="s4-page">
+            <div className="s4-page v8-workspace v8-reports">
                 <header className="s4-page-heading">
                     <div>
-                        <span className="eyebrow">
-                            STUDIO LAPORAN · LATIHAN INTERNAL
-                        </span>
-                        <h1>Buat Laporan Bug Bounty</h1>
+                        <span className="eyebrow">PRACTICE REPORTS</span>
+                        <h1>Tulis temuan yang mudah direproduksi.</h1>
                         <p>
-                            Susun laporan yang jelas, profesional, dan mudah
-                            dipahami.
+                            Laporan latihan, bukan submission ke program
+                            eksternal.
                         </p>
                     </div>
                     <Link href="/reports/create" className="learning-button">

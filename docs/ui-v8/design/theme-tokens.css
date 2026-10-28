@@ -1,0 +1,31 @@
+/* VulnLab UI v8 concept: port into existing Tailwind/CSS design system; do not copy blindly. */
+:root {
+  --vl-bg: #071423;
+  --vl-surface: #0d1b2b;
+  --vl-surface-elevated: #102239;
+  --vl-surface-hover: #152b44;
+  --vl-text: #edf4fd;
+  --vl-text-secondary: #9db2ce;
+  --vl-border: #27415c;
+  --vl-brand-base: #74aaff;
+  --vl-brand-interactive: #74aaff;
+  --vl-success: #54d0ac;
+  --vl-warning: #f4b96b;
+  --vl-danger: #ed8797;
+  --vl-radius-md: 12px;
+  --vl-radius-lg: 16px;
+  --vl-content-max: 1328px;
+}
+[data-theme='light'] {
+  --vl-bg: #f6f8fc;
+  --vl-surface: #fff;
+  --vl-surface-elevated: #f2f6fc;
+  --vl-surface-hover: #e8eff9;
+  --vl-text: #152238;
+  --vl-text-secondary: #526782;
+  --vl-border: #dce5f1;
+  --vl-brand-interactive: #3473c7; /* contrast-adjusted against light bg */
+  --vl-success: #087a5d;
+  --vl-warning: #9d6029;
+  --vl-danger: #bb4d64;
+}

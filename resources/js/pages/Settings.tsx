@@ -113,8 +113,8 @@ function SettingsForm({
             <Head title="Pengaturan Akun" />
             <div className="v5-title">
                 <div>
-                    <p className="v5-eyebrow">AKUN VULNLAB</p>
-                    <h1>Pengaturan Akun</h1>
+                    <p className="v5-eyebrow">ACCOUNT PREFERENCES</p>
+                    <h1>Pengaturan</h1>
                     <p>
                         Atur identitas, pengalaman belajar, keamanan, dan data
                         pribadi.

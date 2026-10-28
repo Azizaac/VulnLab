@@ -7,6 +7,8 @@ import "../css/labs.css";
 import "../css/feedback.css";
 import "../css/sprint4.css";
 import "../css/v5.css";
+import "../css/v8-base.css";
+import "../css/v8-account-studio.css";
 import { GlobalToastProvider } from "./feedback";
 import { createInertiaApp } from "@inertiajs/react";
 import { createRoot } from "react-dom/client";

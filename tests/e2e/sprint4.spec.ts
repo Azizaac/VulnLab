@@ -85,7 +85,7 @@ test("Sprint 4: genuine progress, private report autosave/review/evidence/export
     ).toBeVisible();
     await page.goto("/progress");
     await expect(
-        page.getByRole("heading", { name: "Perkembangan Belajarmu" }),
+        page.getByRole("heading", { name: "Progres yang punya makna." }),
     ).toBeVisible();
     await expect(
         page.getByRole("heading", { name: "Belum ada aktivitas belajar." }),
@@ -104,7 +104,10 @@ test("Sprint 4: genuine progress, private report autosave/review/evidence/export
     await page.getByLabel("Jenis aktivitas").selectOption("all");
     await audit(page);
 
-    fs.mkdirSync(`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint4`, { recursive: true });
+    fs.mkdirSync(
+        `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/sprint4`,
+        { recursive: true },
+    );
     for (const theme of ["light", "dark"] as const) {
         const current = await page.locator("html").getAttribute("data-theme");
         if (current !== theme)

@@ -86,7 +86,7 @@ export default function Studio({
     const [selectedUser, setSelectedUser] = useState<ManagedUser | null>(null);
     const [password, setPassword] = useState("");
     const titles: Record<string, string> = {
-        overview: "Konten yang baik, belajar lebih mudah.",
+        overview: "Kelola pembelajaran, bukan kode.",
         content: "Perpustakaan konten",
         quizzes: "Quiz Builder",
         labs: "Metadata lab",
@@ -372,6 +372,7 @@ export default function Studio({
                     ))}
                 </div>
             )}
+            {section === "overview" && list}
             {section === "overview" && (
                 <div className="v5-grid two">
                     <section className="v5-card">
@@ -731,7 +732,7 @@ export default function Studio({
                     ))}
                 </section>
             ) : (
-                list
+                section !== "overview" && list
             )}
         </AppShell>
     );

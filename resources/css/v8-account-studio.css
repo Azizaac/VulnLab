@@ -1,0 +1,229 @@
+/* Compact account and editorial surfaces. Existing forms and policies remain
+   responsible for validation, saving and publication. */
+.journey-main:is(
+        [aria-label="Profil Saya"],
+        [aria-label="Pengaturan Akun"],
+        [aria-label="Admin Studio"],
+        [aria-label="Editor Studio"]
+    )
+    .v5-title {
+    margin: 8px 0 24px;
+    align-items: end;
+}
+.journey-main:is(
+        [aria-label="Profil Saya"],
+        [aria-label="Pengaturan Akun"],
+        [aria-label="Admin Studio"],
+        [aria-label="Editor Studio"]
+    )
+    .v5-title
+    h1 {
+    font-size: clamp(28px, 2.5vw, 36px);
+    line-height: 1.18;
+    letter-spacing: -0.8px;
+    margin: 7px 0;
+}
+.journey-main:is(
+        [aria-label="Profil Saya"],
+        [aria-label="Pengaturan Akun"],
+        [aria-label="Admin Studio"],
+        [aria-label="Editor Studio"]
+    )
+    .v5-card {
+    border-radius: 14px;
+    background: var(--surface);
+    border-color: var(--border);
+    padding: 20px;
+    box-shadow: none;
+}
+.journey-main:is(
+        [aria-label="Profil Saya"],
+        [aria-label="Pengaturan Akun"],
+        [aria-label="Admin Studio"],
+        [aria-label="Editor Studio"]
+    )
+    .v5-button:not(.secondary, .danger) {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 9px;
+}
+[data-theme="dark"]
+    .journey-main:is(
+        [aria-label="Profil Saya"],
+        [aria-label="Pengaturan Akun"],
+        [aria-label="Admin Studio"],
+        [aria-label="Editor Studio"]
+    )
+    .v5-button:not(.secondary, .danger) {
+    color: #071423;
+}
+.journey-main[aria-label="Profil Saya"] .v5-profile-hero {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0;
+    overflow: visible;
+}
+.journey-main[aria-label="Profil Saya"] .v5-profile-hero::after {
+    display: none;
+}
+.journey-main[aria-label="Profil Saya"] .v8-profile-banner {
+    height: 124px;
+    border-radius: 14px;
+    background: linear-gradient(110deg, #bcd7fb, #e7effb);
+}
+[data-theme="dark"] .journey-main[aria-label="Profil Saya"] .v8-profile-banner {
+    background: linear-gradient(110deg, #10335b, #1a304a);
+}
+.journey-main[aria-label="Profil Saya"] .v5-profile-identity {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0;
+    padding: 0 24px;
+    margin: -30px 0 14px;
+    position: relative;
+}
+.journey-main[aria-label="Profil Saya"] .v5-profile-identity > div {
+    padding-top: 8px;
+}
+.journey-main[aria-label="Profil Saya"] .v5-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 18px;
+    border: 4px solid var(--page);
+}
+.journey-main[aria-label="Profil Saya"] .v5-profile-identity h2 {
+    font-size: 22px;
+}
+.journey-main[aria-label="Profil Saya"] .v5-hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-block: 1px solid var(--border);
+    margin: 24px 0;
+    padding: 16px 0;
+    gap: 0;
+}
+.journey-main[aria-label="Profil Saya"] .v5-hero-stats > div {
+    padding: 0 20px;
+    border-right: 1px solid var(--border);
+}
+.journey-main[aria-label="Profil Saya"] .v5-hero-stats > div:first-child {
+    padding-left: 6px;
+}
+.journey-main[aria-label="Profil Saya"] .v5-hero-stats > div:last-child {
+    border: 0;
+}
+.journey-main[aria-label="Profil Saya"] .v5-profile-hero > p {
+    color: var(--muted);
+    margin: 0 24px;
+}
+.journey-main[aria-label="Profil Saya"] .v5-hero-stats strong {
+    font-size: 21px;
+}
+.journey-main[aria-label="Profil Saya"] .v8-profile-more {
+    margin: 12px 0;
+}
+.journey-main[aria-label="Profil Saya"] .v8-profile-more > summary {
+    color: var(--primary);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 650;
+    padding: 8px 0;
+}
+.journey-main[aria-label="Pengaturan Akun"] .v5-settings {
+    grid-template-columns: 230px minmax(0, 780px);
+    gap: 18px;
+    align-items: start;
+}
+.journey-main[aria-label="Pengaturan Akun"] .v5-settings-nav {
+    top: 80px;
+    padding: 8px;
+}
+.journey-main[aria-label="Pengaturan Akun"] .v5-settings-nav a {
+    padding: 11px 12px;
+    min-height: 44px;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-tabs {
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+    padding: 0 0 8px;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-tabs
+    a {
+    padding: 10px 12px;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-grid.four {
+    gap: 0;
+    border-block: 1px solid var(--border);
+    padding: 16px 0;
+    margin-bottom: 24px;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-stat {
+    gap: 5px;
+    border: 0;
+    border-right: 1px solid var(--border);
+    border-radius: 0;
+    background: transparent;
+    padding: 0 20px;
+    flex-direction: column-reverse;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-stat:first-child {
+    padding-left: 6px;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-stat:last-child {
+    border-right: 0;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-stat
+    .v5-pill {
+    display: none;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-stat
+    > strong {
+    font-size: 26px;
+}
+.journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+    .v5-editor-grid {
+    gap: 16px;
+}
+@media (max-width: 767px) {
+    .journey-main:is(
+            [aria-label="Profil Saya"],
+            [aria-label="Pengaturan Akun"],
+            [aria-label="Admin Studio"],
+            [aria-label="Editor Studio"]
+        )
+        .v5-title {
+        align-items: start;
+    }
+    .journey-main[aria-label="Pengaturan Akun"] .v5-settings {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .journey-main[aria-label="Pengaturan Akun"] .v5-settings-nav {
+        position: static;
+        flex-direction: row;
+        overflow-x: auto;
+        gap: 4px;
+    }
+    .journey-main[aria-label="Pengaturan Akun"] .v5-settings-nav a {
+        white-space: nowrap;
+    }
+    .journey-main[aria-label="Profil Saya"] .v5-hero-stats,
+    .journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+        .v5-grid.four {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px 0;
+    }
+    .journey-main[aria-label="Profil Saya"] .v5-hero-stats > div:nth-child(2),
+    .journey-main:is([aria-label="Admin Studio"], [aria-label="Editor Studio"])
+        .v5-stat:nth-child(2) {
+        border-right: 0;
+    }
+}

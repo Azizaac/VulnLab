@@ -7,29 +7,21 @@ import {
     ChevronDown,
     Clock3,
     List,
-    LockKeyhole,
     Map,
     Search,
 } from "lucide-react";
 import AppShell from "../components/AppShell";
-import { PathIllustration } from "../components/JourneyArt";
 import PlanForm from "../components/PlanForm";
 import TaskRow from "../components/TaskRow";
 import { Button } from "../components/ui/button";
 import type { RoadmapProps } from "../types";
+import "../../css/v8-dashboard-roadmap.css";
 export const stageNames = [
     "Dasar Keamanan Web",
     "Eksplorasi Web",
     "Advanced Topics",
     "Bug Bounty Practice",
     "Siap ke Dunia Nyata",
-];
-const positions = [
-    [7.5, 86.8],
-    [20.4, 73.6],
-    [35.4, 61.5],
-    [46.3, 47.9],
-    [57.9, 32.6],
 ];
 export default function Roadmap({
     plan,
@@ -51,7 +43,21 @@ export default function Roadmap({
         requestedDay >= 1 && requestedDay <= 90
             ? requestedDay
             : nextTask?.day || 1;
-    const [stage, setStage] = useState(Math.floor((initialDay - 1) / 18));
+    const names =
+        plan?.template_revision_id && phases.length
+            ? phases.map((p) => p.title)
+            : stageNames;
+    const initialPhase = tasks.find(
+        (task) => task.day === initialDay,
+    )?.phase_id;
+    const templateStage = phases.findIndex(
+        (phase) => phase.id === initialPhase,
+    );
+    const [stage, setStage] = useState(
+        plan?.template_revision_id && templateStage >= 0
+            ? templateStage
+            : Math.min(names.length - 1, Math.floor((initialDay - 1) / 18)),
+    );
     const [list, setList] = useState(
         !!search || !!requestedDay || !!selectedPhase,
     );
@@ -60,9 +66,7 @@ export default function Roadmap({
     const [all, setAll] = useState(!!search || !!selectedPhase);
     const nodes = useRef<(HTMLButtonElement | null)[]>([]);
     const listHeading = useRef<HTMLHeadingElement>(null);
-    const names = plan?.template_revision_id
-        ? phases.map((p) => p.title)
-        : stageNames;
+    const planSection = useRef<HTMLDivElement>(null);
     const inStage = (task: (typeof tasks)[number], index: number) =>
         plan?.template_revision_id
             ? task.phase_id === phases[index]?.id
@@ -119,6 +123,10 @@ export default function Roadmap({
         setCategory("Semua");
         requestAnimationFrame(() => listHeading.current?.focus());
     }
+    function showPlan() {
+        planSection.current?.scrollIntoView({ block: "start" });
+        planSection.current?.querySelector("summary")?.focus();
+    }
     function keyNode(event: KeyboardEvent<HTMLButtonElement>, index: number) {
         let next = index;
         if (event.key === "ArrowRight" || event.key === "ArrowDown")
@@ -141,145 +149,180 @@ export default function Roadmap({
                     dan progresmu tetap memakai versi yang kamu mulai.
                 </p>
             )}
-            <section
-                className="journey-map"
-                aria-label="Peta perjalanan lima tahap"
-            >
-                <PathIllustration />
-                <div className="map-heading">
+            <div className="v8-roadmap">
+                <div className="v8-roadmap-heading">
                     <div>
+                        <span className="v8-kicker">RENCANA BELAJAR</span>
                         <h1>Roadmap 90 Hari</h1>
-                        <p>Dari dasar hingga siap berburu bug bounty.</p>
+                        <p>
+                            Tahu posisi belajar sekarang, tujuan berikutnya, dan
+                            bukti progresmu.
+                        </p>
                     </div>
-                    <span className="map-duration">
-                        <Clock3 size={16} />
-                        90 Hari
+                    <span className="v8-roadmap-duration">
+                        <Clock3 size={16} /> 90 Hari
                     </span>
                 </div>
-                <div
-                    className="stage-nodes"
-                    role="group"
-                    aria-label="Pilih tahap perjalanan"
-                >
-                    {stages.map((item, index) => (
-                        <button
-                            key={item.title}
-                            ref={(node) => {
-                                nodes.current[index] = node;
-                            }}
-                            onKeyDown={(event) => keyNode(event, index)}
-                            onClick={() => {
-                                setStage(index);
-                                setAll(false);
-                            }}
-                            className={`stage-node stage-${index + 1} ${stage === index ? "chosen" : ""}`}
-                            style={{
-                                left: `${stages.length === 5 ? positions[index][0] : 10 + (index * 75) / Math.max(1, stages.length - 1)}%`,
-                                top: `${stages.length === 5 ? positions[index][1] : 85 - (index * 65) / Math.max(1, stages.length - 1)}%`,
-                            }}
-                            aria-pressed={stage === index}
-                            aria-label={`Tahap ${index + 1}: ${item.title}, ${item.status}, ${item.percent}%`}
-                        >
-                            <span className="node-ring">
-                                {item.status === "Selesai" ? (
-                                    <Check size={24} />
-                                ) : (
-                                    index + 1
-                                )}
-                            </span>
-                            <span className="node-label">
-                                <strong>{item.title}</strong>
-                                <small>
-                                    Hari {index * 18 + 1}–{(index + 1) * 18} ·{" "}
-                                    {item.status}
-                                </small>
-                            </span>
-                        </button>
-                    ))}
+                <div className="v8-roadmap-art" aria-hidden="true">
+                    <svg viewBox="0 0 1200 180" preserveAspectRatio="none">
+                        <rect width="1200" height="180" fill="#102b4c" />
+                        <path
+                            d="M0 180 130 65l110 81 124-110 137 114 146-79 110 79 139-125 156 137 148-107v125H0Z"
+                            fill="#24548c"
+                        />
+                        <path
+                            d="M0 180 130 109l110 50 124-80 137 101 146-70 110 70 139-100 156 100 148-83v83H0Z"
+                            fill="#0c2541"
+                        />
+                        <path
+                            d="M90 160C330 122 420 178 620 150S900 108 1060 30"
+                            fill="none"
+                            stroke="#74aaff"
+                            strokeWidth="3"
+                            strokeDasharray="7 9"
+                        />
+                        <circle cx="1060" cy="30" r="6" fill="#c8ddff" />
+                    </svg>
                 </div>
-                <aside
-                    className="stage-detail"
-                    aria-labelledby="stage-detail-title"
-                >
-                    <div className="detail-kicker">
-                        <h2 id="stage-detail-title">Detail Tahap</h2>
-                        <span>{stage + 1} / 5</span>
-                    </div>
-                    <div className="detail-title">
-                        <span className={`detail-number stage-color-${stage}`}>
-                            {stage + 1}
-                        </span>
-                        <div>
-                            <h3>{selected.title}</h3>
-                            <p>
-                                Hari {stage * 18 + 1}–{(stage + 1) * 18}
-                            </p>
+                <div className="v8-roadmap-layout">
+                    <section
+                        className="v8-roadmap-timeline"
+                        aria-label="Peta perjalanan lima tahap"
+                    >
+                        <div className="v8-section-heading">
+                            <div>
+                                <h2>Jalur belajar</h2>
+                                <p>
+                                    Pilih tahapan untuk melihat materi dan
+                                    aktivitasnya.
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                    <p className="stage-description">
-                        {selected.items[0]?.objective ||
-                            "Buat rencana pribadi untuk melihat aktivitas dan tanggal pada tahap ini."}
-                    </p>
-                    <div className="stage-progress">
-                        <span>
-                            {selected.done} / {selected.items.length} checklist
-                            direview
-                        </span>
-                        <strong>{selected.percent}%</strong>
-                    </div>
-                    <div className="stage-meter">
-                        <span style={{ width: `${selected.percent}%` }} />
-                    </div>
-                    <ul className="stage-goals">
-                        {selected.items
-                            .filter((task) => task.minutes === 20)
-                            .slice(0, 4)
-                            .map((task) => (
-                                <li key={task.id}>
-                                    {task.status === "completed" ? (
-                                        <Check size={16} />
-                                    ) : task.status === "locked" ? (
-                                        <LockKeyhole size={15} />
-                                    ) : (
-                                        <span className="goal-circle" />
-                                    )}
-                                    <span>{task.title}</span>
-                                </li>
+                        <div
+                            className="v8-stages"
+                            role="group"
+                            aria-label="Pilih tahap perjalanan"
+                        >
+                            {stages.map((item, index) => (
+                                <button
+                                    key={item.title}
+                                    ref={(node) => {
+                                        nodes.current[index] = node;
+                                    }}
+                                    onKeyDown={(event) => keyNode(event, index)}
+                                    onClick={() => {
+                                        setStage(index);
+                                        setAll(false);
+                                    }}
+                                    className={`v8-stage ${stage === index ? "chosen" : ""}`}
+                                    aria-pressed={stage === index}
+                                    aria-label={`Tahap ${index + 1}: ${item.title}, ${item.status}, ${item.percent}%`}
+                                >
+                                    <span className="v8-stage-dot">
+                                        {item.status === "Selesai" ? (
+                                            <Check size={14} />
+                                        ) : (
+                                            index + 1
+                                        )}
+                                    </span>
+                                    <strong>{item.title}</strong>
+                                    <small>
+                                        {item.items.length
+                                            ? `Hari ${item.items[0].day}–${item.items[item.items.length - 1].day}`
+                                            : "Belum ada rencana"}
+                                    </small>
+                                    <small>{item.status}</small>
+                                </button>
                             ))}
-                    </ul>
-                    <Button onClick={showList}>
-                        {plan
-                            ? "Lihat Aktivitas di Tahap Ini"
-                            : "Buat Rencana Belajar"}
-                        <ArrowRight size={16} />
-                    </Button>
-                    <p className="detail-note">
-                        20 menit teori · 70 praktik · 30 refleksi
-                    </p>
-                </aside>
-                <div className="map-bottom">
+                        </div>
+                        <div className="v8-roadmap-progress">
+                            <span className="v8-kicker">
+                                PENCAPAIAN ROADMAP
+                            </span>
+                            <strong>
+                                {stats.completed} dari {stats.total} tugas
+                                selesai
+                            </strong>
+                            <p>
+                                {plan
+                                    ? `${stats.days_completed} dari 90 hari selesai`
+                                    : "Rencana belum dibuat"}{" "}
+                                · checklist mandiri tidak memberikan XP.
+                            </p>
+                            <div
+                                className="v8-progress-track"
+                                role="progressbar"
+                                aria-label="Progres checklist roadmap"
+                                aria-valuenow={stats.percent}
+                                aria-valuemin={0}
+                                aria-valuemax={100}
+                            >
+                                <span style={{ width: `${stats.percent}%` }} />
+                            </div>
+                        </div>
+                    </section>
+                    <aside
+                        className="v8-stage-detail"
+                        aria-labelledby="stage-detail-title"
+                    >
+                        <span className="v8-kicker">
+                            TAHAP {stage + 1} / {stages.length}
+                        </span>
+                        <h2 id="stage-detail-title" className="detail-title">
+                            {selected.title}
+                        </h2>
+                        <p>
+                            {selected.items[0]?.objective ||
+                                "Buat rencana pribadi untuk melihat aktivitas pada tahap ini."}
+                        </p>
+                        <p>
+                            <strong>
+                                {selected.done} / {selected.items.length}
+                            </strong>{" "}
+                            checklist direview · {selected.percent}%
+                        </p>
+                        <h3>Aktivitas prioritas</h3>
+                        <ul>
+                            {selected.items
+                                .filter((task) => task.status !== "completed")
+                                .slice(0, 4)
+                                .map((task) => (
+                                    <li key={task.id}>
+                                        <span>{task.title}</span>
+                                        <small>{task.minutes} menit</small>
+                                    </li>
+                                ))}
+                        </ul>
+                        {selected.status === "Terkunci" && plan && (
+                            <p>
+                                Aktivitas terkunci sampai prasyaratnya selesai.
+                                Kamu tetap dapat melihat detailnya.
+                            </p>
+                        )}
+                        <Button onClick={plan ? showList : showPlan}>
+                            {plan
+                                ? "Lihat Aktivitas di Tahap Ini"
+                                : "Buat Rencana Belajar"}
+                            <ArrowRight size={16} />
+                        </Button>
+                    </aside>
+                </div>
+                <div className="v8-roadmap-list-toggle">
                     <button
                         onClick={() => {
                             setList(!list);
                             setAll(true);
                         }}
                         aria-expanded={list}
-                        className="map-list-button"
                     >
                         <List size={17} />
                         {list ? "Tutup daftar" : "Daftar aksesibel"}
                     </button>
-                    <p>
-                        {stats.days_completed} / {plan ? 90 : 0} hari selesai ·{" "}
-                        {stats.percent}% checklist
-                    </p>
                 </div>
-            </section>
+            </div>
             <div className="roadmap-controls">
                 <p>
-                    <strong>
-                        {stats.completed} dari {stats.total} tugas selesai
-                    </strong>
+                    <strong>Aktivitas roadmap</strong>
                     <span>
                         Progres disimpan di akunmu. Checklist mandiri tidak
                         memberikan XP.
@@ -298,7 +341,9 @@ export default function Roadmap({
                     Lihat seluruh 90 hari <ArrowDown size={16} />
                 </button>
             </div>
-            <PlanForm plan={plan} today={today} />
+            <div ref={planSection}>
+                <PlanForm plan={plan} today={today} />
+            </div>
             {list && (
                 <section
                     className="activities-section"

@@ -146,10 +146,11 @@ export default function AppShell({
                             onOpenChange={setSearchOpen}
                         >
                             <Dialog.Trigger
-                                className="icon-button"
+                                className="icon-button v8-search-trigger"
                                 aria-label="Buka pencarian"
                             >
                                 <Search size={20} />
+                                <span>Cari aktivitas</span>
                             </Dialog.Trigger>
                             <Dialog.Portal>
                                 <Dialog.Overlay className="drawer-overlay" />
@@ -203,6 +204,13 @@ export default function AppShell({
                             preference={auth.user.theme}
                             accountId={auth.user.id}
                         />
+                        <Link
+                            href="/settings/general"
+                            className="icon-button v8-settings-link"
+                            aria-label="Buka pengaturan"
+                        >
+                            <Settings size={19} />
+                        </Link>
                         <button
                             className="avatar account-trigger"
                             aria-label="Buka menu akun"

@@ -83,11 +83,11 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
     await page.goto("/dashboard");
     await expect(
         page
-            .locator(".dashboard-learning")
-            .filter({ hasText: "lesson selesai" }),
-    ).toContainText("1 / 25 lesson selesai");
+            .getByRole("region", { name: "Ringkasan belajar" })
+            .getByRole("link", { name: "1 Materi selesai" }),
+    ).toBeVisible();
     await expect(
-        page.getByRole("link", { name: "Lanjutkan lesson" }),
+        page.locator(".v8-resume-box").getByRole("link", { name: "Lanjutkan" }),
     ).toHaveAttribute("href", "/learning/http-methods");
     await page.goto("/learning/sql-injection");
     await page.getByRole("tab", { name: "Contoh Kode" }).click();
@@ -203,7 +203,7 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
             .getByLabel("Isi catatan Markdown")
             .fill("Offline draft remains available");
         await expect(
-            page.locator(".save-feedback").getByRole("status"),
+            page.getByRole("status").filter({ hasText: "Belum tersimpan" }),
         ).toContainText("Belum tersimpan");
         await expect(page.getByLabel("Isi catatan Markdown")).toHaveValue(
             "Offline draft remains available",
@@ -265,7 +265,7 @@ test("learning, server quiz, autosave, private markdown workspace and visual mat
         .getByLabel("Isi catatan Markdown")
         .fill("Perubahan lokal tetap aman");
     await expect(
-        page.locator(".save-feedback").getByRole("status"),
+        page.getByRole("status").filter({ hasText: "Konflik versi" }),
     ).toContainText("Konflik versi");
     await expect(page.getByLabel("Isi catatan Markdown")).toHaveValue(
         "Perubahan lokal tetap aman",

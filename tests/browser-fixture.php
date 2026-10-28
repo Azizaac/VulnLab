@@ -11,7 +11,13 @@ require __DIR__.'/../vendor/autoload.php';
 $app = require __DIR__.'/../bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
 $database = config('database.connections.sqlite.database');
-if (PHP_SAPI !== 'cli' || ! app()->environment('testing') || config('database.default') !== 'sqlite' || realpath($database) !== realpath(base_path('database/e2e.sqlite'))) {
+$actual = realpath($database);
+$explicit = getenv('E2E_DB_DATABASE');
+$temp = realpath(sys_get_temp_dir());
+$isTemporaryFixture = $explicit && $actual && $temp && realpath($explicit) === $actual
+    && str_starts_with(strtolower($actual), strtolower(rtrim($temp, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR));
+$isLegacyFixture = $actual && $actual === realpath(base_path('database/e2e.sqlite'));
+if (PHP_SAPI !== 'cli' || ! app()->environment('testing') || config('database.default') !== 'sqlite' || (! $isTemporaryFixture && ! $isLegacyFixture)) {
     throw new RuntimeException('Browser fixtures require the dedicated local E2E SQLite database.');
 }
 $email = getenv('VULNLAB_TEST_EMAIL');

@@ -14,6 +14,7 @@ import {
 import AppShell from "../components/AppShell";
 import { EmptyState } from "../feedback";
 import { calendarDate, type ProgressData } from "../progress";
+import "../../css/v8-workspaces.css";
 
 function JourneyArt() {
     return (
@@ -66,65 +67,68 @@ function JourneyArt() {
 
 export function ProgressSummary({
     summary,
+    streak,
 }: {
     summary: ProgressData["summary"];
+    streak: ProgressData["streak"];
 }) {
     return (
-        <section
-            aria-label="Ringkasan progres sepanjang waktu"
-            className="s4-summary"
-        >
-            <div>
-                <span>Roadmap ditinjau</span>
-                <strong>
-                    {summary.roadmap_completed}
-                    <small> / {summary.roadmap_total}</small>
-                </strong>
-            </div>
-            <div>
-                <span>Modul selesai</span>
-                <strong>
-                    {summary.modules_completed}
-                    <small> / {summary.modules_total}</small>
-                </strong>
-            </div>
-            <div>
-                <span>Kuis lulus</span>
-                <strong>
-                    {summary.quizzes_passed}
-                    <small> / {summary.quizzes_total}</small>
-                </strong>
-            </div>
-            <div>
-                <span>Lab terverifikasi</span>
-                <strong>
-                    {summary.labs_solved}
-                    <small> / {summary.labs_total}</small>
-                </strong>
-            </div>
-            <div>
-                <span>Menit terverifikasi</span>
-                <strong className="s4-summary-text">
-                    {summary.verified_minutes === null
-                        ? "Belum dilacak"
-                        : summary.verified_minutes}
-                </strong>
-            </div>
-            <div className="s4-level">
+        <>
+            <section
+                aria-label="Ringkasan progres sepanjang waktu"
+                className="s4-summary"
+            >
+                <div>
+                    <span>Materi selesai</span>
+                    <strong>
+                        {summary.lessons_completed}
+                        <small> / {summary.lessons_total}</small>
+                    </strong>
+                </div>
+                <div>
+                    <span>Lab terverifikasi</span>
+                    <strong>
+                        {summary.labs_solved}
+                        <small> / {summary.labs_total}</small>
+                    </strong>
+                </div>
+                <div>
+                    <span>Reward tervalidasi</span>
+                    <strong>{summary.total_xp} XP</strong>
+                </div>
+                <div>
+                    <span>Streak aktivitas</span>
+                    <strong>{streak.current} hari</strong>
+                </div>
+            </section>
+            <div
+                className="s4-level v8-level"
+                aria-label="Level dan progres XP"
+            >
                 <span>
                     Level {summary.level} · {summary.total_xp} XP
                 </span>
-                <strong>
-                    {summary.next_level_xp - summary.total_xp}
-                    <small> XP ke level berikutnya</small>
-                </strong>
+                <span>
+                    {summary.next_level_xp - summary.total_xp} XP ke level
+                    berikutnya
+                </span>
                 <progress
                     max="100"
                     value={summary.level_progress_percent}
                     aria-label="Progres menuju level berikutnya"
                 />
             </div>
-        </section>
+            <details className="v8-progress-detail">
+                <summary>Rincian pengukuran belajar</summary>
+                <p>
+                    Checklist roadmap: {summary.roadmap_completed}/
+                    {summary.roadmap_total} · Modul: {summary.modules_completed}
+                    /{summary.modules_total} · Kuis: {summary.quizzes_passed}/
+                    {summary.quizzes_total} · Menit terverifikasi:{" "}
+                    {summary.verified_minutes ?? "Belum dilacak"}
+                </p>
+            </details>
+        </>
     );
 }
 
@@ -388,91 +392,97 @@ export function SkillEvidenceRadar({
     return (
         <section className="s4-panel s4-skills">
             <div className="s4-panel-heading">
-                <h2>Peta skill</h2>
+                <h2>Kompetensi berbasis bukti</h2>
                 <Sparkles size={20} />
             </div>
             <p className="s4-caption">
                 Pengetahuan 40% · praktik 60%. Bukti belajar, bukan sertifikasi
                 penguasaan.
             </p>
-            <svg
-                viewBox="0 0 340 315"
-                role="img"
-                aria-label="Radar delapan dimensi skill. Skor dan sumber bukti dijelaskan di bawah."
-                className="s4-radar"
-            >
-                {[0.25, 0.5, 0.75, 1]
-                    .map((f) => (
-                        <polygon
-                            key={f}
-                            points={skills
-                                .map((_, i) => point(i, 101 * f).join(","))
-                                .join(" ")}
-                            fill={f === 1 ? "var(--surface-alt)" : "none"}
-                            stroke="var(--border)"
-                        />
-                    ))
-                    .reverse()}
-                {skills.map((skill, i) => (
-                    <g key={skill.key}>
-                        <line
-                            x1="170"
-                            y1="155"
-                            x2={point(i, 101)[0]}
-                            y2={point(i, 101)[1]}
-                            stroke="var(--border)"
-                        />
-                        <text
-                            x={point(i, 130)[0]}
-                            y={point(i, 130)[1]}
-                            textAnchor={
-                                i === 0 || i === 4
-                                    ? "middle"
-                                    : i < 4
-                                      ? "start"
-                                      : "end"
-                            }
-                            dominantBaseline="middle"
-                        >
-                            {skill.label.length > 16
-                                ? skill.label.split(" ").map((word, j) => (
-                                      <tspan
-                                          key={`${word}${j}`}
-                                          x={point(i, 130)[0]}
-                                          dy={j ? 12 : -5}
-                                      >
-                                          {word}
-                                      </tspan>
-                                  ))
-                                : skill.label}
-                        </text>
-                    </g>
-                ))}
-                <polygon
-                    points={skills
-                        .map((skill, i) =>
-                            point(
-                                i,
-                                (Math.max(0, Math.min(100, skill.score || 0)) /
-                                    100) *
-                                    101,
-                            ).join(","),
-                        )
-                        .join(" ")}
-                    fill="#0879ee22"
-                    stroke="#0879ee"
-                    strokeWidth="2"
-                />
-                {skills.map((skill, i) => (
-                    <circle
-                        key={skill.key}
-                        cx={point(i, ((skill.score || 0) / 100) * 101)[0]}
-                        cy={point(i, ((skill.score || 0) / 100) * 101)[1]}
-                        r="3"
-                        fill="#0879ee"
+            <details className="v8-radar-detail">
+                <summary>Lihat radar kemampuan</summary>
+                <svg
+                    viewBox="0 0 340 315"
+                    role="img"
+                    aria-label="Radar delapan dimensi skill. Skor dan sumber bukti dijelaskan di bawah."
+                    className="s4-radar"
+                >
+                    {[0.25, 0.5, 0.75, 1]
+                        .map((f) => (
+                            <polygon
+                                key={f}
+                                points={skills
+                                    .map((_, i) => point(i, 101 * f).join(","))
+                                    .join(" ")}
+                                fill={f === 1 ? "var(--surface-alt)" : "none"}
+                                stroke="var(--border)"
+                            />
+                        ))
+                        .reverse()}
+                    {skills.map((skill, i) => (
+                        <g key={skill.key}>
+                            <line
+                                x1="170"
+                                y1="155"
+                                x2={point(i, 101)[0]}
+                                y2={point(i, 101)[1]}
+                                stroke="var(--border)"
+                            />
+                            <text
+                                x={point(i, 130)[0]}
+                                y={point(i, 130)[1]}
+                                textAnchor={
+                                    i === 0 || i === 4
+                                        ? "middle"
+                                        : i < 4
+                                          ? "start"
+                                          : "end"
+                                }
+                                dominantBaseline="middle"
+                            >
+                                {skill.label.length > 16
+                                    ? skill.label.split(" ").map((word, j) => (
+                                          <tspan
+                                              key={`${word}${j}`}
+                                              x={point(i, 130)[0]}
+                                              dy={j ? 12 : -5}
+                                          >
+                                              {word}
+                                          </tspan>
+                                      ))
+                                    : skill.label}
+                            </text>
+                        </g>
+                    ))}
+                    <polygon
+                        points={skills
+                            .map((skill, i) =>
+                                point(
+                                    i,
+                                    (Math.max(
+                                        0,
+                                        Math.min(100, skill.score || 0),
+                                    ) /
+                                        100) *
+                                        101,
+                                ).join(","),
+                            )
+                            .join(" ")}
+                        fill="#0879ee22"
+                        stroke="#0879ee"
+                        strokeWidth="2"
                     />
-                ))}
-            </svg>
+                    {skills.map((skill, i) => (
+                        <circle
+                            key={skill.key}
+                            cx={point(i, ((skill.score || 0) / 100) * 101)[0]}
+                            cy={point(i, ((skill.score || 0) / 100) * 101)[1]}
+                            r="3"
+                            fill="#0879ee"
+                        />
+                    ))}
+                </svg>
+            </details>
             <div className="s4-skill-evidence">
                 {skills.map((skill) => (
                     <details key={skill.key}>
@@ -483,6 +493,13 @@ export function SkillEvidenceRadar({
                                     ? "Belum dinilai"
                                     : `${skill.score}/100`}
                             </strong>
+                            {skill.score !== null && (
+                                <progress
+                                    value={skill.score}
+                                    max="100"
+                                    aria-label={`Bukti ${skill.label}: ${skill.score} dari 100`}
+                                />
+                            )}
                         </summary>
                         <p>{skill.explanation}</p>
                         <dl>
@@ -563,14 +580,17 @@ export default function Progress({ progress }: { progress: ProgressData }) {
     return (
         <AppShell title="Progres belajar">
             <Head title="Progres" />
-            <div className="s4-page s4-progress-page" aria-busy={loading}>
+            <div
+                className="s4-page s4-progress-page v8-workspace v8-progress"
+                aria-busy={loading}
+            >
                 <header className="s4-page-heading">
                     <div>
-                        <span className="eyebrow">JEJAK BELAJAR NYATA</span>
-                        <h1>Perkembangan Belajarmu</h1>
+                        <span className="eyebrow">LEARNING ANALYTICS</span>
+                        <h1>Progres yang punya makna.</h1>
                         <p>
-                            Setiap langkah kecil membawa dampak besar. Terus
-                            konsisten!
+                            Pisahkan aktivitas yang dilakukan dari kemampuan
+                            yang dibuktikan.
                         </p>
                     </div>
                     <label className="s4-period-filter">
@@ -601,7 +621,10 @@ export default function Progress({ progress }: { progress: ProgressData }) {
                     Ringkasan sepanjang waktu · grafik mengikuti periode yang
                     dipilih
                 </div>
-                <ProgressSummary summary={progress.summary} />
+                <ProgressSummary
+                    summary={progress.summary}
+                    streak={progress.streak}
+                />
                 {!progress.has_activity && (
                     <EmptyState title="Belum ada aktivitas belajar.">
                         <p>Mulai dari satu materi atau kuis pertamamu.</p>
@@ -611,6 +634,11 @@ export default function Progress({ progress }: { progress: ProgressData }) {
                         </Link>
                     </EmptyState>
                 )}
+                <div className="s4-progress-charts">
+                    <LearningActivityChart activity={progress.activity} />
+                    <SkillEvidenceRadar skills={progress.skills} />
+                </div>
+                <AchievementGrid achievements={progress.achievements} />
                 <div className="s4-progress-top">
                     <LearningStreakCalendar
                         streak={progress.streak}
@@ -644,17 +672,32 @@ export default function Progress({ progress }: { progress: ProgressData }) {
                         </div>
                     </section>
                 </div>
-                <div className="s4-progress-charts">
-                    <SkillEvidenceRadar skills={progress.skills} />
-                    <LearningActivityChart activity={progress.activity} />
-                </div>
-                <AchievementGrid achievements={progress.achievements} />
                 <details className="s4-methodology">
                     <summary>
                         <Info size={16} />
                         Bagaimana angka ini dihitung?
                     </summary>
                     <ul>
+                        <li>
+                            Roadmap ditinjau:{" "}
+                            {progress.summary.roadmap_completed} /{" "}
+                            {progress.summary.roadmap_total} aktivitas.
+                        </li>
+                        <li>
+                            Modul selesai: {progress.summary.modules_completed}{" "}
+                            / {progress.summary.modules_total}; kuis lulus:{" "}
+                            {progress.summary.quizzes_passed} /{" "}
+                            {progress.summary.quizzes_total}.
+                        </li>
+                        <li>
+                            Menit terverifikasi:{" "}
+                            {progress.summary.verified_minutes ??
+                                "Belum dilacak"}
+                            . Level {progress.summary.level};{" "}
+                            {progress.summary.next_level_xp -
+                                progress.summary.total_xp}{" "}
+                            XP menuju level berikutnya.
+                        </li>
                         {progress.methodology.map((line) => (
                             <li key={line}>{line}</li>
                         ))}

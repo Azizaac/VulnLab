@@ -12,6 +12,7 @@ import {
     Copy,
 } from "lucide-react";
 import AppShell from "../components/AppShell";
+import "../../css/v8-learning-labs.css";
 import SafeMarkdown from "../components/SafeMarkdown";
 import {
     QuizResultPanel,
@@ -283,7 +284,7 @@ function Reader({
     return (
         <AppShell title={lesson.title}>
             <Head title={lesson.title} />
-            <div className="reader-layout">
+            <div className="reader-layout v8-lesson-reader">
                 <aside
                     className="reader-outline desktop-rail"
                     aria-label="Daftar lesson"
@@ -308,7 +309,9 @@ function Reader({
                     </div>
                     <div className="lesson-facts">
                         <span>{lesson.minutes} menit</span>
-                        <span className="learning-badge">Pemula</span>
+                        <span className="learning-badge">
+                            {course.difficulty}
+                        </span>
                         <span>
                             {current.completed
                                 ? "Bacaan & kuis selesai"

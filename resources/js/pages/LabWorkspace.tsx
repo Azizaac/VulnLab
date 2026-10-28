@@ -14,6 +14,7 @@ import {
     Clock3,
 } from "lucide-react";
 import AppShell from "../components/AppShell";
+import "../../css/v8-learning-labs.css";
 import SafeMarkdown from "../components/SafeMarkdown";
 import CodePanel from "../components/CodePanel";
 import { LabCompletionDialog, normalizeLaravelError } from "../feedback";
@@ -594,7 +595,7 @@ function Workspace({
                 ))}
             </nav>
             <div
-                className={`lab-layout lab-panel-${mobilePanel.toLowerCase()}`}
+                className={`lab-layout v8-lab-workspace lab-panel-${mobilePanel.toLowerCase()}`}
             >
                 <section className="lab-challenge" aria-label="Instruksi lab">
                     <div className="lab-section-tabs">

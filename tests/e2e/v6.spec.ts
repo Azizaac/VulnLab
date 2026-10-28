@@ -13,7 +13,8 @@ const dbEnv = {
     ...process.env,
     APP_ENV: "testing",
     DB_CONNECTION: "sqlite",
-    DB_DATABASE: `${process.cwd()}/database/e2e.sqlite`,
+    DB_DATABASE:
+        process.env.E2E_DB_DATABASE || `${process.cwd()}/database/e2e.sqlite`,
     SESSION_DRIVER: "database",
     APP_KEY: "base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
 };
@@ -344,7 +345,7 @@ test("Sprint 6: actual Chromium tab zoom at 200 percent", async ({
             }
         }
         fs.writeFileSync(
-            "docs/qa/zoom-results.json",
+            process.env.QA_ZOOM_RESULTS || "docs/qa/zoom-results.json",
             JSON.stringify(
                 {
                     checked_at: new Date().toISOString(),

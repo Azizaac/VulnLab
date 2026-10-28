@@ -17,7 +17,9 @@ test("V5 Quiz Builder: choice radio, localized validation, autosave and key-free
         ...process.env,
         APP_ENV: "testing",
         DB_CONNECTION: "sqlite",
-        DB_DATABASE: `${process.cwd()}/database/e2e.sqlite`,
+        DB_DATABASE:
+            process.env.E2E_DB_DATABASE ||
+            `${process.cwd()}/database/e2e.sqlite`,
         SESSION_DRIVER: "database",
         APP_KEY: "base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
         VULNLAB_TEST_EMAIL: email,
@@ -124,7 +126,9 @@ test("V5 Quiz Builder: choice radio, localized validation, autosave and key-free
             () => document.documentElement.scrollWidth <= window.innerWidth,
         ),
     ).toBe(true);
-    fs.mkdirSync(`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5`, { recursive: true });
+    fs.mkdirSync(`${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5`, {
+        recursive: true,
+    });
     await page.screenshot({
         path: `${process.env.QA_SCREENSHOT_ROOT || "docs/screenshots"}/v5/quiz-builder-${info.project.name}-light.png`,
         fullPage: true,

@@ -55,7 +55,7 @@ test('v4 visual matrix, themes, keyboard stage navigation and account persistenc
  expect(errors).toEqual([]);
 });
 async function exerciseChecklist(page:Page,email:string){
- await page.getByRole('link',{name:'Mulai Roadmap'}).click();
+ await page.getByRole('link',{name:'Lihat Roadmap'}).click();
  await page.getByRole('button',{name:'Lihat Aktivitas di Tahap Ini'}).click();
  const task=page.locator('.task-row').first();
  await task.getByText('Lihat instruksi & prasyarat').click();

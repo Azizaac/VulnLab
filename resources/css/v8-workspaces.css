@@ -1,0 +1,393 @@
+/* Learning workspaces use the shared theme and retain their server-backed controls. */
+.v8-progress .v8-level {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    margin: -12px 0 24px;
+    color: var(--muted);
+    font-size: 12px;
+}
+.v8-progress .v8-level progress {
+    width: 140px;
+    max-width: 100%;
+    accent-color: var(--primary);
+}
+.v8-progress .v8-progress-detail {
+    margin: -12px 0 24px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+.v8-progress .v8-progress-detail summary {
+    color: var(--primary);
+    font-weight: 600;
+}
+.v8-progress .v8-progress-detail p {
+    margin-top: 8px;
+}
+.v8-workspace {
+    max-width: 1280px;
+    min-width: 0;
+    margin-inline: auto;
+}
+.v8-workspace .s4-page-heading,
+.v8-workspace .notes-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 20px;
+    margin: 0 0 22px;
+}
+.v8-workspace .s4-page-heading h1,
+.v8-workspace .notes-heading h1 {
+    margin: 5px 0 4px;
+    font-size: clamp(26px, 2.5vw, 32px);
+    line-height: 1.2;
+    letter-spacing: -1px;
+    font-weight: 750;
+}
+.v8-workspace .s4-page-heading p,
+.v8-workspace .notes-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+.v8-workspace .eyebrow {
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    font-weight: 750;
+}
+.v8-progress .s4-summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    padding: 16px 0;
+    margin-bottom: 24px;
+}
+.v8-progress .s4-summary > div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 5px;
+    padding: 0 20px;
+}
+.v8-progress .s4-summary > div:first-child {
+    padding-left: 6px;
+}
+.v8-progress .s4-summary span {
+    font-size: 12px;
+}
+.v8-progress .s4-summary strong {
+    font-size: 24px;
+}
+.v8-progress > .feedback-state {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px 14px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.v8-progress > .feedback-state > * {
+    margin: 0;
+}
+.v8-progress .s4-progress-charts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 20px;
+}
+.v8-workspace .s4-panel {
+    box-shadow: none;
+    border-radius: 16px;
+    padding: 22px 24px;
+}
+.v8-progress .s4-progress-top {
+    margin: 24px 0;
+}
+.v8-progress .s4-journey {
+    background: var(--surface);
+}
+.v8-progress .s4-journey-art {
+    opacity: 0.28;
+}
+.v8-progress .s4-skill-evidence {
+    border: 0;
+}
+.v8-progress .s4-skill-evidence details {
+    border: 0;
+    padding: 8px 0;
+}
+.v8-progress .s4-skill-evidence summary {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 12px;
+    font-size: 13px;
+    list-style: none;
+}
+.v8-progress .s4-skill-evidence summary::before {
+    display: none;
+}
+.v8-progress .s4-skill-evidence summary::-webkit-details-marker {
+    display: none;
+}
+.v8-progress .s4-skill-evidence summary strong {
+    font-size: 12px;
+    color: var(--text);
+}
+.v8-progress .s4-skill-evidence progress {
+    grid-column: 1 / -1;
+    height: 7px;
+}
+.v8-radar-detail {
+    margin: 12px 0;
+    color: var(--primary);
+    font-size: 12px;
+}
+.v8-progress .s4-achievement-section {
+    margin: 30px 0;
+}
+.v8-progress .s4-achievements {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.v8-progress .s4-achievement {
+    padding: 14px;
+    align-items: center;
+}
+.v8-progress .s4-achievement-icon {
+    flex-basis: 34px;
+    height: 34px;
+}
+.v8-progress .s4-achievement-icon svg {
+    width: 19px;
+    height: 19px;
+}
+.v8-progress .s4-achievement h3 {
+    font-size: 13px;
+}
+.v8-progress .s4-achievement p,
+.v8-progress .s4-achievement small {
+    font-size: 12px;
+}
+
+.v8-notes .notes-workspace {
+    grid-template-columns: minmax(260px, 290px) minmax(0, 1fr);
+    min-height: 480px;
+    gap: 18px;
+}
+.v8-notes .notes-library {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px;
+}
+.v8-notes .library-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+}
+.v8-notes .note-folders {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 0 0 4px;
+    border: 0;
+    border-radius: 0;
+}
+.v8-notes .note-folders h2 {
+    display: none;
+}
+.v8-notes .note-folders button {
+    flex: 0 0 auto;
+    width: auto;
+    min-height: 36px;
+    font-size: 12px;
+}
+.v8-notes .note-list > button {
+    padding: 13px 12px;
+}
+.v8-notes .note-list strong {
+    font-size: 14px;
+}
+.v8-notes .note-list p,
+.v8-notes .note-list small,
+.v8-notes .note-count {
+    font-size: 12px;
+}
+.v8-notes .note-list > button.selected {
+    border-color: transparent;
+    background: var(--surface-alt);
+}
+.v8-notes .note-editor {
+    border-radius: 16px;
+}
+.v8-notes .editor-heading {
+    padding: 18px 20px;
+    flex-wrap: wrap;
+}
+.v8-notes .editor-heading > input {
+    font-size: 16px;
+}
+.v8-notes .note-save-status {
+    color: var(--muted);
+    font-size: 12px;
+}
+.v8-notes .note-properties {
+    padding: 12px 20px;
+    gap: 12px;
+}
+.v8-notes .note-properties label {
+    font-size: 12px;
+}
+.v8-notes .note-properties input,
+.v8-notes .note-properties select {
+    font-size: 13px;
+    min-height: 40px;
+    border-radius: 8px;
+}
+.v8-notes .editor-toolbar {
+    padding: 10px 20px;
+    font-size: 13px;
+}
+.v8-notes .editor-toolbar > span,
+.v8-notes .editor-footer {
+    font-size: 12px;
+}
+.v8-notes .markdown-editor {
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 360px;
+}
+.v8-notes .editor-welcome {
+    background: var(--surface);
+}
+
+.v8-reports .s4-practice-strip {
+    border: 0;
+    border-left: 3px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+}
+.v8-reports .s4-report-filters {
+    margin-bottom: 24px;
+}
+.v8-reports .s4-report-list {
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+}
+.v8-reports .s4-report-list-item {
+    border: 0;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    padding: 18px 20px;
+}
+.v8-reports .s4-report-list-item:last-child {
+    border-bottom: 0;
+}
+.v8-reports .s4-report-file-icon {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+}
+.v8-report-editor .s4-report-workspace {
+    grid-template-columns: minmax(0, 1fr) 250px;
+    gap: 18px;
+}
+.v8-report-editor .s4-report-main > form {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    padding: 20px 22px;
+}
+.v8-report-editor .s4-report-guidance > .s4-panel {
+    background: var(--surface);
+}
+.v8-report-editor .s4-report-body-fields {
+    grid-template-columns: 1fr;
+}
+.v8-report-editor .s4-report-body-fields > .s4-form-field {
+    grid-column: 1 / -1;
+}
+.v8-report-editor .s4-form-field > span,
+.v8-report-editor .s4-report-tips li {
+    font-size: 12px;
+}
+.v8-report-editor .s4-form-field input,
+.v8-report-editor .s4-form-field textarea {
+    font-size: 14px;
+}
+
+@media (max-width: 900px) {
+    .v8-progress .s4-achievements {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .v8-report-editor .s4-report-workspace {
+        grid-template-columns: 1fr;
+    }
+    .v8-report-editor .s4-report-guidance {
+        position: static;
+    }
+}
+@media (max-width: 700px) {
+    .v8-workspace .s4-page-heading,
+    .v8-workspace .notes-heading {
+        align-items: stretch;
+        flex-direction: column;
+    }
+    .v8-progress .s4-summary {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 0;
+    }
+    .v8-progress .s4-summary > div {
+        padding-inline: 12px;
+    }
+    .v8-progress .s4-summary > div:nth-child(2) {
+        border-right: 0;
+    }
+    .v8-progress .s4-progress-charts,
+    .v8-progress .s4-progress-top {
+        grid-template-columns: 1fr;
+    }
+    .v8-notes .notes-workspace {
+        grid-template-columns: 1fr;
+        min-height: 0;
+    }
+    .v8-notes .notes-workspace:not(.has-selection) .note-editor {
+        display: none;
+    }
+    .v8-notes .notes-workspace.has-selection .notes-library {
+        display: none;
+    }
+    .v8-notes .editor-heading .mobile-back {
+        display: flex;
+        width: 40px;
+        height: 40px;
+    }
+    .v8-notes .note-properties {
+        grid-template-columns: 1fr 1fr;
+    }
+    .v8-notes .note-save-status {
+        order: 5;
+        flex-basis: 100%;
+    }
+    .v8-progress .s4-achievements {
+        grid-template-columns: 1fr;
+    }
+    .v8-report-editor .s4-report-main > form {
+        padding: 16px;
+    }
+}
+@media (max-width: 420px) {
+    .v8-notes .note-properties {
+        grid-template-columns: 1fr;
+    }
+    .v8-workspace .s4-panel {
+        padding: 18px;
+    }
+}

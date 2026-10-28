@@ -18,6 +18,7 @@ import {
     Upload,
 } from "lucide-react";
 import AppShell from "../components/AppShell";
+import "../../css/v8-workspaces.css";
 import SafeMarkdown from "../components/SafeMarkdown";
 import ReportGuidance from "../components/ReportGuidance";
 import ReportRubric from "../components/ReportRubric";
@@ -519,20 +520,18 @@ function Editor({
                     draft.id ? draft.title || "Laporan latihan" : "Laporan Baru"
                 }
             />
-            <div className="s4-page s4-report-editor">
+            <div className="s4-page s4-report-editor v8-workspace v8-report-editor">
                 <Link href="/reports" className="s4-back-link">
                     <ArrowLeft size={17} />
                     Semua laporan
                 </Link>
                 <header className="s4-page-heading">
                     <div>
-                        <span className="eyebrow">
-                            STUDIO LAPORAN · LATIHAN INTERNAL
-                        </span>
-                        <h1>Buat Laporan Bug Bounty</h1>
+                        <span className="eyebrow">PRACTICE REPORTS</span>
+                        <h1>Tulis temuan yang mudah direproduksi.</h1>
                         <p>
-                            Susun laporan yang jelas, profesional, dan mudah
-                            dipahami.
+                            Laporan latihan, bukan submission ke program
+                            eksternal.
                         </p>
                     </div>
                     <Link
