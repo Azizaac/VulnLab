@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "../components/ui/button";
 import { focusFirstError } from "../feedback";
 import ThemeToggle from "../components/ThemeToggle";
+import "../../css/auth.css";
 
 export default function Auth({ mode }: { mode: "login" | "register" }) {
     const register = mode === "register";
@@ -33,8 +34,8 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
             <Head title={register ? "Daftar" : "Masuk"} />
             <section className="auth-story" aria-label="Tentang VulnLab">
                 <div className="brand">
-                    <span className="brand-mark">
-                        <ShieldCheck aria-hidden="true" />
+                    <span className="brand-mark" aria-hidden="true">
+                        V
                     </span>{" "}
                     VulnLab
                 </div>
@@ -106,7 +107,10 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
             <main className="auth-form-area">
                 <div className="auth-top">
                     <span className="auth-logo-mobile">
-                        <ShieldCheck aria-hidden="true" /> VulnLab
+                        <span className="auth-mini-mark" aria-hidden="true">
+                            V
+                        </span>{" "}
+                        VulnLab
                     </span>
                     <ThemeToggle />
                 </div>
@@ -150,6 +154,7 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                             : undefined
                                     }
                                     autoComplete="name"
+                                    placeholder="Nama yang ingin ditampilkan"
                                     required
                                     maxLength={80}
                                     value={form.data.name}
@@ -207,6 +212,7 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                     name="password"
                                     aria-invalid={!!form.errors.password}
                                     type={showPassword ? "text" : "password"}
+                                    placeholder="Masukkan kata sandi"
                                     autoComplete={
                                         register
                                             ? "new-password"
@@ -285,6 +291,7 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                                                     ? "text"
                                                     : "password"
                                             }
+                                            placeholder="Ketik ulang kata sandi"
                                             autoComplete="new-password"
                                             required
                                             value={
@@ -447,7 +454,14 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                         <ShieldCheck size={15} aria-hidden="true" /> Untuk
                         pembelajaran di lingkungan berizin.
                     </p>
+                    <p className="auth-editorial-note">
+                        Pelajari konsep, coba di lab lokal, dan simpan catatan
+                        untuk melanjutkan perjalananmu.
+                    </p>
                 </div>
+                <p className="auth-account-footer">
+                    VulnLab · Learn ethically. Test locally. Build securely.
+                </p>
             </main>
         </div>
     );
