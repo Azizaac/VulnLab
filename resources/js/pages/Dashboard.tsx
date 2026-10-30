@@ -3,36 +3,7 @@ import { ArrowRight, CheckCircle2, FlaskConical } from "lucide-react";
 import AppShell from "../components/AppShell";
 import type { RoadmapProps } from "../types";
 import "../../css/v8-dashboard-roadmap.css";
-
-/** Decorative artwork only: all status and navigation remains in HTML. */
-function Mountains() {
-    return (
-        <svg
-            className="v8-mountains"
-            viewBox="0 0 540 180"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-        >
-            <rect width="540" height="180" fill="#102b4c" />
-            <path
-                d="M0 168 92 86l55 52L223 38l91 104 61-56 70 55 95-98v137H0Z"
-                fill="#204d84"
-            />
-            <path
-                d="M0 180 92 121l55 36 76-82 91 94 61-48 70 49 95-86v96H0Z"
-                fill="#0d2540"
-            />
-            <path
-                d="M34 163C160 139 226 171 318 140S438 89 501 34"
-                fill="none"
-                stroke="#74aaff"
-                strokeWidth="2"
-                strokeDasharray="5 7"
-            />
-            <circle cx="501" cy="34" r="5" fill="#c8ddff" />
-        </svg>
-    );
-}
+import { HeroIllustration } from "../components/JourneyArt";
 
 export default function Dashboard({
     stats,
@@ -74,7 +45,7 @@ export default function Dashboard({
                             </div>
                         </div>
                         <div className="v8-hero-art">
-                            <Mountains />
+                            <HeroIllustration />
                         </div>
                     </section>
                     <section className="v8-today" aria-labelledby="today-title">
@@ -147,6 +118,24 @@ export default function Dashboard({
                         <span>Hari roadmap selesai</span>
                     </Link>
                 </section>
+                <nav className="recovery-shortcuts" aria-label="Akses cepat">
+                    <Link href="/roadmap">
+                        <strong>Roadmap 90 Hari</strong>
+                        <span>Jelajahi tahap & aktivitas →</span>
+                    </Link>
+                    <Link href="/learning">
+                        <strong>Modul Belajar</strong>
+                        <span>Konsep, referensi & kuis →</span>
+                    </Link>
+                    <Link href="/labs">
+                        <strong>Lab Praktik</strong>
+                        <span>Uji pemahaman di sandbox →</span>
+                    </Link>
+                    <Link href="/notes">
+                        <strong>Catatan Saya</strong>
+                        <span>Simpan hasil eksplorasi →</span>
+                    </Link>
+                </nav>
                 <div className="v8-home-content">
                     <section
                         className="v8-resume"
@@ -184,6 +173,16 @@ export default function Dashboard({
                                       ? `Hari ${nextTask.day} · ${nextTask.minutes} menit · progres tersimpan`
                                       : "Buka materi atau roadmap untuk memilih langkah belajar."}
                             </p>
+                            <div className="recovery-completion">
+                                <span>
+                                    Checklist roadmap · {stats.percent}%
+                                </span>
+                                <progress
+                                    aria-label="Checklist roadmap"
+                                    value={stats.completed}
+                                    max={Math.max(1, stats.total)}
+                                />
+                            </div>
                             <p className="resume-caption">
                                 {plan
                                     ? `${stats.completed} dari ${stats.total} checklist direview · ${stats.days_completed} dari 90 hari selesai`
@@ -222,7 +221,7 @@ export default function Dashboard({
                         </div>
                     </section>
                 </div>
-                <details className="v8-activity">
+                <details className="v8-activity" open>
                     <summary>Aktivitas terakhir</summary>
                     {activities.length ? (
                         <ol>

@@ -11,6 +11,7 @@ import {
     Search,
 } from "lucide-react";
 import AppShell from "../components/AppShell";
+import { PathIllustration } from "../components/JourneyArt";
 import PlanForm from "../components/PlanForm";
 import TaskRow from "../components/TaskRow";
 import { Button } from "../components/ui/button";
@@ -163,27 +164,6 @@ export default function Roadmap({
                         <Clock3 size={16} /> 90 Hari
                     </span>
                 </div>
-                <div className="v8-roadmap-art" aria-hidden="true">
-                    <svg viewBox="0 0 1200 180" preserveAspectRatio="none">
-                        <rect width="1200" height="180" fill="#102b4c" />
-                        <path
-                            d="M0 180 130 65l110 81 124-110 137 114 146-79 110 79 139-125 156 137 148-107v125H0Z"
-                            fill="#24548c"
-                        />
-                        <path
-                            d="M0 180 130 109l110 50 124-80 137 101 146-70 110 70 139-100 156 100 148-83v83H0Z"
-                            fill="#0c2541"
-                        />
-                        <path
-                            d="M90 160C330 122 420 178 620 150S900 108 1060 30"
-                            fill="none"
-                            stroke="#74aaff"
-                            strokeWidth="3"
-                            strokeDasharray="7 9"
-                        />
-                        <circle cx="1060" cy="30" r="6" fill="#c8ddff" />
-                    </svg>
-                </div>
                 <div className="v8-roadmap-layout">
                     <section
                         className="v8-roadmap-timeline"
@@ -198,42 +178,51 @@ export default function Roadmap({
                                 </p>
                             </div>
                         </div>
-                        <div
-                            className="v8-stages"
-                            role="group"
-                            aria-label="Pilih tahap perjalanan"
-                        >
-                            {stages.map((item, index) => (
-                                <button
-                                    key={item.title}
-                                    ref={(node) => {
-                                        nodes.current[index] = node;
-                                    }}
-                                    onKeyDown={(event) => keyNode(event, index)}
-                                    onClick={() => {
-                                        setStage(index);
-                                        setAll(false);
-                                    }}
-                                    className={`v8-stage ${stage === index ? "chosen" : ""}`}
-                                    aria-pressed={stage === index}
-                                    aria-label={`Tahap ${index + 1}: ${item.title}, ${item.status}, ${item.percent}%`}
-                                >
-                                    <span className="v8-stage-dot">
-                                        {item.status === "Selesai" ? (
-                                            <Check size={14} />
-                                        ) : (
-                                            index + 1
-                                        )}
-                                    </span>
-                                    <strong>{item.title}</strong>
-                                    <small>
-                                        {item.items.length
-                                            ? `Hari ${item.items[0].day}–${item.items[item.items.length - 1].day}`
-                                            : "Belum ada rencana"}
-                                    </small>
-                                    <small>{item.status}</small>
-                                </button>
-                            ))}
+                        <div className="recovery-map">
+                            <PathIllustration />
+                            <div
+                                className="v8-stages"
+                                role="group"
+                                aria-label="Pilih tahap perjalanan"
+                            >
+                                {stages.map((item, index) => (
+                                    <button
+                                        key={item.title}
+                                        ref={(node) => {
+                                            nodes.current[index] = node;
+                                        }}
+                                        onKeyDown={(event) =>
+                                            keyNode(event, index)
+                                        }
+                                        onClick={() => {
+                                            setStage(index);
+                                            setAll(false);
+                                        }}
+                                        className={`v8-stage ${stage === index ? "chosen" : ""} ${item.status === "Selesai" ? "complete" : item.status === "Aktif" ? "active" : "locked"}`}
+                                        style={{
+                                            left: `${[10.6, 28.8, 49.9, 65.3, 81.6][index] ?? 85}%`,
+                                            top: `${[86.8, 73.6, 61.5, 47.9, 32.6][index] ?? 25}%`,
+                                        }}
+                                        aria-pressed={stage === index}
+                                        aria-label={`Tahap ${index + 1}: ${item.title}, ${item.status}, ${item.percent}%`}
+                                    >
+                                        <span className="v8-stage-dot">
+                                            {item.status === "Selesai" ? (
+                                                <Check size={14} />
+                                            ) : (
+                                                index + 1
+                                            )}
+                                        </span>
+                                        <strong>{item.title}</strong>
+                                        <small>
+                                            {item.items.length
+                                                ? `Hari ${item.items[0].day}–${item.items[item.items.length - 1].day}`
+                                                : "Belum ada rencana"}
+                                        </small>
+                                        <small>{item.status}</small>
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                         <div className="v8-roadmap-progress">
                             <span className="v8-kicker">
@@ -280,6 +269,11 @@ export default function Roadmap({
                                 {selected.done} / {selected.items.length}
                             </strong>{" "}
                             checklist direview · {selected.percent}%
+                        </p>
+                        <p className="recovery-current-day">
+                            {today.day
+                                ? `Hari ini · Hari ${today.day}`
+                                : "Jadwal mengikuti rencana akun"}
                         </p>
                         <h3>Aktivitas prioritas</h3>
                         <ul>

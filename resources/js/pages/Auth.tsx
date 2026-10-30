@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Button } from "../components/ui/button";
 import { focusFirstError } from "../feedback";
 import ThemeToggle from "../components/ThemeToggle";
+import { HeroIllustration } from "../components/JourneyArt";
 import "../../css/auth.css";
 
 export default function Auth({ mode }: { mode: "login" | "register" }) {
@@ -53,36 +54,7 @@ export default function Auth({ mode }: { mode: "login" | "register" }) {
                         tumbuh dengan progres yang terukur.
                     </p>
                     <div className="auth-art" aria-hidden="true">
-                        <svg viewBox="0 0 450 140" fill="none">
-                            <path
-                                d="M20 112H432M22 112L83 70L145 98L205 32L275 74L335 52L431 112M20 112L112 93L171 105L224 81L298 104L360 89L430 112"
-                                stroke="currentColor"
-                                strokeOpacity=".4"
-                            />
-                            <circle
-                                cx="205"
-                                cy="32"
-                                r="6"
-                                fill="currentColor"
-                            />
-                            <path
-                                d="M205 32V7L236 17L205 27M128 10h50M153 2v16M309 25h70M344 15v20"
-                                stroke="currentColor"
-                                strokeOpacity=".5"
-                            />
-                            <circle
-                                cx="112"
-                                cy="93"
-                                r="3"
-                                fill="currentColor"
-                            />
-                            <circle
-                                cx="360"
-                                cy="89"
-                                r="3"
-                                fill="currentColor"
-                            />
-                        </svg>
+                        <HeroIllustration />
                     </div>
                     <div className="auth-journey">
                         <div>

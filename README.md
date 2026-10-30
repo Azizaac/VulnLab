@@ -156,4 +156,6 @@ The current release decision, actual results and limitations are recorded in [re
 
 ## Sprint 7 deployment plan
 
+Latest visual recovery: [audit, before/after gallery and actual test results](docs/ui-recovery/README.md). This selectively restores original illustrated identity while preserving current backend behavior; the real 200% browser-zoom environment blocker is disclosed in that report.
+
 The [aaPanel home-server planning package](docs/deploy/README.md) covers compatibility, isolated staging, Cloudflare Access/Tunnel, secrets, recovery, monitoring and disabled hosted labs. [Private-beta activation is currently NO-GO](docs/deploy/RELEASE_DECISION.md): real server inventory and implementation/acceptance prerequisites remain unresolved. **Deployment NOT started; approval required.** No SSH, aaPanel/DNS changes or lab exposure occurred. Run `node scripts/check-deployment-plan.mjs` for safe local package-structure checks; this does not validate the actual server.

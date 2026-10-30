@@ -1,0 +1,416 @@
+/* Visual recovery: original JourneyArt layers, live React controls, no data overrides. */
+.auth-page .auth-art {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+    height: 190px;
+}
+.auth-page .auth-art .hero-illustration {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    z-index: 0;
+}
+[data-theme="dark"] {
+    --page: #071525;
+    --surface: #0d1c30;
+    --surface-alt: #11243d;
+    --text: #e8f1ff;
+    --muted: #9cb0cc;
+    --border: #263c57;
+    --primary: #74aaff;
+}
+.journey-shell {
+    background:
+        radial-gradient(
+            ellipse at 90% 0%,
+            color-mix(in srgb, var(--primary) 7%, transparent),
+            transparent 60%
+        ),
+        var(--page);
+}
+.journey-shell .top-nav {
+    font-size: 14px;
+}
+.journey-shell .journey-header {
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
+    box-shadow: 0 4px 24px #0010200a;
+}
+.journey-shell .v8-kicker {
+    font-size: 12px;
+}
+.journey-shell .v8-home-top {
+    grid-template-columns: minmax(0, 2.4fr) minmax(270px, 1fr);
+    align-items: stretch;
+}
+.journey-shell .v8-home-hero {
+    position: relative;
+    display: block;
+    min-height: 330px;
+    border-radius: 20px;
+    background: #082c53;
+}
+.journey-shell .v8-hero-art {
+    position: absolute;
+    inset: 0;
+}
+.journey-shell .v8-hero-art .hero-illustration {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+    opacity: 1;
+}
+.journey-shell .v8-hero-copy {
+    width: 65%;
+    min-height: 330px;
+    padding: 36px;
+    background: linear-gradient(90deg, #071c36f7 45%, #071c36dc 72%, #071c3600);
+}
+.journey-shell .v8-home-hero h1 {
+    font-family: "Plus Jakarta Sans Variable", Inter, sans-serif;
+    font-size: clamp(28px, 2.7vw, 38px);
+    line-height: 1.2;
+}
+.journey-shell .v8-home-hero p {
+    color: #d3e3f6;
+    font-size: 15px;
+}
+.journey-shell .v8-today {
+    padding: 24px;
+    background: linear-gradient(145deg, var(--surface-alt), var(--surface));
+    border-radius: 18px;
+}
+.journey-shell .v8-today li {
+    font-size: 14px;
+    margin: 14px 0;
+}
+.journey-shell .v8-today li small {
+    font-size: 12px;
+    margin-top: 4px;
+}
+.journey-shell .v8-summary {
+    margin: 20px 0;
+}
+.recovery-shortcuts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+}
+.recovery-shortcuts a {
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--surface), var(--surface-alt));
+    transition: border-color 0.15s;
+}
+.recovery-shortcuts a:hover {
+    border-color: var(--primary);
+}
+.recovery-shortcuts strong,
+.recovery-shortcuts span {
+    display: block;
+}
+.recovery-shortcuts span {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 5px;
+}
+.journey-shell .v8-home-content {
+    grid-template-columns: minmax(0, 1.5fr) minmax(270px, 1fr);
+}
+.journey-shell .v8-resume-box {
+    background: linear-gradient(125deg, var(--surface-alt), var(--surface));
+    border-left: 3px solid var(--primary);
+}
+.recovery-completion {
+    margin: 16px 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+.recovery-completion progress {
+    display: block;
+    width: 100%;
+    height: 8px;
+    margin-top: 8px;
+    accent-color: var(--primary);
+}
+.journey-shell .v8-activity {
+    border: 0;
+    border-top: 1px solid var(--border);
+    border-radius: 0;
+    padding: 20px 0;
+}
+.journey-shell .v8-roadmap-layout {
+    grid-template-columns: minmax(0, 2.5fr) minmax(280px, 1fr);
+    gap: 0;
+    align-items: stretch;
+    border: 1px solid #355778;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #06182c;
+}
+.journey-shell .v8-roadmap-timeline {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    position: relative;
+    background: #06182c;
+    color: #e8f1ff;
+}
+.journey-shell .v8-roadmap-timeline .v8-section-heading {
+    position: absolute;
+    z-index: 2;
+    top: 24px;
+    left: 24px;
+    right: 24px;
+    pointer-events: none;
+}
+.journey-shell .v8-roadmap-timeline .v8-section-heading h2 {
+    font-size: 24px;
+    color: #e8f1ff;
+}
+.journey-shell .v8-roadmap-timeline .v8-section-heading p {
+    color: #bccfe8;
+    max-width: 280px;
+}
+.recovery-map {
+    height: 510px;
+    position: relative;
+    overflow: hidden;
+}
+.recovery-map .path-illustration {
+    z-index: 0;
+    position: absolute;
+    inset: 0;
+    width: 141%;
+    height: 100%;
+    opacity: 1;
+    filter: none;
+}
+.journey-shell .recovery-map .v8-stages {
+    z-index: 1;
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    display: block;
+}
+.journey-shell .recovery-map .v8-stage {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    width: 52px;
+    min-height: 52px;
+    padding: 0;
+    color: #e8f1ff;
+    text-align: center;
+}
+.journey-shell .recovery-map .v8-stage::before {
+    display: none;
+}
+.journey-shell .recovery-map .v8-stage-dot {
+    width: 52px;
+    height: 52px;
+    margin: 0;
+    border: 2px solid #b8e6ff;
+    background: linear-gradient(150deg, #297eff, #1747ab);
+    color: white;
+    font-size: 24px;
+    font-weight: 800;
+    box-shadow: 0 0 20px #229fff80;
+}
+.journey-shell .recovery-map .complete .v8-stage-dot {
+    background: #087e79;
+}
+.journey-shell .recovery-map .locked .v8-stage-dot {
+    background: #173955;
+    border-style: dashed;
+    box-shadow: none;
+}
+.journey-shell .recovery-map .chosen .v8-stage-dot {
+    outline: 3px solid white;
+    outline-offset: 4px;
+}
+.journey-shell .recovery-map .v8-stage strong,
+.journey-shell .recovery-map .v8-stage small {
+    position: absolute;
+    left: 60px;
+    width: 155px;
+    text-align: left;
+    background: #06182ce8;
+    border-radius: 5px;
+    padding: 4px 7px;
+    color: #eef6ff;
+    font-size: 12px;
+    line-height: 1.4;
+}
+.journey-shell .recovery-map .v8-stage strong {
+    top: 0;
+}
+.journey-shell .recovery-map .v8-stage small {
+    top: 39px;
+}
+.journey-shell .recovery-map .v8-stage small:last-child {
+    top: 63px;
+    color: #afc9e8;
+}
+.journey-shell .recovery-map .v8-stage:last-child strong,
+.journey-shell .recovery-map .v8-stage:last-child small {
+    left: -50px;
+    right: auto;
+    top: -80px;
+}
+.journey-shell .recovery-map .v8-stage:last-child small {
+    top: -44px;
+}
+.journey-shell .recovery-map .v8-stage:last-child small:last-child {
+    top: -20px;
+}
+.journey-shell .v8-roadmap-progress {
+    padding: 18px 24px;
+    border-color: #274763;
+    color: #e8f1ff;
+}
+.journey-shell .v8-roadmap-progress p {
+    color: #b4c9e1;
+}
+.journey-shell .v8-roadmap-progress .v8-kicker {
+    color: #91bcff;
+}
+.journey-shell .v8-stage-detail {
+    border: 0;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+    background: linear-gradient(155deg, var(--surface-alt), var(--surface));
+    padding: 26px;
+}
+.journey-shell .v8-stage-detail h2 {
+    line-height: 1.35;
+    font-size: 23px;
+}
+.journey-shell .v8-stage-detail p,
+.journey-shell .v8-stage-detail li {
+    font-size: 14px;
+    line-height: 1.65;
+}
+.recovery-current-day {
+    color: var(--primary) !important;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+}
+/* Distinct page structures remain intact: reader rails, HTTP split panes,
+   knowledge editor, report form and editorial tables. Restore depth locally. */
+.journey-shell .v8-learning-catalog .course-card,
+.journey-shell .v8-lab-catalog .course-card {
+    background: linear-gradient(145deg, var(--surface-alt), var(--surface));
+    box-shadow: 0 8px 24px #00152b08;
+}
+.journey-shell .v8-workspace .notes-editor {
+    background: linear-gradient(160deg, var(--surface-alt), var(--surface));
+}
+.journey-shell .v5-profile-hero {
+    background: linear-gradient(120deg, var(--surface-alt), var(--surface));
+}
+.journey-shell .v8-progress .s4-journey {
+    background: linear-gradient(120deg, var(--surface), var(--surface-alt));
+}
+.journey-shell .v8-progress .s4-journey-art {
+    opacity: 0.85;
+}
+.journey-shell .v8-workspace .s4-page-heading h1,
+.journey-shell .v5-title h1 {
+    font-family: "Plus Jakarta Sans Variable", Inter, sans-serif;
+}
+@media (max-width: 1100px) {
+    .journey-shell .v8-home-top {
+        grid-template-columns: 1fr;
+    }
+    .journey-shell .v8-today ul {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+    }
+    .journey-shell .v8-roadmap-layout {
+        grid-template-columns: 1fr;
+    }
+    .journey-shell .v8-stage-detail {
+        border-left: 0;
+        border-top: 1px solid var(--border);
+    }
+}
+@media (max-width: 767px) {
+    .journey-shell .v8-hero-copy {
+        width: 100%;
+        padding: 24px;
+        background: linear-gradient(90deg, #071c36ee, #071c36c9 70%, #071c3660);
+        min-height: 330px;
+    }
+    .journey-shell .v8-home-hero {
+        min-height: 330px;
+    }
+    .journey-shell .v8-hero-art .hero-illustration {
+        width: 180%;
+        max-width: none;
+        left: -65%;
+    }
+    .journey-shell .v8-today ul {
+        display: block;
+    }
+    .recovery-shortcuts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .recovery-shortcuts a {
+        padding: 13px;
+    }
+    .journey-shell .v8-home-content {
+        grid-template-columns: 1fr;
+    }
+    .recovery-map {
+        height: 680px;
+    }
+    .recovery-map .path-illustration {
+        width: 250%;
+        left: -80%;
+        opacity: 0.7;
+    }
+    .journey-shell .recovery-map .v8-stages {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 120px 20px 30px;
+    }
+    .journey-shell .recovery-map .v8-stage {
+        position: relative;
+        top: auto !important;
+        left: auto !important;
+        transform: none;
+    }
+    .journey-shell .recovery-map .v8-stage strong,
+    .journey-shell .recovery-map .v8-stage small {
+        width: min(190px, calc(100vw - 145px));
+    }
+    .journey-shell .recovery-map .v8-stage:last-child strong,
+    .journey-shell .recovery-map .v8-stage:last-child small {
+        right: auto;
+        left: 60px;
+    }
+    .journey-shell .recovery-map .v8-stage:last-child strong {
+        top: 0;
+    }
+    .journey-shell .recovery-map .v8-stage:last-child small {
+        top: 39px;
+    }
+    .journey-shell .recovery-map .v8-stage:last-child small:last-child {
+        top: 63px;
+    }
+    .journey-shell .v8-stage-detail {
+        padding: 22px;
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .recovery-shortcuts a {
+        transition: none;
+    }
+}

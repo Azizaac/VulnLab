@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-30",
+  "timezone": "Asia/Jakarta",
+  "baseline": "a7b858328354",
+  "pre_v8_source": "86e4a88",
+  "original_artwork_commit": "37e912b",
+  "backend": { "status": "PASS", "tests": 115, "assertions": 2247, "database": "in-memory SQLite" },
+  "frontend_unit": { "status": "PASS", "tests": 11, "files": 4 },
+  "typescript_and_build": "PASS: npm run build",
+  "lint": "PASS: npm run lint",
+  "visual_before": { "status": "PASS", "projects": 4, "screenshots": 128 },
+  "visual_after": { "status": "PASS", "projects": 4, "screenshots": 128, "checks": ["real Laravel HTTP", "both themes", "no horizontal overflow", "keyboard stage navigation", "artwork stacking"] },
+  "final_mobile_spacing_recheck": "PASS: 2 projects (390 and 320), both themes after header spacing correction",
+  "browser_regression": {
+    "unique_passed": 10,
+    "environment_blocked": 1,
+    "initial_run": "8 passed, 3 failed: two trace teardown collisions, one full Chromium launch failure",
+    "targeted_rerun": "2 passed, 1 environment failure: CSRF/focus and six-lab completion passed; actual 200% zoom still cannot launch Chromium (spawn UNKNOWN)",
+    "covered": ["roadmap persistence and theme", "CSRF and focus", "all eight lab browser completions", "server quiz", "notes autosave", "private reports/evidence/export", "profile/session/settings", "Studio editorial roles", "quiz builder", "security and reflow smoke"]
+  },
+  "sandbox_runtime": { "status": "PASS", "scenarios": 8, "temporary_sessions_only": true },
+  "sandbox_transport": { "status": "PASS", "checks": 4 },
+  "backend_routes_schema_config_diff": "UNCHANGED from recovery baseline",
+  "learner_database_reset": false,
+  "production_or_aapanel_changes": false,
+  "limitations": ["Actual 200% Chromium zoom blocked by browser launch failure", "No Firefox/Safari/physical device or screen reader run", "Original painted poster scene unavailable as a separate production asset; restored existing original vector scene", "Synthetic screenshot accounts; no live learner PII captured", "No full MySQL before/after hash audit in this UI update", "Human visual approval pending"]
+}
