@@ -1,0 +1,248 @@
+id,category,test,method,status,evidence,notes
+V9-001,Data integrity,Current schema inventory,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-002,Data integrity,Private backup exists outside Git,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-003,Data integrity,Before row-count snapshot,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-004,Data integrity,After row-count snapshot,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-005,Data integrity,Quiz attempt revisions unchanged,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-006,Data integrity,XP ledger unchanged for old tasks,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-007,Data integrity,Lab solve history unchanged,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-008,Data integrity,Migrating old schema on disposable DB,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-009,Data integrity,Rerunnable seed creates no duplicates,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-010,Data integrity,Rollback reverses only new migrations,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-011,Data integrity,No production DB reset,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-012,Data integrity,No leak of real emails in QA output,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-013,Visual core,Dashboard artwork restored,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-014,Visual core,Dashboard real learning action above fold,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-015,Visual core,Dashboard real today action,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-016,Visual core,No huge empty activity box,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-017,Visual core,Roadmap original detailed mountain art restored,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-018,Visual core,Five clickable DOM milestone nodes,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-019,Visual core,Luminescent winding path,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-020,Visual core,Stage panel compact and responsive,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-021,Visual core,No flat SVG mountain regression,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-022,Visual core,Dashboard/roadmap correct active states,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-023,Visual core,Dashboard 1440 screenshot compare,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-024,Visual core,Roadmap 1440 screenshot compare,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-025,Visual core,Dashboard 390 screenshot compare,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-026,Visual core,Roadmap 390 screenshot compare,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-027,Visual core,Light mode AA readability,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-028,Visual core,Dark mode AA readability,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-029,Visual core,Navbar horizontal on desktop,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-030,Visual core,Keyboard visible focus,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-031,Visual core,Reduced motion respected,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-032,Visual core,320px no horizontal overflow,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-033,Visual core,200 percent zoom no clipped text,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-034,Visual core,All visuals have accessible alternatives,Playwright + visual review,NOT_RUN,,Requires actual repo and test runtime
+V9-035,Modules & lessons,Path count distinct from lesson count,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-036,Modules & lessons,New lesson slugs idempotent,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-037,Modules & lessons,Existing 25 IDs preserved,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-038,Modules & lessons,10 new draft lessons imported,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-039,Modules & lessons,30 new quiz drafts imported,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-040,Modules & lessons,Real technical reviewer status,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-041,Modules & lessons,Unreviewed draft hidden to learner,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-042,Modules & lessons,Reviewed published content visible,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-043,Modules & lessons,Lesson revisions immutable for attempted content,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-044,Modules & lessons,Quiz grading backend only,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-045,Modules & lessons,Answer key absent from Inertia props,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-046,Modules & lessons,Three explanations per new lesson,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-047,Modules & lessons,All new references valid,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-048,Modules & lessons,Source licenses documented,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-049,Modules & lessons,Beginner comprehension review,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-050,Modules & lessons,Realistic synthetic HTTP example,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-051,Modules & lessons,Code blocks narrow viewport scroll,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-052,Modules & lessons,Notes deep-link to lesson,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-053,Modules & lessons,Previous/next and prereq,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-054,Modules & lessons,Belum paham fallback,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-055,Modules & lessons,QA question attempt persists,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-056,Modules & lessons,No fake editorial approval,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-057,UI all pages,Lab catalog displays playable vs planned,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-058,UI all pages,HTTP workspace request view,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-059,UI all pages,HTTP workspace 503 empty/error,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-060,UI all pages,Notes autosave and recovery,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-061,UI all pages,Reports secure practice editing,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-062,UI all pages,Progress skill score source explained,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-063,UI all pages,Admin draft review publish workflow,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-064,UI all pages,Profile and settings layout,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-065,UI all pages,Login register functional visual,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-066,UI all pages,Logout session revocation,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-067,UI all pages,Global toast readable,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-068,UI all pages,Form field validation accessible,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-069,UI all pages,Navigation preserves intended URLs,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-070,UI all pages,Save states server-confirmed,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-071,UI all pages,Mobile keyboard navigation,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-072,Security core,Object authorization for notes,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-073,Security core,Object authorization for reports,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-074,Security core,Admin RBAC negative tests,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-075,Security core,Quiz key secrecy,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-076,Security core,CSP proper encoding,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-077,Security core,Markdown XSS sanitization,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-078,Security core,CSRF flow,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-079,Security core,Password reset generic message,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-080,Security core,Request timeout and retry rules,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-081,Security core,XP idempotent on concurrent submits,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-082,Security core,Flags never sent in initial frontend props,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-083,Security core,No API arbitrary URL proxy,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-084,Security core,No Docker socket mount,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-085,Security core,No host secret volumes,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-086,Security core,No outbound internet on labs,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-087,Security core,No host/metadata reachability,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-088,Security core,No aaPanel port exposed,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-089,Security core,No public lab route,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-090,Security core,No developer env leak,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-091,Security core,No path traversal on core uploads,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-092,L009,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-093,L009,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-094,L009,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-095,L009,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-096,L009,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-097,L009,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-098,L009,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-099,L009,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-100,L009,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-101,L009,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-102,L009,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-103,L009,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-104,L010,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-105,L010,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-106,L010,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-107,L010,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-108,L010,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-109,L010,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-110,L010,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-111,L010,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-112,L010,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-113,L010,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-114,L010,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-115,L010,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-116,L011,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-117,L011,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-118,L011,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-119,L011,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-120,L011,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-121,L011,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-122,L011,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-123,L011,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-124,L011,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-125,L011,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-126,L011,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-127,L011,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-128,L012,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-129,L012,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-130,L012,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-131,L012,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-132,L012,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-133,L012,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-134,L012,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-135,L012,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-136,L012,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-137,L012,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-138,L012,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-139,L012,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-140,L013,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-141,L013,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-142,L013,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-143,L013,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-144,L013,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-145,L013,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-146,L013,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-147,L013,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-148,L013,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-149,L013,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-150,L013,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-151,L013,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-152,L014,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-153,L014,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-154,L014,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-155,L014,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-156,L014,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-157,L014,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-158,L014,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-159,L014,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-160,L014,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-161,L014,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-162,L014,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-163,L014,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-164,L015,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-165,L015,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-166,L015,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-167,L015,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-168,L015,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-169,L015,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-170,L015,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-171,L015,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-172,L015,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-173,L015,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-174,L015,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-175,L015,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-176,L016,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-177,L016,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-178,L016,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-179,L016,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-180,L016,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-181,L016,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-182,L016,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-183,L016,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-184,L016,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-185,L016,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-186,L016,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-187,L016,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-188,L017,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-189,L017,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-190,L017,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-191,L017,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-192,L017,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-193,L017,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-194,L017,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-195,L017,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-196,L017,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-197,L017,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-198,L017,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-199,L017,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-200,L018,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-201,L018,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-202,L018,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-203,L018,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-204,L018,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-205,L018,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-206,L018,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-207,L018,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-208,L018,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-209,L018,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-210,L018,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-211,L018,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-212,L019,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-213,L019,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-214,L019,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-215,L019,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-216,L019,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-217,L019,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-218,L019,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-219,L019,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-220,L019,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-221,L019,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-222,L019,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-223,L019,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-224,L020,manifest revision stable,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-225,L020,local runtime boots,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-226,L020,baseline response,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-227,L020,vulnerable behavior,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-228,L020,secure contrast,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-229,L020,valid session proof,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-230,L020,invalid proof rejected,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-231,L020,reset restores fixture,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-232,L020,other user cannot access session,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-233,L020,network/host isolation,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-234,L020,repeat XP prevented,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-235,L020,playable flag only after pass,Sandbox + feature E2E,NOT_RUN,,Requires actual repo and test runtime
+V9-236,Regression,PHP SQLite test suite,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-237,Regression,PHP MySQL disposable suite,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-238,Regression,npm lint,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-239,Regression,npm production build,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-240,Regression,Vitest test:unit,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-241,Regression,Playwright desktop browser,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-242,Regression,Playwright 320 and 390,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-243,Regression,Lab concurrency test,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-244,Regression,Source URLs and publication integrity,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-245,Regression,Screenshot evidence saved,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-246,Regression,No aaPanel changes,Integration,NOT_RUN,,Requires actual repo and test runtime
+V9-247,Regression,Release report lists actual failures,Integration,NOT_RUN,,Requires actual repo and test runtime

@@ -1,0 +1,1602 @@
+[
+  {
+    "id": "Q0011",
+    "lesson_id": "L001",
+    "lesson_slug": "client-server",
+    "question": "Apa yang disebut request?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Pesan dari client ke server"
+      },
+      {
+        "id": "B",
+        "text": "Bukti bahwa login aman"
+      },
+      {
+        "id": "C",
+        "text": "File database"
+      },
+      {
+        "id": "D",
+        "text": "Jawaban dari server"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Browser mengirim permintaan; server mengembalikan response.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_http",
+      "owasp_wstg"
+    ]
+  },
+  {
+    "id": "Q0012",
+    "lesson_id": "L001",
+    "lesson_slug": "client-server",
+    "question": "Mengapa Network tab penting?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Untuk melihat komunikasi yang nyata antara browser dan server"
+      },
+      {
+        "id": "B",
+        "text": "Untuk menjamin tidak ada bug"
+      },
+      {
+        "id": "C",
+        "text": "Untuk menghapus seluruh log server"
+      },
+      {
+        "id": "D",
+        "text": "Untuk mengubah role user secara otomatis"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "UI bukan gambaran lengkap; Network menunjukkan request yang benar-benar dikirim.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_http",
+      "owasp_wstg"
+    ]
+  },
+  {
+    "id": "Q0021",
+    "lesson_id": "L002",
+    "lesson_slug": "http-methods",
+    "question": "Method yang lazim untuk pembaruan sebagian?",
+    "options": [
+      {
+        "id": "A",
+        "text": "HEAD"
+      },
+      {
+        "id": "B",
+        "text": "GET"
+      },
+      {
+        "id": "C",
+        "text": "TRACE"
+      },
+      {
+        "id": "D",
+        "text": "PATCH"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "PATCH didesain untuk menerapkan perubahan parsial.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_http",
+      "ps_api"
+    ]
+  },
+  {
+    "id": "Q0022",
+    "lesson_id": "L002",
+    "lesson_slug": "http-methods",
+    "question": "Apakah endpoint DELETE otomatis aman?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Tidak; server tetap wajib melakukan authorization"
+      },
+      {
+        "id": "B",
+        "text": "Ya; method DELETE hanya bisa dipakai admin"
+      },
+      {
+        "id": "C",
+        "text": "Ya; browser pasti memblokirnya"
+      },
+      {
+        "id": "D",
+        "text": "Tidak, karena semua DELETE pasti SQLi"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "HTTP method bukan pengganti pemeriksaan hak akses.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_http",
+      "ps_api"
+    ]
+  },
+  {
+    "id": "Q0031",
+    "lesson_id": "L003",
+    "lesson_slug": "status-headers",
+    "question": "Kode HTTP untuk akses yang ditolak?",
+    "options": [
+      {
+        "id": "A",
+        "text": "403"
+      },
+      {
+        "id": "B",
+        "text": "201"
+      },
+      {
+        "id": "C",
+        "text": "302"
+      },
+      {
+        "id": "D",
+        "text": "500"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "403 Forbidden menyatakan penolakan akses; 401 sering terkait kebutuhan autentikasi.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_http",
+      "owasp_wstg"
+    ]
+  },
+  {
+    "id": "Q0032",
+    "lesson_id": "L003",
+    "lesson_slug": "status-headers",
+    "question": "Mengapa response 200 perlu dicek body-nya?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Karena 200 selalu bukti IDOR"
+      },
+      {
+        "id": "B",
+        "text": "Karena body mungkin berisi kegagalan logis"
+      },
+      {
+        "id": "C",
+        "text": "Karena 200 adalah error server"
+      },
+      {
+        "id": "D",
+        "text": "Karena header tidak pernah dipakai"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Kesuksesan HTTP tidak selalu sama dengan suksesnya aksi bisnis.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_http",
+      "owasp_wstg"
+    ]
+  },
+  {
+    "id": "Q0041",
+    "lesson_id": "L004",
+    "lesson_slug": "cookies-sessions",
+    "question": "Apa fungsi HttpOnly?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Memastikan user adalah admin"
+      },
+      {
+        "id": "B",
+        "text": "Mengenkripsi seluruh database"
+      },
+      {
+        "id": "C",
+        "text": "Menghalangi akses cookie melalui JavaScript biasa"
+      },
+      {
+        "id": "D",
+        "text": "Menggantikan CSRF protection"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "HttpOnly membatasi akses cookie dari JavaScript; itu bukan solusi menyeluruh.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_cookies",
+      "owasp_cheats"
+    ]
+  },
+  {
+    "id": "Q0042",
+    "lesson_id": "L004",
+    "lesson_slug": "cookies-sessions",
+    "question": "Apakah cookie session menyimpan password harus?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ya, untuk CORS"
+      },
+      {
+        "id": "B",
+        "text": "Ya, agar server cepat"
+      },
+      {
+        "id": "C",
+        "text": "Tidak; biasanya berisi identifier atau nilai sesi"
+      },
+      {
+        "id": "D",
+        "text": "Tidak boleh ada cookie sama sekali"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Session dapat direpresentasikan oleh ID yang diverifikasi server.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_cookies",
+      "owasp_cheats"
+    ]
+  },
+  {
+    "id": "Q0051",
+    "lesson_id": "L005",
+    "lesson_slug": "origin-cors",
+    "question": "Manakah yang menentukan origin?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Skema, host, dan port"
+      },
+      {
+        "id": "B",
+        "text": "Path dan fragment saja"
+      },
+      {
+        "id": "C",
+        "text": "Warna tema browser"
+      },
+      {
+        "id": "D",
+        "text": "Username dan password"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Origin tersusun dari scheme, hostname, dan port.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_http",
+      "owasp_cheats"
+    ]
+  },
+  {
+    "id": "Q0052",
+    "lesson_id": "L005",
+    "lesson_slug": "origin-cors",
+    "question": "Apakah CORS menggantikan authorization?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Hanya bila ada JWT"
+      },
+      {
+        "id": "B",
+        "text": "Ya untuk semua API"
+      },
+      {
+        "id": "C",
+        "text": "Tidak, CORS bukan kontrol izin objek"
+      },
+      {
+        "id": "D",
+        "text": "Ya jika memakai HTTPS"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Server harus tetap mengotorisasi setiap operasi.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_http",
+      "owasp_cheats"
+    ]
+  },
+  {
+    "id": "Q0061",
+    "lesson_id": "L006",
+    "lesson_slug": "rest-api-json",
+    "question": "Apa itu endpoint API?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Format CSS"
+      },
+      {
+        "id": "B",
+        "text": "Alamat layanan yang menerima request"
+      },
+      {
+        "id": "C",
+        "text": "Tombol khusus admin"
+      },
+      {
+        "id": "D",
+        "text": "Nama database server"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Endpoint mendefinisikan lokasi operasi API.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_api",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0062",
+    "lesson_id": "L006",
+    "lesson_slug": "rest-api-json",
+    "question": "Bagaimana memulai API mapping?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Hapus semua token"
+      },
+      {
+        "id": "B",
+        "text": "Coba semua alamat internet"
+      },
+      {
+        "id": "C",
+        "text": "Catat endpoint, method, input, dan kebutuhan akses"
+      },
+      {
+        "id": "D",
+        "text": "Langsung jalankan scanner tanpa scope"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Inventaris endpoint membuat pengujian sistematis.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_api",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0071",
+    "lesson_id": "L007",
+    "lesson_slug": "authentication-authorization",
+    "question": "Yang membuktikan identitas pengguna?",
+    "options": [
+      {
+        "id": "A",
+        "text": "CORS"
+      },
+      {
+        "id": "B",
+        "text": "Authentication"
+      },
+      {
+        "id": "C",
+        "text": "Authorization"
+      },
+      {
+        "id": "D",
+        "text": "Encoding"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Authentication memverifikasi identitas.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_authz",
+      "cwe862"
+    ]
+  },
+  {
+    "id": "Q0072",
+    "lesson_id": "L007",
+    "lesson_slug": "authentication-authorization",
+    "question": "User login dapat melihat seluruh order?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ya, login cukup"
+      },
+      {
+        "id": "B",
+        "text": "Ya jika order ID angka"
+      },
+      {
+        "id": "C",
+        "text": "Hanya jika memakai React"
+      },
+      {
+        "id": "D",
+        "text": "Tidak, perlu otorisasi per order"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Login tidak memberikan hak akses ke objek pengguna lain.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_authz",
+      "cwe862"
+    ]
+  },
+  {
+    "id": "Q0081",
+    "lesson_id": "L008",
+    "lesson_slug": "session-lifecycle",
+    "question": "Mengapa session ID diregenerasi saat login?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Menambah ukuran gambar"
+      },
+      {
+        "id": "B",
+        "text": "Mempercepat query SQL"
+      },
+      {
+        "id": "C",
+        "text": "Membuat CORS tidak berlaku"
+      },
+      {
+        "id": "D",
+        "text": "Mengurangi risiko session fixation"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Rotasi sesi mencegah penggunaan ID lama yang sebelumnya diketahui.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_cookies",
+      "ps_auth"
+    ]
+  },
+  {
+    "id": "Q0082",
+    "lesson_id": "L008",
+    "lesson_slug": "session-lifecycle",
+    "question": "Setelah logout, sesi lama seharusnya?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Tidak lagi dapat mengakses resource privat"
+      },
+      {
+        "id": "B",
+        "text": "Menghapus semua database"
+      },
+      {
+        "id": "C",
+        "text": "Menjadi akun admin"
+      },
+      {
+        "id": "D",
+        "text": "Tetap aktif sampai besok"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Logout harus mencabut kemampuan sesi mengakses data privat.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "mdn_cookies",
+      "ps_auth"
+    ]
+  },
+  {
+    "id": "Q0091",
+    "lesson_id": "L009",
+    "lesson_slug": "idor",
+    "question": "Akar masalah IDOR adalah?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Tidak adanya pemeriksaan izin objek"
+      },
+      {
+        "id": "B",
+        "text": "ID menggunakan angka"
+      },
+      {
+        "id": "C",
+        "text": "JSON terlalu panjang"
+      },
+      {
+        "id": "D",
+        "text": "Tidak ada animasi UI"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Masalah utamanya adalah hilangnya object authorization, bukan format ID.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_idor",
+      "ps_access"
+    ]
+  },
+  {
+    "id": "Q0092",
+    "lesson_id": "L009",
+    "lesson_slug": "idor",
+    "question": "Apakah UUID otomatis mencegah IDOR?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Tidak, UUID bukan kontrol akses"
+      },
+      {
+        "id": "B",
+        "text": "Ya, selalu"
+      },
+      {
+        "id": "C",
+        "text": "Hanya untuk DELETE"
+      },
+      {
+        "id": "D",
+        "text": "Ya jika cookie HttpOnly"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "UUID mungkin lebih sulit ditebak, tetapi pengecekan izin tetap wajib.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_idor",
+      "ps_access"
+    ]
+  },
+  {
+    "id": "Q0101",
+    "lesson_id": "L010",
+    "lesson_slug": "bola",
+    "question": "Apa yang paling penting diuji pada BOLA?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Warna tombol"
+      },
+      {
+        "id": "B",
+        "text": "Kecepatan DNS"
+      },
+      {
+        "id": "C",
+        "text": "Jumlah gambar produk"
+      },
+      {
+        "id": "D",
+        "text": "Izin atas objek tertentu"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "BOLA berkaitan dengan object-level authorization.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_bola",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0102",
+    "lesson_id": "L010",
+    "lesson_slug": "bola",
+    "question": "BOLA hanya berlaku untuk GET?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ya"
+      },
+      {
+        "id": "B",
+        "text": "Hanya pada GraphQL"
+      },
+      {
+        "id": "C",
+        "text": "Tidak, operasi perubahan juga bisa rentan"
+      },
+      {
+        "id": "D",
+        "text": "Hanya pada mobile app"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Semua operasi yang menyentuh objek perlu izin.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_bola",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0111",
+    "lesson_id": "L011",
+    "lesson_slug": "bfla",
+    "question": "Masalah utama BFLA?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Akses fungsi tanpa hak sesuai role"
+      },
+      {
+        "id": "B",
+        "text": "Password minimal pendek"
+      },
+      {
+        "id": "C",
+        "text": "ID harus UUID"
+      },
+      {
+        "id": "D",
+        "text": "Response lambat"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "BFLA tentang kewenangan mengeksekusi fungsi.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_api",
+      "owasp_authz"
+    ]
+  },
+  {
+    "id": "Q0112",
+    "lesson_id": "L011",
+    "lesson_slug": "bfla",
+    "question": "Menghapus tombol admin dari UI cukup?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ya jika user tidak tahu URL"
+      },
+      {
+        "id": "B",
+        "text": "Ya"
+      },
+      {
+        "id": "C",
+        "text": "Tidak, endpoint server harus memeriksa role dan permission"
+      },
+      {
+        "id": "D",
+        "text": "Ya jika CSS hidden"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Kontrol di frontend bukan security boundary.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_api",
+      "owasp_authz"
+    ]
+  },
+  {
+    "id": "Q0121",
+    "lesson_id": "L012",
+    "lesson_slug": "csrf",
+    "question": "Mengapa CSRF mungkin terjadi?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Semua cookie bisa dibaca JS"
+      },
+      {
+        "id": "B",
+        "text": "Setiap REST API wajib memakai JWT"
+      },
+      {
+        "id": "C",
+        "text": "Browser membawa kredensial otomatis pada request tertentu"
+      },
+      {
+        "id": "D",
+        "text": "Response selalu 500"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Peramban bisa mengikutsertakan cookie autentikasi secara otomatis.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_csrf",
+      "mdn_cookies"
+    ]
+  },
+  {
+    "id": "Q0122",
+    "lesson_id": "L012",
+    "lesson_slug": "csrf",
+    "question": "Mana yang membantu mengurangi risiko CSRF?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Token CSRF tervalidasi oleh server"
+      },
+      {
+        "id": "B",
+        "text": "Menaikkan jumlah font"
+      },
+      {
+        "id": "C",
+        "text": "Hanya menyembunyikan tombol"
+      },
+      {
+        "id": "D",
+        "text": "Mengganti nama parameter"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Token CSRF mengikat aksi pada konteks pengguna yang sah.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_csrf",
+      "mdn_cookies"
+    ]
+  },
+  {
+    "id": "Q0131",
+    "lesson_id": "L013",
+    "lesson_slug": "xss-basics",
+    "question": "Akar risiko XSS?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Data tak tepercaya diperlakukan sebagai kode aktif"
+      },
+      {
+        "id": "B",
+        "text": "HTTP berstatus 200"
+      },
+      {
+        "id": "C",
+        "text": "Setiap input bertanda < pasti XSS"
+      },
+      {
+        "id": "D",
+        "text": "Tidak ada CSS"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Konteks output menentukan apakah data bisa berubah menjadi instruksi.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_xss",
+      "ps_xss"
+    ]
+  },
+  {
+    "id": "Q0132",
+    "lesson_id": "L013",
+    "lesson_slug": "xss-basics",
+    "question": "Untuk menampilkan teks biasa, pilihan DOM lebih aman?",
+    "options": [
+      {
+        "id": "A",
+        "text": "eval"
+      },
+      {
+        "id": "B",
+        "text": "innerHTML dengan string tak tepercaya"
+      },
+      {
+        "id": "C",
+        "text": "textContent"
+      },
+      {
+        "id": "D",
+        "text": "document.write"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "textContent mengisi teks tanpa menafsirkan HTML.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_xss",
+      "ps_xss"
+    ]
+  },
+  {
+    "id": "Q0141",
+    "lesson_id": "L014",
+    "lesson_slug": "sql-injection",
+    "question": "Pertahanan utama SQL injection?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Blacklist kata SELECT saja"
+      },
+      {
+        "id": "B",
+        "text": "Menyembunyikan route"
+      },
+      {
+        "id": "C",
+        "text": "Parameterized queries"
+      },
+      {
+        "id": "D",
+        "text": "UUID pada produk"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Parameterisasi memisahkan struktur query dan nilai input.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_sqli",
+      "owasp_input"
+    ]
+  },
+  {
+    "id": "Q0142",
+    "lesson_id": "L014",
+    "lesson_slug": "sql-injection",
+    "question": "Apakah input validation saja cukup cegah SQLi?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ya selalu"
+      },
+      {
+        "id": "B",
+        "text": "Ya jika database lokal"
+      },
+      {
+        "id": "C",
+        "text": "Hanya jika tidak memakai Laravel"
+      },
+      {
+        "id": "D",
+        "text": "Tidak, tetap diperlukan query berparameter"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Validasi mendukung kualitas input tetapi bukan pengganti parameterisasi.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_sqli",
+      "owasp_input"
+    ]
+  },
+  {
+    "id": "Q0151",
+    "lesson_id": "L015",
+    "lesson_slug": "input-validation",
+    "question": "Validasi semantik memeriksa?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Hanya nama route"
+      },
+      {
+        "id": "B",
+        "text": "Apakah nilai masuk akal bagi proses bisnis"
+      },
+      {
+        "id": "C",
+        "text": "Hanya header User-Agent"
+      },
+      {
+        "id": "D",
+        "text": "Hanya format JSON"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Nilai dapat berbentuk benar namun salah secara bisnis.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_input",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0152",
+    "lesson_id": "L015",
+    "lesson_slug": "input-validation",
+    "question": "Field price dari client sebaiknya?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Dihitung ulang di server dari data yang diizinkan"
+      },
+      {
+        "id": "B",
+        "text": "Dipakai jika request HTTPS"
+      },
+      {
+        "id": "C",
+        "text": "Dipakai jika angka positif"
+      },
+      {
+        "id": "D",
+        "text": "Selalu dipercaya"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Harga yang menentukan pembayaran tidak boleh bergantung pada input client.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_input",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0161",
+    "lesson_id": "L016",
+    "lesson_slug": "ssrf-intro",
+    "question": "SSRF melibatkan request dari?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Server aplikasi"
+      },
+      {
+        "id": "B",
+        "text": "Kartu kredit"
+      },
+      {
+        "id": "C",
+        "text": "Hanya browser"
+      },
+      {
+        "id": "D",
+        "text": "CSS stylesheet saja"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "SSRF mengubah perilaku HTTP client di sisi server.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_ssrf",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0162",
+    "lesson_id": "L016",
+    "lesson_slug": "ssrf-intro",
+    "question": "Pertahanan arsitektural terhadap SSRF?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Allowlist tujuan dan egress restrictions"
+      },
+      {
+        "id": "B",
+        "text": "Menyembunyikan form"
+      },
+      {
+        "id": "C",
+        "text": "Menambah banner"
+      },
+      {
+        "id": "D",
+        "text": "Membuat URL sangat panjang"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Kendalikan alamat yang dapat dihubungi server.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_ssrf",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0171",
+    "lesson_id": "L017",
+    "lesson_slug": "file-upload",
+    "question": "Kenapa memeriksa ekstensi saja tidak cukup?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Nama file bisa berbeda dari konten asli"
+      },
+      {
+        "id": "B",
+        "text": "Karena semua file adalah HTML"
+      },
+      {
+        "id": "C",
+        "text": "Karena JPG selalu aman"
+      },
+      {
+        "id": "D",
+        "text": "Karena HTTP tidak punya body"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Metadatanya bisa dikontrol pengunggah.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_upload",
+      "owasp_cheats"
+    ]
+  },
+  {
+    "id": "Q0172",
+    "lesson_id": "L017",
+    "lesson_slug": "file-upload",
+    "question": "Lokasi penyimpanan file lebih aman?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Di root web tanpa kontrol"
+      },
+      {
+        "id": "B",
+        "text": "Di folder PHP executable"
+      },
+      {
+        "id": "C",
+        "text": "Di luar direktori yang dapat mengeksekusi skrip"
+      },
+      {
+        "id": "D",
+        "text": "Sebagai file config"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Mencegah file upload diperlakukan sebagai kode server.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_upload",
+      "owasp_cheats"
+    ]
+  },
+  {
+    "id": "Q0181",
+    "lesson_id": "L018",
+    "lesson_slug": "business-logic",
+    "question": "Apa contoh business invariant?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Semua tabel punya UUID"
+      },
+      {
+        "id": "B",
+        "text": "Warna UI harus biru"
+      },
+      {
+        "id": "C",
+        "text": "Semua request selalu GET"
+      },
+      {
+        "id": "D",
+        "text": "Stok tidak boleh menjadi negatif karena satu pembelian"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Invariant adalah aturan yang harus selalu benar.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_logic",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0182",
+    "lesson_id": "L018",
+    "lesson_slug": "business-logic",
+    "question": "Mengapa business logic sering perlu manual testing?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Karena harus memahami proses dan aturan bisnis"
+      },
+      {
+        "id": "B",
+        "text": "Karena selalu terlihat dari CSS"
+      },
+      {
+        "id": "C",
+        "text": "Karena browser tak punya Network tab"
+      },
+      {
+        "id": "D",
+        "text": "Karena tidak pernah terjadi di API"
+      }
+    ],
+    "correct_option": "A",
+    "explanation": "Konteks bisnis diperlukan untuk menilai penyimpangan.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_logic",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0191",
+    "lesson_id": "L019",
+    "lesson_slug": "burp-repeater",
+    "question": "Apa fungsi Repeater?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Menjamin mendapatkan bounty"
+      },
+      {
+        "id": "B",
+        "text": "Memasang antivirus"
+      },
+      {
+        "id": "C",
+        "text": "Membuat database"
+      },
+      {
+        "id": "D",
+        "text": "Mengirim ulang dan memodifikasi request secara terkendali"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Repeater membantu menguji hipotesis dengan request manual.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_getting",
+      "owasp_wstg"
+    ]
+  },
+  {
+    "id": "Q0192",
+    "lesson_id": "L019",
+    "lesson_slug": "burp-repeater",
+    "question": "Praktik pengujian yang benar?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Uji domain yang belum diizinkan"
+      },
+      {
+        "id": "B",
+        "text": "Kirim jutaan request"
+      },
+      {
+        "id": "C",
+        "text": "Simpan token ke GitHub"
+      },
+      {
+        "id": "D",
+        "text": "Ubah satu variabel lalu bandingkan hasil"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Pengujian terkontrol mudah dianalisis dan mematuhi izin.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_getting",
+      "owasp_wstg"
+    ]
+  },
+  {
+    "id": "Q0201",
+    "lesson_id": "L020",
+    "lesson_slug": "jwt-fundamentals",
+    "question": "Apakah payload JWT otomatis terenkripsi?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Hanya jika panjang"
+      },
+      {
+        "id": "B",
+        "text": "Ya jika ada tiga segmen"
+      },
+      {
+        "id": "C",
+        "text": "Ya selalu"
+      },
+      {
+        "id": "D",
+        "text": "Tidak, umumnya hanya encoded"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "JWT signed biasa bisa dibaca oleh pihak yang memilikinya.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_jwt",
+      "owasp_cheats"
+    ]
+  },
+  {
+    "id": "Q0202",
+    "lesson_id": "L020",
+    "lesson_slug": "jwt-fundamentals",
+    "question": "Apa yang server wajib verifikasi?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Jumlah CSS class"
+      },
+      {
+        "id": "B",
+        "text": "Warna tombol login"
+      },
+      {
+        "id": "C",
+        "text": "Nama file frontend"
+      },
+      {
+        "id": "D",
+        "text": "Signature dan klaim yang relevan"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Tanpa verifikasi yang benar, token tidak layak dipercaya.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_jwt",
+      "owasp_cheats"
+    ]
+  },
+  {
+    "id": "Q0211",
+    "lesson_id": "L021",
+    "lesson_slug": "mass-assignment",
+    "question": "Akar mass assignment?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Tidak ada favicon"
+      },
+      {
+        "id": "B",
+        "text": "Field request disalin ke model tanpa pembatasan memadai"
+      },
+      {
+        "id": "C",
+        "text": "Port HTTP bukan 443"
+      },
+      {
+        "id": "D",
+        "text": "Terlalu banyak gambar"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Field-level input trust adalah sumber masalah.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_api",
+      "owasp_input"
+    ]
+  },
+  {
+    "id": "Q0212",
+    "lesson_id": "L021",
+    "lesson_slug": "mass-assignment",
+    "question": "Solusi aman?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Menampilkan field sebagai hidden"
+      },
+      {
+        "id": "B",
+        "text": "Explicit allowlist field yang bisa diubah"
+      },
+      {
+        "id": "C",
+        "text": "Menghapus PATCH"
+      },
+      {
+        "id": "D",
+        "text": "Mengacak urutan JSON"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Hanya field yang disetujui yang boleh dimutasi.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_api",
+      "owasp_input"
+    ]
+  },
+  {
+    "id": "Q0221",
+    "lesson_id": "L022",
+    "lesson_slug": "graphql-intro",
+    "question": "GraphQL mutation umumnya untuk?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Mengirim DNS query"
+      },
+      {
+        "id": "B",
+        "text": "Operasi yang mengubah data"
+      },
+      {
+        "id": "C",
+        "text": "Menginstal Docker"
+      },
+      {
+        "id": "D",
+        "text": "Mengganti warna browser"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Mutation biasa dipakai untuk operasi yang menyebabkan perubahan.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_graphql",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0222",
+    "lesson_id": "L022",
+    "lesson_slug": "graphql-intro",
+    "question": "Apakah satu endpoint GraphQL berarti cukup satu authorization check?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ya selalu"
+      },
+      {
+        "id": "B",
+        "text": "Hanya jika introspection off"
+      },
+      {
+        "id": "C",
+        "text": "Ya jika HTTPS"
+      },
+      {
+        "id": "D",
+        "text": "Tidak; resolver dan objek perlu izin sesuai konteks"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Satu URL dapat mewakili banyak operasi dan objek.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "ps_graphql",
+      "owasp_api"
+    ]
+  },
+  {
+    "id": "Q0231",
+    "lesson_id": "L023",
+    "lesson_slug": "scoping-recon",
+    "question": "Apakah subdomain selalu in-scope jika domain induk ada?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Ya jika ada favicon"
+      },
+      {
+        "id": "B",
+        "text": "Ya"
+      },
+      {
+        "id": "C",
+        "text": "Tidak, harus sesuai policy program"
+      },
+      {
+        "id": "D",
+        "text": "Ya selama DNS aktif"
+      }
+    ],
+    "correct_option": "C",
+    "explanation": "Cakupan adalah daftar dan aturan eksplisit.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_wstg",
+      "ps_api"
+    ]
+  },
+  {
+    "id": "Q0232",
+    "lesson_id": "L023",
+    "lesson_slug": "scoping-recon",
+    "question": "Yang harus dilakukan sebelum scan aktif?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Langsung gunakan wordlist besar"
+      },
+      {
+        "id": "B",
+        "text": "Nonaktifkan logs"
+      },
+      {
+        "id": "C",
+        "text": "Minta data pengguna"
+      },
+      {
+        "id": "D",
+        "text": "Cek scope, aturan, dan batasan eksplisit"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Izin dan batasan menentukan tindakan yang sah.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_wstg",
+      "ps_api"
+    ]
+  },
+  {
+    "id": "Q0241",
+    "lesson_id": "L024",
+    "lesson_slug": "vuln-reporting",
+    "question": "Komponen yang penting dalam laporan?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Klaim dampak terbesar tanpa bukti"
+      },
+      {
+        "id": "B",
+        "text": "Nama bug saja"
+      },
+      {
+        "id": "C",
+        "text": "Tangkapan layar tanpa konteks"
+      },
+      {
+        "id": "D",
+        "text": "Langkah reproduksi dan bukti terverifikasi"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Reproduksibilitas adalah bagian inti validasi.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_wstg",
+      "portswigger"
+    ]
+  },
+  {
+    "id": "Q0242",
+    "lesson_id": "L024",
+    "lesson_slug": "vuln-reporting",
+    "question": "Jika hanya menguji akun dummy, dampak ditulis?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Pasti bounty besar"
+      },
+      {
+        "id": "B",
+        "text": "Pasti critical"
+      },
+      {
+        "id": "C",
+        "text": "Pasti semua akun bocor"
+      },
+      {
+        "id": "D",
+        "text": "Sesuai observasi dan kemungkinan yang masuk akal, tanpa klaim berlebihan"
+      }
+    ],
+    "correct_option": "D",
+    "explanation": "Dampak harus sebanding dengan bukti.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_wstg",
+      "portswigger"
+    ]
+  },
+  {
+    "id": "Q0251",
+    "lesson_id": "L025",
+    "lesson_slug": "laravel-fixes",
+    "question": "Pemeriksaan hak akses Laravel dapat dilakukan melalui?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Nama file React"
+      },
+      {
+        "id": "B",
+        "text": "Policy atau Gate pada server"
+      },
+      {
+        "id": "C",
+        "text": "Menghapus token CSRF"
+      },
+      {
+        "id": "D",
+        "text": "Hanya CSS disabled"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Laravel menyediakan authorization API di backend.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_authz",
+      "owasp_input"
+    ]
+  },
+  {
+    "id": "Q0252",
+    "lesson_id": "L025",
+    "lesson_slug": "laravel-fixes",
+    "question": "Tes regresi yang penting setelah fix IDOR?",
+    "options": [
+      {
+        "id": "A",
+        "text": "Tidak perlu tes"
+      },
+      {
+        "id": "B",
+        "text": "Pemilik bisa akses, non-pemilik ditolak"
+      },
+      {
+        "id": "C",
+        "text": "Hanya tes login satu user"
+      },
+      {
+        "id": "D",
+        "text": "Hanya halaman memuat CSS"
+      }
+    ],
+    "correct_option": "B",
+    "explanation": "Tes positif dan negatif memeriksa apakah patch tepat.",
+    "difficulty": "Pemula",
+    "points": 10,
+    "source_ids": [
+      "owasp_authz",
+      "owasp_input"
+    ]
+  }
+]

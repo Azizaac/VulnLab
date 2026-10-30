@@ -1,0 +1,410 @@
+[
+  {
+    "id": "L009",
+    "slug": "password-reset-token-lifecycle",
+    "title": "Password Reset — One-time Token",
+    "difficulty": "Easy",
+    "linked_lesson": "N026",
+    "estimated_minutes": 25,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Token requests should remain neutral; invalid/used token should be rejected",
+    "fixture": "Dummy mailbox fixture: valid, expired and used tokens",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Fixture user resets own password; replay of used token rejected",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Berapa kali token ini seharusnya bisa digunakan?",
+      "Bandingkan valid/expired/reused token dalam mailbox dummy.",
+      "Perhatikan token sesudah satu perubahan password berhasil."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L010",
+    "slug": "csrf-preferences",
+    "title": "CSRF — Profile Preferences",
+    "difficulty": "Easy",
+    "linked_lesson": "N027",
+    "estimated_minutes": 25,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Mutating request without valid proof of intent should be denied",
+    "fixture": "Two synthetic same-origin/session fixtures",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Fixture preference changes only with permitted session + CSRF proof",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Apakah cookie sesi ikut terkirim otomatis?",
+      "Periksa token/Origin yang diharapkan middleware.",
+      "Bandingkan POST form dengan dan tanpa token fixture."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L011",
+    "slug": "path-traversal-receipts",
+    "title": "Path Traversal — Receipt Downloads",
+    "difficulty": "Medium",
+    "linked_lesson": "N028",
+    "estimated_minutes": 35,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Only receipt mapped to current user is retrievable",
+    "fixture": "Fixture receipts owned by A and B, synthetic safe directory",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Server-owned receipt ID mapping prevents cross-root reads",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "File mana sebenarnya dipilih server?",
+      "Bandingkan path raw vs ID mapping.",
+      "Perhatikan canonical resolved path pada log fixture."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://portswigger.net/web-security/file-path-traversal",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L012",
+    "slug": "file-upload-validation",
+    "title": "File Upload — Type Confusion",
+    "difficulty": "Medium",
+    "linked_lesson": "N029",
+    "estimated_minutes": 35,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Reject mismatched type/size, do not serve upload as executable",
+    "fixture": "Non-executable quarantine, benign text/image dummy files",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "File remains inert even if accepted for processing",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Apa bedanya ekstensi dan isi file?",
+      "Bandingkan Content-Type klien dan pemeriksaan server.",
+      "Coba fixture yang salah tipe tetapi bernama gambar."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L013",
+    "slug": "graphql-object-access",
+    "title": "GraphQL — Nested Object Authorization",
+    "difficulty": "Medium",
+    "linked_lesson": "N030",
+    "estimated_minutes": 35,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Nested resolver must enforce object ownership",
+    "fixture": "Two owned dummy account graphs, fixed schema and query limits",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Access to another dummy account nested order denied",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Apakah izin sudah dicek di setiap resolver?",
+      "Bandingkan root query dan nested field.",
+      "Perhatikan id order milik user lain pada relasi dummy."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://portswigger.net/web-security/graphql",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L014",
+    "slug": "cors-credential-boundary",
+    "title": "CORS — Credentialed Origin Read",
+    "difficulty": "Medium",
+    "linked_lesson": "N031",
+    "estimated_minutes": 35,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Untrusted origin cannot read private API response",
+    "fixture": "Two synthetic browser origins under fixture, dummy auth cookie",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Origin allowlist and credential mode behave safely",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Bisakah JavaScript origin kedua membaca respons?",
+      "Perhatikan ACAO, ACAC dan request Origin.",
+      "Bandingkan hasil JS browser fixture, bukan curl saja."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://portswigger.net/web-security/cors",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L015",
+    "slug": "webhook-ssrf-fixtures",
+    "title": "SSRF — Webhook Mock Destinations",
+    "difficulty": "Hard",
+    "linked_lesson": "N032",
+    "estimated_minutes": 45,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Restricted fixture sink blocked from unauthorized webhook destinations",
+    "fixture": "Dedicated offline fake DNS/sink hosts, no host or internet egress",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "No request reaches forbidden canary bridge even if input supplied",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Siapa yang sebenarnya melakukan request URL?",
+      "Periksa egress policy selain pemeriksaan string URL.",
+      "Periksa mock destination yang diizinkan vs diblokir."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://portswigger.net/web-security/ssrf",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L016",
+    "slug": "oauth-callback-state",
+    "title": "OAuth — State & Callback",
+    "difficulty": "Hard",
+    "linked_lesson": "N033",
+    "estimated_minutes": 45,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Callback with mismatched state is rejected",
+    "fixture": "Owned synthetic OAuth IdP and client; no external providers",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Only exact registered redirects and session state accepted",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Callback mana yang terkait sesi awal?",
+      "Bandingkan state sebelum dan sesudah callback.",
+      "Gunakan mismatch state fixture untuk melihat penolakan."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://portswigger.net/web-security/oauth",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L017",
+    "slug": "coupon-race",
+    "title": "Race Condition — Coupon Redemption",
+    "difficulty": "Hard",
+    "linked_lesson": "N034",
+    "estimated_minutes": 45,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Coupon can be redeemed at most once",
+    "fixture": "Two concurrent fixture calls maximum with transaction test DB",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Unique constraint/transaction prevents duplicate redemption",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Bagaimana jika dua request membaca stok yang sama?",
+      "Amati urutan read-check-write dalam fixture.",
+      "Bandingkan jumlah penggunaan kupon setelah dua request serentak."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://portswigger.net/web-security/race-conditions",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L018",
+    "slug": "api-property-auth",
+    "title": "API — Object Property Authorization",
+    "difficulty": "Medium",
+    "linked_lesson": "N035",
+    "estimated_minutes": 35,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Learner cannot read/update admin-only properties",
+    "fixture": "Controlled profile with private/internal fields",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Whitelist serialization and server policy enforce fields",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Objek boleh dibaca, apakah semua field juga boleh?",
+      "Bandingkan whitelist update dan response resource.",
+      "Uji satu field internal dummy dengan akun learner."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://api-security.owasp.org/editions/2023/en/0xa3-broken-object-property-level-authorization/",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L019",
+    "slug": "api-data-minimization",
+    "title": "API — List Data Minimization",
+    "difficulty": "Easy",
+    "linked_lesson": "N035",
+    "estimated_minutes": 25,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "Capped response shows permitted items and fields only",
+    "fixture": "Synthetic list with limit 5, private fields and owner relation",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Private properties never leak and pagination is bounded",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Apakah endpoint list mengembalikan field lebih dari perlu?",
+      "Periksa pagination cap dan daftar field tiap item.",
+      "Bandingkan response list dummy dengan resource policy."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://api-security.owasp.org/editions/2023/en/0xa3-broken-object-property-level-authorization/",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  },
+  {
+    "id": "L020",
+    "slug": "multi-tenant-workspace",
+    "title": "Multi-Tenant — Shared Workspace",
+    "difficulty": "Hard",
+    "linked_lesson": "N030",
+    "estimated_minutes": 45,
+    "status": "draft_not_implemented",
+    "runtime_verified": false,
+    "objective": "No cross-tenant membership or data read/write",
+    "fixture": "Two fake teams with nested resources and role matrix",
+    "vulnerable_mode_learning_goal": "Observe synthetic authorization/input/business rule failure on isolated fixture and compare with safe mode. No arbitrary code execution.",
+    "secure_mode_behavior": "Tenant scoping applied at every resolver/service layer",
+    "guidance_steps": [
+      "Baca tujuan dan batas scope sandbox lokal",
+      "Jalankan dua request fixture pembanding",
+      "Periksa respons serta perubahan data dummy",
+      "Gunakan petunjuk bertingkat jika perlu",
+      "Kirim bukti/flag yang hanya divalidasi di backend",
+      "Pelajari akar masalah, mitigasi, dan latihan report"
+    ],
+    "hints": [
+      "Data milik organisasi mana yang boleh diakses?",
+      "Tulis matriks peran untuk dua tenant dummy.",
+      "Bandingkan anggota satu organisasi terhadap resource tenant lain."
+    ],
+    "validation_contract": "Server confirms invariant break using own isolated fixture, issues per-session proof, once-only XP reward; never client-side solved flag.",
+    "reset_contract": "Reset only current fixture session; preserve solve history and earned XP.",
+    "source_urls": [
+      "https://portswigger.net/web-security/graphql",
+      "https://owasp.org/www-project-web-security-testing-guide/"
+    ],
+    "safe_testing_scope": "Local isolated sandbox; preset endpoints only; no external targets or unbounded traffic."
+  }
+]

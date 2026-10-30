@@ -1,0 +1,304 @@
+[
+  {
+    "id": "N026",
+    "slug": "reset-token-lifecycle",
+    "title": "Reset Password: Token, Waktu Kedaluwarsa, dan Kebocoran Akun",
+    "level": "Pemula",
+    "minutes": 22,
+    "prereqs": [
+      "L007",
+      "L008"
+    ],
+    "labs": [
+      "L009"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "RESET — referensi resmi",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html",
+        "type": "official_reference"
+      },
+      {
+        "title": "AUTH — referensi resmi",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N026_reset-token-lifecycle.md"
+  },
+  {
+    "id": "N027",
+    "slug": "csrf-and-samesite",
+    "title": "CSRF dan SameSite: Kenapa Browser Mengirim Cookie?",
+    "level": "Pemula",
+    "minutes": 24,
+    "prereqs": [
+      "L004",
+      "L012"
+    ],
+    "labs": [
+      "L010"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "CSRF — referensi resmi",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+        "type": "official_reference"
+      },
+      {
+        "title": "WSTG — referensi resmi",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N027_csrf-and-samesite.md"
+  },
+  {
+    "id": "N028",
+    "slug": "path-traversal-receipts",
+    "title": "Path Traversal: Menjaga File Tetap di Direktori yang Benar",
+    "level": "Menengah",
+    "minutes": 27,
+    "prereqs": [
+      "L002",
+      "L015"
+    ],
+    "labs": [
+      "L011"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "TRAVERSAL — referensi resmi",
+        "url": "https://portswigger.net/web-security/file-path-traversal",
+        "type": "official_reference"
+      },
+      {
+        "title": "WSTG — referensi resmi",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N028_path-traversal-receipts.md"
+  },
+  {
+    "id": "N029",
+    "slug": "safe-file-uploads",
+    "title": "File Upload: MIME, Ekstensi, dan Penyimpanan Aman",
+    "level": "Menengah",
+    "minutes": 28,
+    "prereqs": [
+      "L015",
+      "L017"
+    ],
+    "labs": [
+      "L012"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "UPLOAD — referensi resmi",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html",
+        "type": "official_reference"
+      },
+      {
+        "title": "WSTG — referensi resmi",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N029_safe-file-uploads.md"
+  },
+  {
+    "id": "N030",
+    "slug": "graphql-authorization",
+    "title": "GraphQL: Query Fleksibel, Izin Tetap Harus Ketat",
+    "level": "Menengah",
+    "minutes": 30,
+    "prereqs": [
+      "L022",
+      "L009"
+    ],
+    "labs": [
+      "L013",
+      "L020"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "GRAPHQL — referensi resmi",
+        "url": "https://portswigger.net/web-security/graphql",
+        "type": "official_reference"
+      },
+      {
+        "title": "API — referensi resmi",
+        "url": "https://owasp.org/API-Security/",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N030_graphql-authorization.md"
+  },
+  {
+    "id": "N031",
+    "slug": "cors-identity-trust",
+    "title": "CORS: Siapa yang Boleh Membaca Respons?",
+    "level": "Menengah",
+    "minutes": 24,
+    "prereqs": [
+      "L005",
+      "L004"
+    ],
+    "labs": [
+      "L014"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "CORS — referensi resmi",
+        "url": "https://portswigger.net/web-security/cors",
+        "type": "official_reference"
+      },
+      {
+        "title": "MDN — referensi resmi",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Overview",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N031_cors-identity-trust.md"
+  },
+  {
+    "id": "N032",
+    "slug": "webhook-ssrf-boundaries",
+    "title": "SSRF pada Webhook: Ketika Server Mengikuti URL",
+    "level": "Lanjutan",
+    "minutes": 32,
+    "prereqs": [
+      "L016",
+      "L006"
+    ],
+    "labs": [
+      "L015"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "SSRF — referensi resmi",
+        "url": "https://portswigger.net/web-security/ssrf",
+        "type": "official_reference"
+      },
+      {
+        "title": "API — referensi resmi",
+        "url": "https://owasp.org/API-Security/",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N032_webhook-ssrf-boundaries.md"
+  },
+  {
+    "id": "N033",
+    "slug": "oauth-state-redirect",
+    "title": "OAuth: State, Redirect URI, dan Identitas",
+    "level": "Lanjutan",
+    "minutes": 30,
+    "prereqs": [
+      "L007",
+      "L008"
+    ],
+    "labs": [
+      "L016"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "OAUTH — referensi resmi",
+        "url": "https://portswigger.net/web-security/oauth",
+        "type": "official_reference"
+      },
+      {
+        "title": "AUTH — referensi resmi",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N033_oauth-state-redirect.md"
+  },
+  {
+    "id": "N034",
+    "slug": "race-coupon-redemption",
+    "title": "Race Condition: Ketika Dua Request Berebut Stok",
+    "level": "Lanjutan",
+    "minutes": 29,
+    "prereqs": [
+      "L018",
+      "L006"
+    ],
+    "labs": [
+      "L017"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "RACE — referensi resmi",
+        "url": "https://portswigger.net/web-security/race-conditions",
+        "type": "official_reference"
+      },
+      {
+        "title": "API — referensi resmi",
+        "url": "https://owasp.org/API-Security/",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N034_race-coupon-redemption.md"
+  },
+  {
+    "id": "N035",
+    "slug": "api-object-property-minimization",
+    "title": "API Object Property Authorization & Data Minimization",
+    "level": "Menengah",
+    "minutes": 30,
+    "prereqs": [
+      "L010",
+      "L021"
+    ],
+    "labs": [
+      "L018",
+      "L019"
+    ],
+    "revision": "1.0.0",
+    "published": false,
+    "editorial_status": "research_draft_unreviewed",
+    "sources": [
+      {
+        "title": "API3 — referensi resmi",
+        "url": "https://api-security.owasp.org/editions/2023/en/0xa3-broken-object-property-level-authorization/",
+        "type": "official_reference"
+      },
+      {
+        "title": "API — referensi resmi",
+        "url": "https://owasp.org/API-Security/",
+        "type": "official_reference"
+      }
+    ],
+    "path": "content/lessons/N035_api-object-property-minimization.md"
+  }
+]

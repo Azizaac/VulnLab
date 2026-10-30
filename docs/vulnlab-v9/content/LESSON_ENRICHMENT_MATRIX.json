@@ -1,0 +1,502 @@
+[
+  {
+    "existing_id": "L001",
+    "slug": "client-server",
+    "title": "Cara Browser dan Server Berkomunikasi",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Network waterfall, caching and requests initiated by script",
+    "practical_exercise": "Inspect document vs XHR/fetch requests from the same first-party fixture page; label which changes state.",
+    "pitfall_to_address": "One browser page is not one request.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L002",
+    "slug": "http-methods",
+    "title": "HTTP Methods: GET, POST, PUT, PATCH, DELETE",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Safe vs unsafe methods; idempotency; method override pitfalls",
+    "practical_exercise": "Compare repeated GET, POST and PATCH in a disposable local order list.",
+    "pitfall_to_address": "Method type is not an authorization check.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L003",
+    "slug": "status-headers",
+    "title": "Membaca Status Code dan Header HTTP",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "401/403/404, caching headers, Set-Cookie and Location",
+    "practical_exercise": "Match a status with actual body and cookie behavior in controlled fixture.",
+    "pitfall_to_address": "HTTP 200 can contain app error; 404 can mask denied access.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L004",
+    "slug": "cookies-sessions",
+    "title": "Cookies, Session, dan Identitas Login",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "HttpOnly, Secure, SameSite and session fixation",
+    "practical_exercise": "Compare cookie metadata and session changes after login in local browser.",
+    "pitfall_to_address": "HttpOnly does not stop all XSS effects.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L005",
+    "slug": "origin-cors",
+    "title": "Same-Origin Policy dan CORS",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Origin vs site vs host; preflight and credentialed reads",
+    "practical_exercise": "Use two synthetic origins from CORS lab; compare browser vs curl behavior.",
+    "pitfall_to_address": "CORS is not an authorization system.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L006",
+    "slug": "rest-api-json",
+    "title": "Dasar REST API, JSON, dan Endpoint",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Schema validation, object IDs, PATCH semantics and status",
+    "practical_exercise": "Map fields that client controls vs server fields in dummy API.",
+    "pitfall_to_address": "JSON itself is not insecure.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L007",
+    "slug": "authentication-authorization",
+    "title": "Authentication vs Authorization",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Identity, permissions, policy matrices, MFA basics",
+    "practical_exercise": "Make two dummy users with distinct roles and map allowed actions.",
+    "pitfall_to_address": "Login success does not imply authorization for every object.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L008",
+    "slug": "session-lifecycle",
+    "title": "Login, Logout, dan Siklus Sesi",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Rotation, expiry, logout, CSRF link and session revocation",
+    "practical_exercise": "Record pre/post login session identifiers using fake fixtures only.",
+    "pitfall_to_address": "Inactivity expiry and absolute expiry differ.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L009",
+    "slug": "idor",
+    "title": "IDOR: Referensi Objek Tanpa Otorisasi",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "BOLA vs IDOR, server policy ownership, evidence boundaries",
+    "practical_exercise": "Two-account dummy order access matrix; expected 403/404 vs actual.",
+    "pitfall_to_address": "Guessable IDs alone do not prove a vulnerability.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L010",
+    "slug": "bola",
+    "title": "BOLA: IDOR pada Resource API",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Cross-tenant object access and nested route ownership",
+    "practical_exercise": "Access own versus other dummy order in two-tenant fixture.",
+    "pitfall_to_address": "A publicly readable object may be intentionally public.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L011",
+    "slug": "bfla",
+    "title": "Broken Function Level Authorization",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Function permissions and role bypass vs object access",
+    "practical_exercise": "Role matrix for admin-only dummy endpoint.",
+    "pitfall_to_address": "Hidden buttons are not sufficient proof of bypass.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L012",
+    "slug": "csrf",
+    "title": "CSRF dan Permintaan Berbasis Session",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "CSRF token, SameSite nuance, cookie auth assumptions",
+    "practical_exercise": "Controlled form with/without CSRF token in local iframe fixture.",
+    "pitfall_to_address": "Tokenized API auth may have different CSRF risk.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L013",
+    "slug": "xss-basics",
+    "title": "Cross-Site Scripting: Saat Input Jadi Script",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Output encoding by context, DOM sinks, CSP limits",
+    "practical_exercise": "Observe HTML/text output handling in sanitized safe fixture.",
+    "pitfall_to_address": "Visible markup is not always script execution.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L014",
+    "slug": "sql-injection",
+    "title": "SQL Injection dan Query Berparameter",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Parameterized queries, detection vs proof, ORM safeguards",
+    "practical_exercise": "Compare query output for fixture search terms in safe/insecure local app.",
+    "pitfall_to_address": "Database error messages alone are not proof of extraction.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L015",
+    "slug": "input-validation",
+    "title": "Input Validation: Bentuk dan Makna",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Type/length allowlists, canonicalization, output encoding",
+    "practical_exercise": "Observe server 422 and correct invalid form field display.",
+    "pitfall_to_address": "Validation and output encoding solve different problems.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L016",
+    "slug": "ssrf-intro",
+    "title": "SSRF: Server Diminta Mengakses Alamat Lain",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "URL allowlist, redirect behavior, DNS/egress defense",
+    "practical_exercise": "Use synthetic sink in isolated lab; verify blocked host no network call.",
+    "pitfall_to_address": "Do not test real metadata addresses.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L017",
+    "slug": "file-upload",
+    "title": "Risiko File Upload",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "MIME vs extension, quarantine, signature, auth on downloads",
+    "practical_exercise": "Send fake image sample and oversized sample to fixture.",
+    "pitfall_to_address": "Upload rejection is not code execution proof.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L018",
+    "slug": "business-logic",
+    "title": "Business Logic: Saat Aturan Toko Bisa Dilewati",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Coupon, idempotency, transaction, negative quantity",
+    "practical_exercise": "Two bounded redemption calls on dummy coupon, inspect final state.",
+    "pitfall_to_address": "Discount differences may be intended policy.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L019",
+    "slug": "burp-repeater",
+    "title": "Burp Proxy dan Repeater untuk Pemula",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Repeater vs browser, reproducibility, redaction",
+    "practical_exercise": "Replay local fixture request with one field modified; record clean diff.",
+    "pitfall_to_address": "Never share real tokens/screenshots with secrets.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L020",
+    "slug": "jwt-fundamentals",
+    "title": "JWT: Header, Payload, Signature",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Issuer/audience/expiration/signature vs decoded payload",
+    "practical_exercise": "Decode and validate fixture token locally; compare signed and malformed.",
+    "pitfall_to_address": "Base64-decoding is not signature verification.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L021",
+    "slug": "mass-assignment",
+    "title": "Mass Assignment dan Properti Terlarang",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Fillable allowlists, DTOs and property policies",
+    "practical_exercise": "Send client-allowed and internal fields to local profile fixture.",
+    "pitfall_to_address": "Successful 200 does not mean forbidden field was committed.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L022",
+    "slug": "graphql-intro",
+    "title": "GraphQL: Query, Mutation, dan Authorization",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Resolvers, nested auth, introspection and query cost",
+    "practical_exercise": "Compare query allowed fields across two dummy accounts.",
+    "pitfall_to_address": "Introspection alone may be intentionally enabled.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L023",
+    "slug": "scoping-recon",
+    "title": "Recon, Scope, dan Pengujian Berizin",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Program scope, rate limits, passive recon, safe proof",
+    "practical_exercise": "Practice asset inventory on explicitly owned local domains only.",
+    "pitfall_to_address": "A domain appearing in search is not proof of testing permission.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L024",
+    "slug": "vuln-reporting",
+    "title": "Menulis Laporan Bug yang Bisa Direproduksi",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Evidence fidelity, severity vs impact, redaction and reproducibility",
+    "practical_exercise": "Write expected/actual and sanitized proof for lab IDOR.",
+    "pitfall_to_address": "A practice report is not an external bounty acceptance.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  },
+  {
+    "existing_id": "L025",
+    "slug": "laravel-fixes",
+    "title": "Memperbaiki Temuan di Laravel",
+    "keep_original": true,
+    "enrich_sections": [
+      "Step-by-step HTTP walkthrough",
+      "Request vs response annotated",
+      "Two-minute local exercise",
+      "Secure Laravel code example",
+      "False positive note",
+      "Troubleshooting if still confused",
+      "Mini quiz explanation",
+      "One-minute bug report summary"
+    ],
+    "technical_depth": "Policies, FormRequests, Resource serializers, transactions",
+    "practical_exercise": "Refactor local unsafe controller, rerun negative authorization tests.",
+    "pitfall_to_address": "Client checks do not replace Laravel policies.",
+    "requirements": "Create new reviewed revision only; never destructively overwrite pinned attempts or learner data."
+  }
+]
