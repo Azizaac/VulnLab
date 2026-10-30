@@ -200,8 +200,10 @@ export default function Roadmap({
                                         }}
                                         className={`v8-stage ${stage === index ? "chosen" : ""} ${item.status === "Selesai" ? "complete" : item.status === "Aktif" ? "active" : "locked"}`}
                                         style={{
-                                            left: `${[10.6, 28.8, 49.9, 65.3, 81.6][index] ?? 85}%`,
-                                            top: `${[86.8, 73.6, 61.5, 47.9, 32.6][index] ?? 25}%`,
+                                            /* Follows the luminous path, nudged left/down so
+                                               labels never sit on the stroke or the inset panel. */
+                                            left: `${[9, 26, 44, 55, 66.5][index] ?? 66.5}%`,
+                                            top: `${[83, 71, 59, 46, 31][index] ?? 31}%`,
                                         }}
                                         aria-pressed={stage === index}
                                         aria-label={`Tahap ${index + 1}: ${item.title}, ${item.status}, ${item.percent}%`}

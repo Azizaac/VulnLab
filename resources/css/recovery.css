@@ -145,13 +145,14 @@
     padding: 20px 0;
 }
 .journey-shell .v8-roadmap-layout {
-    grid-template-columns: minmax(0, 2.5fr) minmax(280px, 1fr);
-    gap: 0;
-    align-items: stretch;
+    /* Approved reference: one illustrated frame, panel inset over the panorama. */
+    display: block;
+    position: relative;
     border: 1px solid #355778;
     border-radius: 20px;
     overflow: hidden;
     background: #06182c;
+    min-height: 520px;
 }
 .journey-shell .v8-roadmap-timeline {
     padding: 0;
@@ -206,6 +207,7 @@
     padding: 0;
     color: #e8f1ff;
     text-align: center;
+    z-index: 2;
 }
 .journey-shell .recovery-map .v8-stage::before {
     display: none;
@@ -233,40 +235,81 @@
     outline: 3px solid white;
     outline-offset: 4px;
 }
+/* Labels are a single stacked card offset away from the luminous path so text
+   never sits on the stroke. Odd nodes go above-right, even nodes below-right. */
 .journey-shell .recovery-map .v8-stage strong,
 .journey-shell .recovery-map .v8-stage small {
+    display: block;
     position: absolute;
-    left: 60px;
-    width: 155px;
+    left: 62px;
+    width: 158px;
     text-align: left;
-    background: #06182ce8;
-    border-radius: 5px;
-    padding: 4px 7px;
     color: #eef6ff;
     font-size: 12px;
     line-height: 1.4;
 }
+.journey-shell .recovery-map .v8-stage strong,
+.journey-shell .recovery-map .v8-stage small {
+    background: #04121fee;
+    border: 1px solid #2f5476;
+}
 .journey-shell .recovery-map .v8-stage strong {
-    top: 0;
+    top: -14px;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0;
+    padding: 5px 8px 3px;
 }
 .journey-shell .recovery-map .v8-stage small {
-    top: 39px;
+    top: 12px;
+    border-top: 0;
+    border-bottom: 0;
+    padding: 0 8px 2px;
+    color: #b9cee6;
 }
 .journey-shell .recovery-map .v8-stage small:last-child {
-    top: 63px;
+    top: 34px;
+    border-radius: 0 0 6px 6px;
+    border-top: 0;
+    border-bottom: 1px solid #2f5476;
+    padding: 0 8px 5px;
     color: #afc9e8;
 }
+.journey-shell .recovery-map .v8-stage:nth-child(even) strong {
+    top: 46px;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0;
+    border-top: 1px solid #2f5476;
+}
+.journey-shell .recovery-map .v8-stage:nth-child(even) small {
+    top: 72px;
+    border-bottom: 0;
+}
+.journey-shell .recovery-map .v8-stage:nth-child(even) small:last-child {
+    top: 94px;
+    border-radius: 0 0 6px 6px;
+}
+/* Final milestone sits beside the summit flag: label to the left, never clipped. */
 .journey-shell .recovery-map .v8-stage:last-child strong,
 .journey-shell .recovery-map .v8-stage:last-child small {
-    left: -50px;
-    right: auto;
-    top: -80px;
+    left: auto;
+    right: 62px;
+    width: 150px;
+    text-align: right;
+}
+.journey-shell .recovery-map .v8-stage:last-child strong {
+    top: -14px;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0;
 }
 .journey-shell .recovery-map .v8-stage:last-child small {
-    top: -44px;
+    top: 12px;
+    border-top: 0;
+    border-bottom: 0;
 }
 .journey-shell .recovery-map .v8-stage:last-child small:last-child {
-    top: -20px;
+    top: 34px;
+    border-radius: 0 0 6px 6px;
+    border-bottom: 1px solid #2f5476;
 }
 .journey-shell .v8-roadmap-progress {
     padding: 18px 24px;
@@ -280,11 +323,34 @@
     color: #91bcff;
 }
 .journey-shell .v8-stage-detail {
-    border: 0;
-    border-left: 1px solid var(--border);
-    border-radius: 0;
-    background: linear-gradient(155deg, var(--surface-alt), var(--surface));
-    padding: 26px;
+    /* Compact contextual panel floating over the panorama, as approved. */
+    position: absolute;
+    z-index: 3;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: min(320px, calc(100% - 40px));
+    max-height: calc(100% - 48px);
+    overflow-y: auto;
+    border: 1px solid #35597c;
+    border-radius: 16px;
+    background: #06182cf2;
+    backdrop-filter: blur(6px);
+    padding: 20px;
+    color: #e8f1ff;
+    box-shadow: 0 18px 48px #000a14b3;
+}
+.journey-shell .v8-stage-detail h2,
+.journey-shell .v8-stage-detail h3,
+.journey-shell .v8-stage-detail strong {
+    color: #f2f8ff;
+}
+.journey-shell .v8-stage-detail p,
+.journey-shell .v8-stage-detail li {
+    color: #c6d8ec;
+}
+.journey-shell .v8-stage-detail li {
+    border-top-color: #274763;
 }
 .journey-shell .v8-stage-detail h2 {
     line-height: 1.35;
@@ -333,11 +399,15 @@
         gap: 16px;
     }
     .journey-shell .v8-roadmap-layout {
-        grid-template-columns: 1fr;
+        min-height: 0;
     }
     .journey-shell .v8-stage-detail {
-        border-left: 0;
-        border-top: 1px solid var(--border);
+        position: static;
+        transform: none;
+        width: auto;
+        max-height: none;
+        margin: 0 20px 20px;
+        box-shadow: none;
     }
 }
 @media (max-width: 767px) {
@@ -367,8 +437,11 @@
     .journey-shell .v8-home-content {
         grid-template-columns: 1fr;
     }
+    /* Stages are in flow on narrow screens, so the frame sizes to the milestone
+       stack and the absolute art layer still paints over the box. */
     .recovery-map {
-        height: 680px;
+        height: auto;
+        min-height: 0;
     }
     .recovery-map .path-illustration {
         width: 250%;
@@ -376,34 +449,53 @@
         opacity: 0.7;
     }
     .journey-shell .recovery-map .v8-stages {
+        position: relative;
+        inset: auto;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        padding: 120px 20px 30px;
+        justify-content: flex-start;
+        gap: 18px;
+        padding: 150px 20px 64px;
     }
     .journey-shell .recovery-map .v8-stage {
         position: relative;
         top: auto !important;
         left: auto !important;
         transform: none;
+        min-height: 104px;
     }
     .journey-shell .recovery-map .v8-stage strong,
     .journey-shell .recovery-map .v8-stage small {
         width: min(190px, calc(100vw - 145px));
+        background: #04121fee;
+    }
+    /* Even-node and final-node desktop offsets assume the 510px panorama. */
+    .journey-shell .recovery-map .v8-stage strong {
+        top: 0;
+        border-radius: 6px 6px 0 0;
+        border-bottom: 0;
+        border-top: 1px solid #2f5476;
+    }
+    .journey-shell .recovery-map .v8-stage small {
+        top: 26px;
+        border-bottom: 0;
+    }
+    .journey-shell .recovery-map .v8-stage small:last-child {
+        top: 48px;
+        border-radius: 0 0 6px 6px;
+        border-bottom: 1px solid #2f5476;
     }
     .journey-shell .recovery-map .v8-stage:last-child strong,
     .journey-shell .recovery-map .v8-stage:last-child small {
         right: auto;
         left: 60px;
     }
-    .journey-shell .recovery-map .v8-stage:last-child strong {
-        top: 0;
+    /* Tighter stack on narrow screens so five rows fit without clipping. */
+    .journey-shell .recovery-map .v8-stage small {
+        top: 24px;
     }
-    .journey-shell .recovery-map .v8-stage:last-child small {
-        top: 39px;
-    }
-    .journey-shell .recovery-map .v8-stage:last-child small:last-child {
-        top: 63px;
+    .journey-shell .recovery-map .v8-stage small:last-child {
+        top: 44px;
     }
     .journey-shell .v8-stage-detail {
         padding: 22px;

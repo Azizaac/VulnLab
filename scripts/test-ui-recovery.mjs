@@ -7,7 +7,15 @@ import { execFileSync } from 'node:child_process';
 const mode = process.argv[2] || 'after';
 if (!['before', 'after', 'regression'].includes(mode)) throw new Error('Use before, after or regression');
 const php = process.env.PHP_BINARY || (process.platform === 'win32' ? path.resolve('.tools/php/php.exe') : 'php');
-const database = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'vulnlab-recovery-')), 'test.sqlite');
+// PHP here cannot write %LOCALAPPDATA%\Temp, so keep the disposable database
+// and its temp files under the ignored .tools directory.
+const dir = '.tools/recovery-db';
+fs.rmSync(dir, { recursive: true, force: true });
+fs.mkdirSync(path.join(dir, 'tmp'), { recursive: true });
+const tmp = path.resolve(path.join(dir, 'tmp'));
+// Keep the database inside TMP so the screenshot spec's "disposable DB is under
+// the temporary directory" guard still holds.
+const database = path.join(tmp, 'test.sqlite');
 fs.writeFileSync(database, '');
 const env = {
     ...process.env, PHP_BINARY: php, E2E_DB_DATABASE: database,
@@ -15,6 +23,7 @@ const env = {
     DB_URL: '', DB_SOCKET: '', APP_CONFIG_CACHE: path.join(path.dirname(database), 'unused-config-cache.php'),
     APP_KEY: 'base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=',
     CACHE_STORE: 'array', SESSION_DRIVER: 'database', MAIL_MAILER: 'array',
+    TMP: tmp, TEMP: tmp, TMPDIR: tmp,
     RECOVERY_STAGE: mode, QA_SCREENSHOT_ROOT: '.tools/recovery-regression-screenshots',
     QA_V6_SCREENSHOT_ROOT: '.tools/recovery-regression-v6',
 };
