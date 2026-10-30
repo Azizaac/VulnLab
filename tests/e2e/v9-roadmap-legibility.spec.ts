@@ -55,8 +55,11 @@ test("roadmap milestones stay legible", async ({ page }) => {
         }
     }
 
-    // The contextual panel overlays the panorama rather than sitting in its own column.
-    expect(panel.x).toBeGreaterThan(mapBox.x + mapBox.width * 0.5);
+    // The contextual panel overlays the panorama only on wide screens; narrow
+    // layouts move it below the illustration so it stays readable.
+    if ((page.viewportSize()?.width ?? 0) >= 1100)
+        expect(panel.x).toBeGreaterThan(mapBox.x + mapBox.width * 0.5);
+    else expect(panel.y).toBeGreaterThanOrEqual(mapBox.y + mapBox.height - 1);
 
     // Icon-only controls still expose an accessible name.
     const themeToggle = page.getByRole("button", { name: /tema/i }).first();
