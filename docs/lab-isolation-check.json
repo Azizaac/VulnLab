@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-11-17T17:50:17.797Z",
+  "checked_at": "2026-11-17T18:14:31.926Z",
   "shop_networks": [
     "vulnlab-sandbox_training"
   ],
@@ -39,7 +39,7 @@
       "172.18.0.2:3306 blocked",
       "app:9000 blocked",
       "web:8080 blocked",
-      "172.18.0.3:8080 blocked",
+      "172.18.0.4:8080 blocked",
       "host.docker.internal:8088 blocked",
       "host.docker.internal:8090 blocked",
       "169.254.169.254:80 blocked",
@@ -50,7 +50,7 @@
       "172.18.0.2:3306 blocked",
       "app:9000 blocked",
       "web:8080 blocked",
-      "172.18.0.3:8080 blocked",
+      "172.18.0.4:8080 blocked",
       "host.docker.internal:8088 blocked",
       "host.docker.internal:8090 blocked",
       "169.254.169.254:80 blocked",

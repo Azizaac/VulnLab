@@ -616,6 +616,10 @@
 
 /* Inset Stage Detail Glass Panel */
 .journey-shell .v9-stage-glass {
+    --text: #edf5ff;
+    --muted: #b7d0ec;
+    --primary: #8ec2ff;
+    color: #edf5ff;
     right: 22px;
     top: 22px;
     bottom: auto;
@@ -623,7 +627,7 @@
     width: min(338px, calc(100% - 44px));
     max-height: 504px;
     border-radius: 18px;
-    background: rgba(6, 19, 37, 0.86);
+    background: rgba(6, 19, 37, 0.9);
     backdrop-filter: blur(18px);
     border: 1px solid rgba(128, 184, 255, 0.3);
     box-shadow:
@@ -633,6 +637,21 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.journey-shell .v9-stage-glass .v8-kicker,
+.journey-shell .v9-stage-glass .recovery-current-day {
+    color: #8ec2ff !important;
+}
+
+.journey-shell .v9-stage-glass p,
+.journey-shell .v9-stage-glass li,
+.journey-shell .v9-stage-glass .detail-title {
+    color: #edf5ff;
+}
+
+.journey-shell .v9-stage-glass li small {
+    color: #b7d0ec !important;
 }
 
 .v9-stage-glass-top {

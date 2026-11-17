@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\DB;
+
 // Read-only V9 repository/DB audit. Never writes learner data.
 // Runs either from scripts/ on the host or from the app webroot in a one-off container.
 $base = is_file(__DIR__.'/../vendor/autoload.php') ? __DIR__.'/..' : __DIR__;
@@ -7,9 +10,6 @@ require $base.'/vendor/autoload.php';
 
 $app = require $base.'/bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
-
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Support\Facades\DB;
 
 $out = [];
 $tables = [

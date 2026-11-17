@@ -1,13 +1,13 @@
 <?php
 
+use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Facades\DB;
+
 // Ad-hoc read-only queries for the V9 audit. Usage: php v9-query.php <key>
 $base = is_file(__DIR__.'/../vendor/autoload.php') ? __DIR__.'/..' : __DIR__;
 require $base.'/vendor/autoload.php';
 $app = require $base.'/bootstrap/app.php';
 $app->make(Kernel::class)->bootstrap();
-
-use Illuminate\Contracts\Console\Kernel;
-use Illuminate\Support\Facades\DB;
 
 $key = $argv[1] ?? 'users';
 
