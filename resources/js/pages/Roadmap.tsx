@@ -5,8 +5,10 @@ import {
     ArrowRight,
     Check,
     ChevronDown,
+    CircleDot,
     Clock3,
     List,
+    LockKeyhole,
     Map,
     Search,
 } from "lucide-react";
@@ -164,17 +166,17 @@ export default function Roadmap({
                         <Clock3 size={16} /> 90 Hari
                     </span>
                 </div>
-                <div className="v8-roadmap-layout">
+                <div className="v8-roadmap-layout v9-roadmap-frame">
                     <section
                         className="v8-roadmap-timeline"
                         aria-label="Peta perjalanan lima tahap"
                     >
-                        <div className="v8-section-heading">
+                        <div className="v8-section-heading v9-map-overlay-head">
                             <div>
-                                <h2>Jalur belajar</h2>
+                                <h2>Jalur Ekspedisi 90 Hari</h2>
                                 <p>
-                                    Pilih tahapan untuk melihat materi dan
-                                    aktivitasnya.
+                                    Dari fondasi protokol HTTP hingga praktik
+                                    bug bounty terarah.
                                 </p>
                             </div>
                         </div>
@@ -198,48 +200,50 @@ export default function Roadmap({
                                             setStage(index);
                                             setAll(false);
                                         }}
-                                        className={`v8-stage ${stage === index ? "chosen" : ""} ${item.status === "Selesai" ? "complete" : item.status === "Aktif" ? "active" : "locked"}`}
+                                        className={`v8-stage stage-tier-${index + 1} ${stage === index ? "chosen" : ""} ${item.status === "Selesai" ? "complete" : item.status === "Aktif" ? "active" : "locked"}`}
                                         style={{
-                                            /* Follows the luminous path, nudged left/down so
-                                               labels never sit on the stroke or the inset panel. */
-                                            left: `${[9, 26, 44, 55, 66.5][index] ?? 66.5}%`,
-                                            top: `${[83, 71, 59, 46, 31][index] ?? 31}%`,
+                                            left: `${[8.5, 20.5, 33, 41.5, 48.5][index] ?? 48.5}%`,
+                                            top: `${[83, 69, 53, 37, 22][index] ?? 22}%`,
                                         }}
                                         aria-pressed={stage === index}
                                         aria-label={`Tahap ${index + 1}: ${item.title}, ${item.status}, ${item.percent}%`}
                                     >
                                         <span className="v8-stage-dot">
                                             {item.status === "Selesai" ? (
-                                                <Check size={14} />
+                                                <Check size={18} />
                                             ) : (
                                                 index + 1
                                             )}
                                         </span>
-                                        <strong>{item.title}</strong>
-                                        <small>
-                                            {item.items.length
-                                                ? `Hari ${item.items[0].day}–${item.items[item.items.length - 1].day}`
-                                                : "Belum ada rencana"}
-                                        </small>
-                                        <small>{item.status}</small>
+                                        <span className="v9-stage-pill">
+                                            <strong>{item.title}</strong>
+                                            <small>
+                                                {item.items.length
+                                                    ? `Hari ${item.items[0].day}–${item.items[item.items.length - 1].day}`
+                                                    : "Belum ada rencana"}{" "}
+                                                · {item.status}
+                                            </small>
+                                        </span>
                                     </button>
                                 ))}
                             </div>
                         </div>
-                        <div className="v8-roadmap-progress">
-                            <span className="v8-kicker">
-                                PENCAPAIAN ROADMAP
-                            </span>
-                            <strong>
-                                {stats.completed} dari {stats.total} tugas
-                                selesai
-                            </strong>
-                            <p>
-                                {plan
-                                    ? `${stats.days_completed} dari 90 hari selesai`
-                                    : "Rencana belum dibuat"}{" "}
-                                · checklist mandiri tidak memberikan XP.
-                            </p>
+                        <div className="v8-roadmap-progress v9-roadmap-footer">
+                            <div className="v9-roadmap-footer-meta">
+                                <span className="v8-kicker">
+                                    PENCAPAIAN ROADMAP
+                                </span>
+                                <strong>
+                                    {stats.completed} dari {stats.total} tugas
+                                    selesai
+                                </strong>
+                                <p>
+                                    {plan
+                                        ? `${stats.days_completed} dari 90 hari selesai`
+                                        : "Rencana belum dibuat"}{" "}
+                                    · checklist mandiri tidak memberikan XP.
+                                </p>
+                            </div>
                             <div
                                 className="v8-progress-track"
                                 role="progressbar"
@@ -253,54 +257,108 @@ export default function Roadmap({
                         </div>
                     </section>
                     <aside
-                        className="v8-stage-detail"
+                        className="v8-stage-detail v9-stage-glass"
                         aria-labelledby="stage-detail-title"
                     >
-                        <span className="v8-kicker">
-                            TAHAP {stage + 1} / {stages.length}
-                        </span>
-                        <h2 id="stage-detail-title" className="detail-title">
-                            {selected.title}
-                        </h2>
-                        <p>
+                        <div className="v9-stage-glass-top">
+                            <span className="v8-kicker">DETAIL TAHAP</span>
+                            <span className="v9-stage-counter">
+                                {stage + 1} / {stages.length}
+                            </span>
+                        </div>
+                        <div className="v9-stage-identity">
+                            <span
+                                className={`v9-stage-badge tier-${stage + 1}`}
+                                aria-hidden="true"
+                            >
+                                {stage + 1}
+                            </span>
+                            <div>
+                                <h2
+                                    id="stage-detail-title"
+                                    className="detail-title"
+                                >
+                                    {selected.title}
+                                </h2>
+                                <span className="v9-stage-days">
+                                    {selected.items.length
+                                        ? `Hari ${selected.items[0].day}–${selected.items[selected.items.length - 1].day} · ${selected.status}`
+                                        : selected.status}
+                                </span>
+                            </div>
+                        </div>
+                        <p className="v9-stage-objective">
                             {selected.items[0]?.objective ||
                                 "Buat rencana pribadi untuk melihat aktivitas pada tahap ini."}
                         </p>
-                        <p>
-                            <strong>
-                                {selected.done} / {selected.items.length}
-                            </strong>{" "}
-                            checklist direview · {selected.percent}%
-                        </p>
+                        <div className="v9-stage-meter">
+                            <div className="v9-stage-meter-label">
+                                <span>
+                                    <strong>
+                                        {selected.done} /{" "}
+                                        {selected.items.length}
+                                    </strong>{" "}
+                                    checklist direview
+                                </span>
+                                <strong>{selected.percent}%</strong>
+                            </div>
+                            <div
+                                className="v9-stage-meter-bar"
+                                aria-hidden="true"
+                            >
+                                <span
+                                    style={{ width: `${selected.percent}%` }}
+                                />
+                            </div>
+                        </div>
                         <p className="recovery-current-day">
                             {today.day
-                                ? `Hari ini · Hari ${today.day}`
+                                ? `Hari aktif · Hari ${today.day}`
                                 : "Jadwal mengikuti rencana akun"}
                         </p>
                         <h3>Aktivitas prioritas</h3>
-                        <ul>
+                        <ul className="v9-priority-list">
                             {selected.items
                                 .filter((task) => task.status !== "completed")
                                 .slice(0, 4)
                                 .map((task) => (
                                     <li key={task.id}>
-                                        <span>{task.title}</span>
-                                        <small>{task.minutes} menit</small>
+                                        <span className="v9-priority-title">
+                                            {task.status === "locked" ? (
+                                                <LockKeyhole
+                                                    size={13}
+                                                    aria-hidden="true"
+                                                />
+                                            ) : (
+                                                <CircleDot
+                                                    size={13}
+                                                    aria-hidden="true"
+                                                />
+                                            )}
+                                            <span>{task.title}</span>
+                                        </span>
+                                        <small>{task.minutes}m</small>
                                     </li>
                                 ))}
                         </ul>
                         {selected.status === "Terkunci" && plan && (
-                            <p>
-                                Aktivitas terkunci sampai prasyaratnya selesai.
-                                Kamu tetap dapat melihat detailnya.
+                            <p className="v9-locked-hint">
+                                Tahap terkunci sampai prasyarat selesai; rincian
+                                materi tetap dapat ditinjau.
                             </p>
                         )}
-                        <Button onClick={plan ? showList : showPlan}>
+                        <Button
+                            className="v9-stage-cta"
+                            onClick={plan ? showList : showPlan}
+                        >
                             {plan
                                 ? "Lihat Aktivitas di Tahap Ini"
                                 : "Buat Rencana Belajar"}
                             <ArrowRight size={16} />
                         </Button>
+                        <span className="v9-stage-cadence">
+                            20 menit teori · 70 praktik · 30 refleksi
+                        </span>
                     </aside>
                 </div>
                 <div className="v8-roadmap-list-toggle">

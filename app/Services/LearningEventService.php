@@ -31,7 +31,18 @@ class LearningEventService
 
     public const HTTP_LESSONS = ['client-server', 'http-methods', 'status-headers', 'cookies-sessions', 'origin-cors', 'rest-api-json'];
 
-    public const API_LABS = ['order-idor', 'address-bola', 'profile-mass-assignment', 'jwt-validation', 'admin-bfla'];
+    public const API_LABS = [
+        'order-idor',
+        'address-bola',
+        'profile-mass-assignment',
+        'jwt-validation',
+        'admin-bfla',
+        'path-traversal-receipts',
+        'graphql-object-access',
+        'api-property-auth',
+        'api-data-minimization',
+        'multi-tenant-workspace',
+    ];
 
     private const REWARDS = ['lesson_completed' => 10, 'quiz_passed' => 20, 'lab_solved' => 0, 'report_accepted_for_practice' => 50];
 

@@ -2,92 +2,115 @@
   "order-idor": {
     "order-b": {
       "path": "/api/orders/102",
-      "methods": [
-        "GET"
-      ]
+      "methods": ["GET"]
     },
     "order-a": {
       "path": "/api/orders/101",
-      "methods": [
-        "GET"
-      ]
+      "methods": ["GET"]
     }
   },
   "address-bola": {
     "profile-b": {
       "path": "/api/profiles/2",
-      "methods": [
-        "GET",
-        "PATCH"
-      ]
+      "methods": ["GET", "PATCH"]
     },
     "profile-a": {
       "path": "/api/profiles/1",
-      "methods": [
-        "GET",
-        "PATCH"
-      ]
+      "methods": ["GET", "PATCH"]
     }
   },
   "search-xss": {
     "search": {
       "path": "/search",
-      "methods": [
-        "GET"
-      ]
+      "methods": ["GET"]
     }
   },
   "product-sqli": {
     "products": {
       "path": "/api/products",
-      "methods": [
-        "GET"
-      ]
+      "methods": ["GET"]
     }
   },
   "profile-mass-assignment": {
     "profile": {
       "path": "/api/profile",
-      "methods": [
-        "GET",
-        "PATCH"
-      ]
+      "methods": ["GET", "PATCH"]
     }
   },
   "jwt-validation": {
     "admin": {
       "path": "/api/token/admin",
-      "methods": [
-        "GET"
-      ]
+      "methods": ["GET"]
     }
   },
   "admin-bfla": {
     "product": {
       "path": "/api/products/3",
-      "methods": [
-        "GET"
-      ]
+      "methods": ["GET"]
     },
     "publish": {
       "path": "/api/admin/products/3/publish",
-      "methods": [
-        "POST"
-      ]
+      "methods": ["POST"]
     }
   },
   "coupon-logic": {
     "cart": {
       "path": "/api/cart",
-      "methods": [
-        "GET"
-      ]
+      "methods": ["GET"]
     },
     "coupon": {
       "path": "/api/cart/coupon",
-      "methods": [
-        "POST"
-      ]
+      "methods": ["POST"]
     }
+  },
+  "password-reset-token-lifecycle": {
+    "mailbox": { "path": "/api/reset/mailbox", "methods": ["GET"] },
+    "request": { "path": "/api/reset/request", "methods": ["POST"] },
+    "reset": { "path": "/api/reset/complete", "methods": ["POST"] },
+    "account": { "path": "/api/reset/account", "methods": ["GET"] }
+  },
+  "csrf-preferences": {
+    "preferences": { "path": "/api/preferences", "methods": ["GET", "POST"] },
+    "form": { "path": "/api/preferences/form", "methods": ["GET"] }
+  },
+  "path-traversal-receipts": {
+    "receipts": { "path": "/api/receipts", "methods": ["GET"] },
+    "download": { "path": "/api/receipts/download", "methods": ["GET"] }
+  },
+  "file-upload-validation": {
+    "uploads": { "path": "/api/uploads", "methods": ["GET", "POST"] },
+    "file": { "path": "/api/uploads/file", "methods": ["GET"] }
+  },
+  "graphql-object-access": {
+    "schema": { "path": "/api/graphql/schema", "methods": ["GET"] },
+    "graphql": { "path": "/api/graphql", "methods": ["POST"] }
+  },
+  "cors-credential-boundary": {
+    "policy": { "path": "/api/cors/policy", "methods": ["GET"] },
+    "account": { "path": "/api/cors/account-summary", "methods": ["GET"] }
+  },
+  "webhook-ssrf-fixtures": {
+    "destinations": { "path": "/api/webhooks/destinations", "methods": ["GET"] },
+    "test": { "path": "/api/webhooks/test", "methods": ["POST"] }
+  },
+  "oauth-callback-state": {
+    "status": { "path": "/api/oauth/status", "methods": ["GET"] },
+    "start": { "path": "/api/oauth/start", "methods": ["POST"] },
+    "callback": { "path": "/api/oauth/callback", "methods": ["POST"] }
+  },
+  "coupon-race": {
+    "wallet": { "path": "/api/coupons/wallet", "methods": ["GET"] },
+    "redeem": { "path": "/api/coupons/redeem", "methods": ["POST"] },
+    "burst": { "path": "/api/coupons/redeem-burst", "methods": ["POST"] }
+  },
+  "api-property-auth": {
+    "member": { "path": "/api/account/member-profile", "methods": ["GET", "PATCH"] }
+  },
+  "api-data-minimization": {
+    "directory": { "path": "/api/community/contributors", "methods": ["GET"] }
+  },
+  "multi-tenant-workspace": {
+    "workspaces": { "path": "/api/workspaces", "methods": ["GET"] },
+    "projects": { "path": "/api/workspaces/projects", "methods": ["GET"] }
   }
 }

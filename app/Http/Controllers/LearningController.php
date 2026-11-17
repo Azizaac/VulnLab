@@ -6,6 +6,7 @@ use App\Models\Lab;
 use App\Models\LabProgress;
 use App\Models\Lesson;
 use App\Models\QuizAttempt;
+use App\Services\LabRuntimeRegistry;
 use App\Services\LearningService;
 use App\Services\QuizPresentationService;
 use App\Services\SafeMarkdown;
@@ -27,10 +28,11 @@ class LearningController extends Controller
         $erratum = config('content-errata.'.$lesson->slug);
         $clarification = $erratum && hash_equals($erratum['sha256'], hash('sha256', $lesson->body_md))
             ? $markdown->render($erratum['markdown']) : null;
-        $labLinks = $lesson->labs->map(function ($spec) use ($interactive, $solved) {
+        $registry = app(LabRuntimeRegistry::class);
+        $labLinks = $lesson->labs->map(function ($spec) use ($interactive, $solved, $registry) {
             $lab = $interactive->get($spec->id);
 
-            return ['id' => $spec->id, 'title' => $lab?->title ?? $spec->title, 'goal' => $spec->goal, 'slug' => $lab?->slug, 'available' => (bool) $lab?->enabled && config('labs.enabled'), 'solved' => $lab && $solved->contains($lab->id)];
+            return ['id' => $spec->id, 'title' => $lab?->title ?? $spec->title, 'goal' => $spec->goal, 'slug' => $lab?->slug, 'available' => $lab ? ($lab->enabled && (bool) config('labs.enabled') && $registry->available($lab)) : false, 'solved' => $lab && $solved->contains($lab->id)];
         });
 
         return Inertia::render('LessonReader', [

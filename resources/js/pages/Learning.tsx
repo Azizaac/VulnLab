@@ -1,9 +1,18 @@
 import { Head, Link } from "@inertiajs/react";
 import { useState } from "react";
-import { ArrowRight, BookOpen, Clock3, Search } from "lucide-react";
+import {
+    ArrowRight,
+    BookOpen,
+    Clock3,
+    Layers,
+    Search,
+    ShieldCheck,
+} from "lucide-react";
 import AppShell from "../components/AppShell";
 import type { Course } from "../learning";
 import "../../css/v8-learning-labs.css";
+
+const TONES = ["blue", "teal", "violet", "amber", "cyan"] as const;
 
 export default function Learning({ courses }: { courses: Course[] }) {
     const [search, setSearch] = useState("");
@@ -22,19 +31,27 @@ export default function Learning({ courses }: { courses: Course[] }) {
     return (
         <AppShell title="Modul pembelajaran">
             <Head title="Modul" />
-            <div className="v8-learning-catalog">
-                <header className="v8-catalog-heading">
+            <div className="v8-learning-catalog v9-catalog-page">
+                <header className="v8-catalog-heading v9-catalog-banner">
                     <div>
-                        <span className="eyebrow">Learning Modules</span>
+                        <span className="eyebrow">
+                            KURIKULUM TERARAH · SUMBER PRIMER
+                        </span>
                         <h1>Belajar yang benar-benar dipahami.</h1>
                         <p>
-                            Penjelasan, contoh teknis, cek pemahaman, lalu
-                            praktik.
+                            Konsep, analogi, contoh HTTP sintetis, kuis
+                            server-side, lalu pembuktian di lab lokal.
                         </p>
                     </div>
-                    <span className="v8-catalog-summary">
-                        {completed} / {totalLessons} lesson selesai
-                    </span>
+                    <div className="v9-catalog-pills">
+                        <span className="v9-stat-chip subtle">
+                            <Layers size={15} aria-hidden="true" />
+                            {courses.length} jalur belajar
+                        </span>
+                        <span className="v8-catalog-summary">
+                            {completed} / {totalLessons} lesson selesai
+                        </span>
+                    </div>
                 </header>
                 <div className="v8-catalog-controls">
                     <label className="workspace-search">
@@ -60,21 +77,25 @@ export default function Learning({ courses }: { courses: Course[] }) {
                         </select>
                     </label>
                     <span className="v8-result-count">
-                        {shown.length} jalur belajar
+                        {shown.length} jalur ·{" "}
+                        {shown.reduce((n, c) => n + c.lessons.length, 0)} lesson
                     </span>
                 </div>
                 <div className="course-grid v8-course-grid">
-                    {shown.map((c) => {
+                    {shown.map((c, idx) => {
                         const next =
                             c.lessons.find((l) => !l.completed && !l.locked) ||
                             c.lessons[0];
+                        const tone = TONES[idx % TONES.length];
                         return (
                             <article
-                                className="course-card v8-course-card"
+                                className={`course-card v8-course-card v9-path-card tone-${tone}`}
                                 key={c.id}
                             >
                                 <div className="v8-card-top">
-                                    <span className="v8-tile-icon">
+                                    <span
+                                        className={`v8-tile-icon tone-${tone}`}
+                                    >
                                         <BookOpen
                                             size={20}
                                             aria-hidden="true"
@@ -85,7 +106,7 @@ export default function Learning({ courses }: { courses: Course[] }) {
                                     </span>
                                 </div>
                                 <span className="v8-card-kicker">
-                                    Jalur belajar
+                                    Jalur {idx + 1} · {c.lessons.length} lesson
                                 </span>
                                 <h2>{c.title}</h2>
                                 <p>{c.description}</p>
@@ -94,14 +115,25 @@ export default function Learning({ courses }: { courses: Course[] }) {
                                     <span>
                                         <Clock3 size={14} /> {c.minutes} menit
                                     </span>
+                                    <span>
+                                        <ShieldCheck size={14} />{" "}
+                                        {c.sources.length} rujukan
+                                    </span>
                                 </div>
                                 <progress
                                     aria-label={`Progres ${c.title}`}
                                     value={c.completed}
                                     max={Math.max(c.lessons.length, 1)}
                                 />
-                                <small>
-                                    {c.completed}/{c.lessons.length} selesai
+                                <small className="v9-progress-label">
+                                    <span>
+                                        {c.completed}/{c.lessons.length} selesai
+                                    </span>
+                                    <span>
+                                        {c.prerequisites.length
+                                            ? `${c.prerequisites.length} prasyarat`
+                                            : "Tanpa prasyarat"}
+                                    </span>
                                 </small>
                                 <details>
                                     <summary>

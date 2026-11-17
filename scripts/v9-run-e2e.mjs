@@ -1,7 +1,6 @@
 // Runs one Playwright spec against a disposable SQLite database.
 // Usage: node scripts/v9-run-e2e.mjs <spec> [--config=...] [extra args...]
 import fs from "node:fs";
-import os from "node:os";
 import path from "node:path";
 import { execFileSync } from "node:child_process";
 
@@ -12,11 +11,11 @@ const php =
     (process.platform === "win32" ? path.resolve(".tools/php/php.exe") : "php");
 // This PHP build cannot write to %LOCALAPPDATA%\Temp, so SQLite spills and
 // Laravel's temp dir both need a writable location inside the ignored .tools dir.
-const dir = ".tools/v9-e2e-db";
-fs.rmSync(dir, { recursive: true, force: true });
+fs.mkdirSync(".tools", { recursive: true });
+const dir = fs.mkdtempSync(path.resolve(".tools/v9-e2e-"));
 fs.mkdirSync(path.join(dir, "tmp"), { recursive: true });
 const tmp = path.resolve(path.join(dir, "tmp"));
-const database = path.resolve(path.join(dir, "test.sqlite"));
+const database = path.join(tmp, "test.sqlite");
 fs.writeFileSync(database, "");
 const env = {
     ...process.env,

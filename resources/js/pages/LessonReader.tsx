@@ -433,6 +433,53 @@ function Reader({
                                         ))}
                                     </ul>
                                 </section>
+                                <details className="v9-need-help">
+                                    <summary>
+                                        Belum paham? Lihat ringkasan sederhana
+                                        &amp; prasyarat
+                                    </summary>
+                                    <div className="v9-need-help-body">
+                                        <p>
+                                            <strong>Inti konsep:</strong>{" "}
+                                            {lesson.enrichment.objectives[0] ||
+                                                lesson.title}
+                                            . Fokus dulu membedakan apa yang
+                                            dikirim klien vs apa yang divalidasi
+                                            server.
+                                        </p>
+                                        <p>
+                                            <strong>
+                                                Langkah belajar ulang:
+                                            </strong>{" "}
+                                            periksa tab <em>Contoh Kode</em>{" "}
+                                            untuk melihat percakapan HTTP
+                                            sintetis baris demi baris, lalu
+                                            tulis 1 kalimat kesimpulan di
+                                            Catatan.
+                                        </p>
+                                        {current.prerequisites.length > 0 && (
+                                            <p>
+                                                <strong>
+                                                    Tinjau prasyarat terlebih
+                                                    dahulu:
+                                                </strong>{" "}
+                                                {current.prerequisites.map(
+                                                    (p, idx) => (
+                                                        <span key={p.id}>
+                                                            {idx > 0 && " · "}
+                                                            <Link
+                                                                className="source-link"
+                                                                href={`/learning/${p.slug}`}
+                                                            >
+                                                                {p.title}
+                                                            </Link>
+                                                        </span>
+                                                    ),
+                                                )}
+                                            </p>
+                                        )}
+                                    </div>
+                                </details>
                                 <button
                                     className="learning-button"
                                     disabled={

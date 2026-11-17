@@ -17,7 +17,8 @@ class ContainerConfigurationTest extends TestCase
         $this->assertStringNotContainsString('docker.sock', file_get_contents(base_path('compose.labs.yaml')));
         $this->assertStringContainsString('sandbox', file_get_contents(base_path('.dockerignore')));
         $routes = json_decode(file_get_contents(database_path('data/lab-routes.json')), true);
-        $this->assertCount(8, $routes);
+        $expansion = json_decode(file_get_contents(database_path('data/labs-v9.json')), true);
+        $this->assertCount(8 + count($expansion), $routes);
         foreach ($routes as $endpoints) {
             foreach ($endpoints as $endpoint) {
                 $this->assertStringStartsWith('/', $endpoint['path']);

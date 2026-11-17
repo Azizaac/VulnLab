@@ -1,0 +1,46 @@
+{
+  "checked_at": "2026-11-17T17:51:06.877Z",
+  "status": "PASS",
+  "scope": "disposable MySQL restored from local snapshot",
+  "restore_exact": true,
+  "first": {
+    "baseline": {
+      "created": 25,
+      "unchanged": 0
+    },
+    "expansion": {
+      "created": 20,
+      "unchanged": 0
+    }
+  },
+  "second": {
+    "baseline": {
+      "created": 0,
+      "unchanged": 25
+    },
+    "expansion": {
+      "created": 0,
+      "unchanged": 20
+    }
+  },
+  "preserved_tables": [
+    "users",
+    "lessons",
+    "lesson_sources",
+    "quiz_questions",
+    "quiz_choices",
+    "lesson_progress",
+    "quiz_attempts",
+    "xp_transactions",
+    "lab_progress",
+    "lab_sessions",
+    "notes",
+    "vulnerability_reports",
+    "roadmap_plans",
+    "roadmap_lesson_links"
+  ],
+  "independent_review_count": 0,
+  "draft_count": 45,
+  "source_unchanged": true,
+  "source_snapshot_sha256": "126db3a94112df1f4a0533227d8b40de2b02d02a994160c9dd9787afeedaef32"
+}

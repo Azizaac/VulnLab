@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-11-16T06:36:33.602Z",
+  "runtime_revision": "84a5a3938626aa0e67359f07bff705f0d5d157b6d62a5a95f47f0196451a43e8",
+  "scope": "Local isolated Docker and disposable SQLite only",
+  "labs": {
+    "password-reset-token-lifecycle": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "csrf-preferences": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    }
+  },
+  "evidence": {
+    "runtime_command": "node scripts/test-v9-sandbox.mjs",
+    "core_command": "V9_REAL_RUNNER=1 php artisan test --compact --filter=V9LabRuntimeTest",
+    "core_tests": 2,
+    "core_assertions": 76,
+    "registry_tests": 2,
+    "registry_assertions": 13,
+    "isolation_checked_at": "2026-11-16T06:35:21.373Z",
+    "limitations": [
+      "Synthetic Origin/token fixture; browser SameSite not verified"
+    ]
+  }
+}

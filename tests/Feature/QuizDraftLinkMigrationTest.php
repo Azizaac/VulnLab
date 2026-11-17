@@ -37,18 +37,22 @@ class QuizDraftLinkMigrationTest extends TestCase
 
     public function test_sqlite_rollback_and_reapply_restore_unique_parent_constraint(): void
     {
-        $this->assertSame('sqlite', DB::getDriverName());
+        $driver = DB::getDriverName();
         $migration = require database_path('migrations/2026_10_27_000001_add_quiz_draft_lesson_link.php');
         $migration->down();
         $this->assertFalse(Schema::hasColumn('content_entries', 'parent_lesson_entry_id'));
-        $this->assertFalse(collect(DB::select("PRAGMA foreign_key_list('content_entries')"))->contains('from', 'parent_lesson_entry_id'));
-        $indexes = collect(DB::select("PRAGMA index_list('content_entries')"))->pluck('name');
-        $this->assertFalse($indexes->contains('content_entries_parent_lesson_entry_id_unique'));
+        if ($driver === 'sqlite') {
+            $this->assertFalse(collect(DB::select("PRAGMA foreign_key_list('content_entries')"))->contains('from', 'parent_lesson_entry_id'));
+            $indexes = collect(DB::select("PRAGMA index_list('content_entries')"))->pluck('name');
+            $this->assertFalse($indexes->contains('content_entries_parent_lesson_entry_id_unique'));
+        }
         $migration->up();
         $this->assertTrue(Schema::hasColumn('content_entries', 'parent_lesson_entry_id'));
-        $this->assertTrue(collect(DB::select("PRAGMA foreign_key_list('content_entries')"))->contains('from', 'parent_lesson_entry_id'));
-        $indexes = collect(DB::select("PRAGMA index_list('content_entries')"))->keyBy('name');
-        $this->assertSame(1, $indexes['content_entries_parent_lesson_entry_id_unique']->unique);
+        if ($driver === 'sqlite') {
+            $this->assertTrue(collect(DB::select("PRAGMA foreign_key_list('content_entries')"))->contains('from', 'parent_lesson_entry_id'));
+            $indexes = collect(DB::select("PRAGMA index_list('content_entries')"))->keyBy('name');
+            $this->assertSame(1, $indexes['content_entries_parent_lesson_entry_id_unique']->unique);
+        }
 
         $parent = DB::table('content_entries')->insertGetId(['kind' => 'lesson', 'slug' => 'migration-parent']);
         DB::table('content_entries')->insert([

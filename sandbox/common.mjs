@@ -1,6 +1,10 @@
 import {createHash,timingSafeEqual} from 'node:crypto';
 import fs from 'node:fs';
 export const contracts=JSON.parse(fs.readFileSync(new URL('./contracts.json',import.meta.url),'utf8'));
+const revisionFiles = fs.readdirSync(new URL('./', import.meta.url)).filter(name => name.endsWith('.mjs') || ['contracts.json', 'Dockerfile', 'compose.yaml', 'Dockerfile.verifier', 'package.json', 'package-lock.json'].includes(name)).sort();
+const revisionHash = createHash('sha256');
+for (const name of revisionFiles) revisionHash.update(name + '\0').update(fs.readFileSync(new URL(name, import.meta.url))).update('\0');
+export const runtimeRevision = revisionHash.digest('hex');
 export const uuid=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
 export function equal(a,b){return typeof a==='string'&&typeof b==='string'&&timingSafeEqual(createHash('sha256').update(a).digest(),createHash('sha256').update(b).digest());}
 export function send(res,status,data,type='application/json'){res.writeHead(status,{'Content-Type':type,'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'"});res.end(type==='application/json'?JSON.stringify(data):data);}
@@ -12,7 +16,9 @@ export function validateRequest(lab,input){
  if(Object.keys(input).some(k=>!['endpoint','method','headers','body','mode'].includes(k)))fail(422,'Unknown request fields');
  const headers=input.headers??{};
  if(!headers||Array.isArray(headers)||typeof headers!=='object')fail(422,'Headers must be an object');
- for(const [key,value]of Object.entries(headers)){if(!['X-Dummy-User','Content-Type','Authorization'].includes(key)||typeof value!=='string'||value.length>2048||/[\r\n\0]/.test(value))fail(422,'Header not allowed');}
+ const allowedHeaders = ['X-Dummy-User','Content-Type','Authorization',...(['csrf-preferences','cors-credential-boundary'].includes(lab)?['Origin']:[])];
+ for(const [key,value]of Object.entries(headers)){if(!allowedHeaders.includes(key)||typeof value!=='string'||value.length>2048||/[\r\n\0]/.test(value))fail(422,'Header not allowed');}
+ if(headers.Origin&&!['http://trusted.lab.test','http://attacker.lab.test'].includes(headers.Origin))fail(422,'Only synthetic fixture origins allowed');
  if(headers['X-Dummy-User']&&!['customer_a','customer_b','admin'].includes(headers['X-Dummy-User']))fail(422,'Unknown dummy account');
  if(headers['Content-Type']&&headers['Content-Type']!=='application/json')fail(422,'Only JSON request bodies supported');
  if(!['vulnerable','secure'].includes(input.mode))fail(422,'Unknown mode');

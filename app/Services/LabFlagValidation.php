@@ -30,7 +30,7 @@ class LabFlagValidation
             $reward = ['xp_delta' => 0, 'new_achievements' => []];
             if ($valid) {
                 $proof = $this->runner->evidence($s);
-                $valid = ($proof['eligible'] ?? false) === true && ($proof['generation'] ?? null) === $s->generation && ($proof['lab'] ?? null) === $s->lab->slug;
+                $valid = ($proof['eligible'] ?? false) === true && ($proof['generation'] ?? null) === $s->generation && ($proof['lab'] ?? null) === $s->lab->slug && app(LabRuntimeRegistry::class)->matches($s->lab, $proof['runtime_revision'] ?? null);
             }
             LabAttempt::create(['lab_session_id' => $s->id, 'generation' => $s->generation, 'submission_id' => $input['submission_id'], 'success' => $valid, 'created_at' => now()]);
             if ($valid) {

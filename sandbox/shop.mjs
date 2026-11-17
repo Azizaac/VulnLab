@@ -3,14 +3,15 @@ import http from 'node:http';
 import fs from 'node:fs';
 import {DatabaseSync,constants} from 'node:sqlite';
 import {createHmac,randomBytes} from 'node:crypto';
-import {body,send,fail,equal,uuid,contracts,validateRequest,fetchBounded} from './common.mjs';
+import {body,send,fail,equal,uuid,contracts,validateRequest,fetchBounded,runtimeRevision} from './common.mjs';
+import {expansion} from './expansion.mjs';
 const secret=process.env.SHOP_CONTROL_TOKEN;
 if(!secret||secret.length<40)throw new Error('Shop management secret missing');
 const sessions=new Map();
-function dispose(id){const s=sessions.get(id);if(s){s.db.close();sessions.delete(id);fs.unlinkSync(`/data/${id}.sqlite`);}}
+function dispose(id){const s=sessions.get(id);if(s){s.db.close();sessions.delete(id);fs.unlinkSync(`/data/${id}.sqlite`);fs.rmSync(`/data/${id}`,{recursive:true,force:true});}}
 function current(id,input){const s=sessions.get(id);if(!s)fail(410,'Sandbox data expired or restarted; reset this session');if(s.expires_at<=Date.now()){dispose(id);fail(410,'Session expired');}if(!equal(s.capability,input.capability)||s.generation!==input.generation)fail(409,'Stale session generation');return s;}
 function provision(id,input){
- const prior=sessions.get(id);if(prior&&prior.generation===input.generation){if(!equal(prior.capability,input.capability))fail(409,'Provisioning conflict');return {ready:true,fixtures:prior.fixtures??{}};}
+ const prior=sessions.get(id);if(prior&&prior.generation===input.generation){if(!equal(prior.capability,input.capability))fail(409,'Provisioning conflict');return {ready:true,fixtures:prior.fixtures??{},runtime_revision:runtimeRevision};}
  if(prior&&prior.generation>input.generation)fail(409,'Stale provisioning');
  if(!prior&&sessions.size>=64)fail(503,'Sandbox capacity reached');dispose(id);
  const db=new DatabaseSync(`/data/${id}.sqlite`);db.exec('CREATE TABLE orders(id INTEGER PRIMARY KEY,owner TEXT,item TEXT,flag TEXT); CREATE TABLE profiles(id INTEGER PRIMARY KEY,owner TEXT,city TEXT,role TEXT);');
@@ -21,14 +22,16 @@ function provision(id,input){
  const jwtKey=randomBytes(32).toString('hex');const claims={sub:'customer_b',role:'customer',iss:'vulnshop',aud:'vulnshop-lab',exp:Math.floor(input.expires_at/1000)};
  const head=Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url');const payload=Buffer.from(JSON.stringify(claims)).toString('base64url');const signature=createHmac('sha256',jwtKey).update(head+'.'+payload).digest('base64url');
  const fixtures=input.lab==='jwt-validation'?{jwt_token:head+'.'+payload+'.'+signature}:{};
- sessions.set(id,{...input,db,evidence:false,jwtKey,fixtures});return {ready:true,fixtures};
+ const s={...input,id,db,evidence:false,jwtKey,fixtures};
+ expansion[s.lab]?.provision(s);
+ sessions.set(id,s);return {ready:true,fixtures:s.fixtures,runtime_revision:runtimeRevision};
 }
 http.createServer(async(req,res)=>{try{
  const url=new URL(req.url,'http://shop:8080');const management=/^\/_control\/([0-9a-f-]+)\/(provision|request|evidence|stop|xss-proof)$/.exec(url.pathname);
  if(management){if(req.method!=='POST'||!equal(req.headers['x-control-token'],secret))fail(403,'Forbidden');const [,id,action]=management;if(!uuid.test(id))fail(422,'Invalid session');const input=await body(req);
   if(action==='provision'){if(!contracts[input.lab]||!Number.isInteger(input.generation)||!/^VULNLAB\{[a-f0-9]{48}\}$/.test(input.flag)||!/^[a-f0-9]{64}$/.test(input.capability))fail(422,'Invalid provision');return send(res,200,provision(id,input));}
   const s=current(id,input);
-  if(action==='evidence')return send(res,200,{eligible:s.evidence,lab:s.lab,generation:s.generation});
+  if(action==='evidence')return send(res,200,{eligible:s.evidence,lab:s.lab,generation:s.generation,runtime_revision:runtimeRevision});
   if(action==='xss-proof'){if(s.lab!=='search-xss')fail(422,'Wrong proof type');s.evidence=true;return send(res,200,{flag:s.flag});}
   if(action==='stop'){dispose(id);return send(res,200,{stopped:true});}
   if(input.lab!==s.lab)fail(422,'Session lab mismatch');const rule=validateRequest(s.lab,input.request);const r=input.request;const started=performance.now();
@@ -41,6 +44,7 @@ http.createServer(async(req,res)=>{try{
  const [,id,path]=training;const s=current(id,{capability:req.headers['x-capability'],generation:Number(req.headers['x-generation'])});
  if(!Object.values(contracts[s.lab]).some(r=>r.path===path&&r.methods.includes(req.method)))fail(404,'Out of scope');
  const actor=req.headers['x-dummy-user']||'customer_b';if(!['customer_a','customer_b','admin'].includes(actor))fail(401,'Unknown dummy account');const secure=req.headers['x-mode']==='secure';
+ if(expansion[s.lab]&&await expansion[s.lab].handle({s,req,res,url,path,actor,secure}))return;
  if(s.lab==='order-idor'){
   const order=s.db.prepare('SELECT * FROM orders WHERE id=?').get(Number(path.split('/').pop()));if(!order)fail(404,'Order missing');
   if(secure&&order.owner!==actor)fail(403,'OrderPolicy: bukan pesanan akun ini');

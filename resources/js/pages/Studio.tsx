@@ -41,6 +41,12 @@ type Props = {
     section: string;
     entries: Paged<Entry>;
     counts: Record<string, number>;
+    catalogSummary?: {
+        visible_lessons: number;
+        reviewed_lessons: number;
+        playable_local_labs: number;
+        total_lab_definitions: number;
+    };
     choices: ChoiceLists;
     filters: Record<string, string>;
     users: Paged<ManagedUser> | null;
@@ -64,6 +70,7 @@ export default function Studio({
     section,
     entries,
     counts,
+    catalogSummary,
     choices,
     filters,
     users,
@@ -351,26 +358,66 @@ export default function Studio({
             <Head title="Admin Studio" />
             <StudioHeading title={titles[section]} />
             {section === "overview" && (
-                <div className="v5-grid four">
-                    {[
-                        "draft",
-                        "in_review",
-                        "published",
-                        "changes_requested",
-                    ].map((s) => (
-                        <Link
-                            href={`/studio/content?status=${s}`}
-                            className="v5-card v5-stat"
-                            key={s}
+                <>
+                    {catalogSummary && (
+                        <section
+                            className="v9-studio-truth-bar"
+                            aria-label="Status katalog pembelajaran dan runtime"
                         >
-                            <p>{statuses[s]}</p>
-                            <strong>{counts[s] ?? 0}</strong>
-                            <span className={`v5-pill ${s}`}>
-                                Dari database
-                            </span>
-                        </Link>
-                    ))}
-                </div>
+                            <div>
+                                <span>Lesson tampil ke pembelajar</span>
+                                <strong>
+                                    {catalogSummary.visible_lessons}
+                                </strong>
+                                <small>
+                                    {catalogSummary.reviewed_lessons} lolos
+                                    review pakar
+                                </small>
+                            </div>
+                            <div>
+                                <span>Lab playable lokal</span>
+                                <strong>
+                                    {catalogSummary.playable_local_labs}
+                                </strong>
+                                <small>
+                                    dari {catalogSummary.total_lab_definitions}{" "}
+                                    definisi lab
+                                </small>
+                            </div>
+                            <div>
+                                <span>Draft menunggu review</span>
+                                <strong>
+                                    {(counts.draft ?? 0) +
+                                        (counts.in_review ?? 0)}
+                                </strong>
+                                <small>
+                                    {counts.in_review ?? 0} dalam antrean
+                                    reviewer
+                                </small>
+                            </div>
+                        </section>
+                    )}
+                    <div className="v5-grid four">
+                        {[
+                            "draft",
+                            "in_review",
+                            "published",
+                            "changes_requested",
+                        ].map((s) => (
+                            <Link
+                                href={`/studio/content?status=${s}`}
+                                className="v5-card v5-stat"
+                                key={s}
+                            >
+                                <p>{statuses[s]}</p>
+                                <strong>{counts[s] ?? 0}</strong>
+                                <span className={`v5-pill ${s}`}>
+                                    Dari database
+                                </span>
+                            </Link>
+                        ))}
+                    </div>
+                </>
             )}
             {section === "overview" && list}
             {section === "overview" && (

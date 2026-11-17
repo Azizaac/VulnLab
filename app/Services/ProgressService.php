@@ -14,12 +14,12 @@ use Carbon\CarbonImmutable;
 class ProgressService
 {
     private const SKILLS = [
-        'web_fundamentals' => ['Web Fundamentals', ['client-server', 'http-methods', 'status-headers', 'cookies-sessions', 'origin-cors', 'rest-api-json'], []],
-        'authentication' => ['Authentication', ['authentication-authorization', 'session-lifecycle', 'cookies-sessions', 'jwt-fundamentals'], ['jwt-validation']],
-        'access_control' => ['Access Control', ['idor', 'bola', 'bfla', 'csrf'], ['order-idor', 'address-bola', 'admin-bfla']],
-        'api_security' => ['API Security', ['rest-api-json', 'bola', 'bfla', 'jwt-fundamentals', 'mass-assignment', 'graphql-intro'], ['address-bola', 'profile-mass-assignment', 'jwt-validation', 'admin-bfla']],
+        'web_fundamentals' => ['Web Fundamentals', ['client-server', 'http-methods', 'status-headers', 'cookies-sessions', 'origin-cors', 'rest-api-json', 'cors-identity-trust', 'safe-file-uploads', 'webhook-ssrf-boundaries'], ['file-upload-validation', 'cors-credential-boundary', 'webhook-ssrf-fixtures']],
+        'authentication' => ['Authentication', ['authentication-authorization', 'session-lifecycle', 'cookies-sessions', 'jwt-fundamentals', 'reset-token-lifecycle', 'csrf-and-samesite', 'oauth-state-redirect'], ['jwt-validation', 'password-reset-token-lifecycle', 'csrf-preferences', 'oauth-callback-state']],
+        'access_control' => ['Access Control', ['idor', 'bola', 'bfla', 'csrf', 'path-traversal-receipts'], ['order-idor', 'address-bola', 'admin-bfla', 'path-traversal-receipts', 'multi-tenant-workspace']],
+        'api_security' => ['API Security', ['rest-api-json', 'bola', 'bfla', 'jwt-fundamentals', 'mass-assignment', 'graphql-intro', 'graphql-authorization', 'api-object-property-minimization'], ['address-bola', 'profile-mass-assignment', 'jwt-validation', 'admin-bfla', 'graphql-object-access', 'api-property-auth', 'api-data-minimization']],
         'injection' => ['Injection', ['xss-basics', 'sql-injection', 'input-validation'], ['search-xss', 'product-sqli']],
-        'business_logic' => ['Business Logic', ['business-logic'], ['coupon-logic']],
+        'business_logic' => ['Business Logic', ['business-logic', 'race-coupon-redemption'], ['coupon-logic', 'coupon-race']],
         'reconnaissance' => ['Reconnaissance', ['scoping-recon', 'burp-repeater'], []],
         'reporting' => ['Reporting', ['vuln-reporting'], []],
     ];
@@ -54,6 +54,9 @@ class ProgressService
             $nextAction = ['label' => 'Buat rencana 90 hari', 'href' => '/dashboard'];
         }
 
+        $registry = app(LabRuntimeRegistry::class);
+        $playableLabs = Lab::all()->filter(fn ($lab) => ($lab->enabled && $registry->available($lab)) || $labsSolved->contains($lab->id));
+
         return [
             'period' => $period, 'timezone' => $timezone,
             'summary' => [
@@ -62,10 +65,10 @@ class ProgressService
                 'modules_total' => $modules->filter(fn ($module) => $module->lessons->isNotEmpty())->count(),
                 'lessons_completed' => $completedIds->count(), 'lessons_total' => Lesson::count(),
                 'quizzes_passed' => $quizIds->count(), 'quizzes_total' => Lesson::whereHas('questions')->count(),
-                'labs_solved' => $labsSolved->count(), 'labs_total' => Lab::count(), 'verified_minutes' => null,
+                'labs_solved' => $labsSolved->count(), 'labs_total' => $playableLabs->count(), 'verified_minutes' => null,
                 ...$this->events->level($user),
             ],
-            'activity' => $activity, 'skills' => $this->skills($user, $events),
+            'activity' => $activity, 'skills' => $this->skills($user, $events, $playableLabs),
             'journey' => [
                 'percent' => $items->isEmpty() ? 0 : round(100 * $items->where('status', 'completed')->count() / $items->count(), 1),
                 'completed_days' => $completedDays, 'total_days' => $totalDays,
@@ -87,10 +90,9 @@ class ProgressService
         ];
     }
 
-    private function skills(User $user, $events): array
+    private function skills(User $user, $events, $labs): array
     {
         $lessons = Lesson::all(['id', 'slug']);
-        $labs = Lab::all(['id', 'slug']);
         $passed = QuizAttempt::where('user_id', $user->id)->where('passed', true)->latest('created_at')->latest('id')->get(['lesson_id', 'score'])->unique('lesson_id')->keyBy('lesson_id');
         $solved = $events->where('event_type', 'lab_solved')->pluck('subject_id');
         $reports = $events->where('event_type', 'report_accepted_for_practice');

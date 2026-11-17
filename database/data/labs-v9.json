@@ -1,0 +1,576 @@
+[
+  {
+    "code": "LAB009",
+    "slug": "password-reset-token-lifecycle",
+    "title": "Reset Password: Token Sekali Pakai",
+    "difficulty": "Easy",
+    "category": "Authentication",
+    "minutes": 25,
+    "points": 50,
+    "lesson_source_id": "L008",
+    "classification": "CWE-640; fixture lokal, bukan sistem pemulihan akun nyata",
+    "scenario_md": "Akun customer_b@vulnshop.invalid hanya ada di database sesi sandbox. Mailbox dummy menyediakan token valid, kedaluwarsa, dan sudah dipakai. Password disimpan sebagai hash dummy; tidak ada email yang dikirim. Buktikan perubahan password_version setelah pemakaian ulang token, bukan sekadar respons 200. Materi lanjutan N026 masih draft sampai review manusia.",
+    "objectives": [
+      "Bandingkan token valid, kedaluwarsa, dan sudah dipakai dengan akun dummy.",
+      "Buktikan replay mengubah state pada mode vulnerable, lalu amati penolakan mode secure."
+    ],
+    "instructions": [
+      "Baca account dengan GET untuk mencatat password_version awal; jangan menyalin token akun nyata.",
+      "Buka endpoint mailbox GET. Pilih token dengan fixture valid dari tokens. Ini kanal latihan terkontrol, bukan mailbox pengguna lain.",
+      "Pada reset POST, kirim token tersebut dan password dummy minimal 8 karakter. Contoh body: {\"token\":\"SALIN_TOKEN_FIXTURE\",\"password\":\"Changed123!\"}.",
+      "Ulangi token yang sama pada mode vulnerable dengan password dummy lain. Konfirmasikan password_version bertambah lagi dan flag baru muncul.",
+      "Reset fixture. Pada mode secure, pemakaian pertama token valid berhasil, tetapi replay, token expired, dan token used ditolak tanpa mengubah versi password.",
+      "Bandingkan request POST untuk email dummy yang dikenal dan unknown@example.test: pesan harus netral. Ini belum membuktikan tidak ada perbedaan waktu.",
+      "Kirim flag yang benar-benar diterbitkan runtime. Reset fixture tidak menghapus XP historis.",
+      "Catat expected/actual, versi password sebelum/sesudah, expiry dan satu mitigasi. Jangan masukkan password atau token nyata dalam laporan latihan."
+    ],
+    "hints": [
+      "Lihat password_version, bukan hanya status HTTP.",
+      "Pemakaian pertama token valid belum membuktikan bug; periksa pemakaian keduanya.",
+      "Salin token valid dari mailbox, lakukan reset POST dua kali pada mode vulnerable, lalu bandingkan replay secure setelah reset fixture."
+    ],
+    "solution_md": "Token harus terkait akun, tidak mudah ditebak, dibatasi waktunya, dan dikonsumsi sekali secara atomik. Di fixture vulnerable, token yang pernah digunakan atau kedaluwarsa tetap dapat mengubah hash/versi password. Mode secure memeriksa expiry dan used_at dalam transaksi sebelum mutasi. Respons netral tidak sendirian menjamin bebas enumerasi waktu. Gunakan password broker Laravel, kanal tepercaya dan pembatasan permintaan; jangan menerapkan handler rentan fixture ke core.",
+    "secure_code": "Password::reset($request->only('email', 'password', 'password_confirmation', 'token'), function (User $user, string $password) {\n    $user->forceFill(['password' => Hash::make($password)])->save();\n});\n// Validasi input, rate limit, kebijakan sesi dan notifikasi tetap diperlukan.",
+    "sources": [
+      {
+        "title": "OWASP Forgot Password Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html"
+      }
+    ],
+    "default_body": {},
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-16"
+  },
+  {
+    "code": "LAB010",
+    "slug": "csrf-preferences",
+    "title": "CSRF: Perubahan Preferensi Profil",
+    "difficulty": "Medium",
+    "category": "Authentication",
+    "minutes": 30,
+    "points": 100,
+    "lesson_source_id": "L012",
+    "classification": "CWE-352; model Origin/token sintetis, bukan verifikasi SameSite browser",
+    "scenario_md": "Fixture memodelkan sesi otomatis melalui X-Dummy-User dan dua Origin sintetis: trusted.lab.test dan attacker.lab.test. Permintaan HTTP sungguhan mengubah preferensi yang disimpan per sesi. Tidak ada koneksi ke domain tersebut. Lab ini membuktikan pemeriksaan Origin/token, bukan pengiriman cookie atau SameSite browser. Materi N027 masih draft sampai review manusia.",
+    "objectives": [
+      "Buktikan perubahan tema tanpa token sah dari Origin sintetis lain.",
+      "Bedakan pertahanan token, Origin, otorisasi pengguna, dan perilaku cookie browser."
+    ],
+    "instructions": [
+      "Buka preferences GET sebagai customer_b: tema awal light. Endpoint form GET memberikan token anti-CSRF milik akun tersebut.",
+      "Pada preferences POST gunakan header Origin: http://attacker.lab.test dan body {\"theme\":\"dark\"}. Mode vulnerable harus benar-benar mengubah tema sebelum memberikan flag.",
+      "Baca preferences GET untuk mengonfirmasi state, bukan menganggap respons 200 sebagai bukti tunggal.",
+      "Reset fixture. Kirim perubahan yang sama pada mode secure: harus 403 dan tema tetap light.",
+      "Ambil csrf_token akun B dari form. Gunakan Origin: http://trusted.lab.test dan body {\"theme\":\"dark\",\"csrf_token\":\"SALIN_TOKEN_FIXTURE\"}; secure harus menerima.",
+      "Token customer_a tidak boleh menjadi token valid bagi B. Origin di luar dua fixture ditolak di gateway, bukan diteruskan ke internet.",
+      "Kirim flag hasil vulnerable. Tulis laporan latihan dengan aksi, state sebelum/sesudah, dan batas bahwa SameSite browser belum dibuktikan oleh console ini."
+    ],
+    "hints": [
+      "Cookie sesi otomatis bukan bukti persetujuan pengguna terhadap mutasi.",
+      "Bandingkan POST tanpa csrf_token dari Origin attacker dengan POST token milik sesi dari Origin trusted.",
+      "Ubah light menjadi dark pada mode vulnerable dengan Origin http://attacker.lab.test dan tanpa token; setelah reset, secure harus menolak tanpa mengubah tema."
+    ],
+    "solution_md": "Pemeriksaan CSRF harus diterapkan sebelum mutasi pada route bersesi. Token yang terikat sesi tidak boleh diterima lintas akun; Origin harus diperiksa terhadap origin tepercaya. Fixture vulnerable menerapkan mutasi dari Origin attacker tanpa token valid. X-Dummy-User adalah model sesi latihan, bukan autentikasi core. SameSite adalah pertahanan tambahan dengan batas same-site berbeda dari same-origin; pengujian cookie browser adalah pekerjaan berbeda dari console ini.",
+    "secure_code": "// routes/web.php: pertahankan grup web dan ValidateCsrfToken.\nRoute::post('/preferences', function (Request $request) {\n    $data = $request->validate(['theme' => 'required|in:light,dark']);\n    $request->user()->preferences()->update($data);\n})->middleware('auth');\n// Form menggunakan @csrf. Jangan mengecualikan route dari proteksi CSRF.",
+    "sources": [
+      {
+        "title": "OWASP CSRF Prevention Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html"
+      }
+    ],
+    "default_body": {},
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-16"
+  },
+  {
+    "code": "LAB011",
+    "slug": "path-traversal-receipts",
+    "title": "Path Traversal: Unduhan Receipt",
+    "difficulty": "Medium",
+    "category": "Access Control",
+    "minutes": 35,
+    "points": 100,
+    "lesson_source_id": "L015",
+    "classification": "CWE-22; hanya pohon filesystem sintetis sesi",
+    "scenario_md": "Folder receipts menyimpan a.txt milik A dan b.txt milik B. Folder private di luar receipts, tetapi masih di dalam root fixture sesi, menyimpan catatan dummy. Handler vulnerable menggabungkan nama file ke folder receipts. Batas luar sandbox tetap melarang path host, root sesi lain, dan file di luar fixture. N028 masih draft review.",
+    "objectives": [
+      "Buktikan pembacaan catatan dummy di luar folder receipts.",
+      "Bedakan pengamanan direktori dari pemeriksaan pemilik dokumen."
+    ],
+    "instructions": [
+      "Baca receipts GET dan unduh b.txt sebagai B untuk baseline.",
+      "Pada download GET mode vulnerable kirim {\"file\":\"../private/note.txt\"}; amati isi file sintetis dan flag.",
+      "Path ../../ atau path sistem host berada di luar scope dan harus ditolak; jangan mencoba target lain.",
+      "Mode secure memakai receipt_id, bukan file dari klien. ID 102 milik B boleh diunduh; ID 101 milik A harus ditolak.",
+      "Reset sesi, ulangi baseline, lalu kirim proof yang baru. Riwayat solve dan XP tidak hilang.",
+      "Laporan latihan harus membedakan folder expected/actual, data yang benar-benar terbaca, owner policy, dan batas fixture lokal."
+    ],
+    "hints": [
+      "Nama file yang bisa ditebak belum membuktikan pembacaan tanpa izin.",
+      "Perhatikan perbedaan folder receipts dengan root sesi.",
+      "file ../private/note.txt keluar dari receipts, tetapi tetap pada data dummy sesi ini; secure memilih ID receipt melalui mapping server."
+    ],
+    "solution_md": "Hindari menjadikan input pengguna sebagai path filesystem. Gunakan ID dokumen, mapping server, dan policy pemilik. Canonical path perlu batas direktori yang benar, bukan pencarian substring. Pada latihan ini outer boundary tetap membatasi file ke pohon dummy sesi; temuan tidak berarti host filesystem dapat dibaca. Receipt publik/owned yang dapat diunduh bukan bukti traversal.",
+    "secure_code": "Gate::authorize('view', $receipt);\nreturn Storage::disk('private')->download($receipt->storage_key);\n// storage_key dibuat server dan tidak dapat diubah lewat input pengguna.",
+    "sources": [
+      {
+        "title": "OWASP WSTG: Directory Traversal",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/"
+      }
+    ],
+    "default_body": {},
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-16"
+  },
+  {
+    "code": "LAB012",
+    "slug": "file-upload-validation",
+    "title": "File Upload: Label dan Isi Berbeda",
+    "difficulty": "Medium",
+    "category": "Web Security",
+    "minutes": 35,
+    "points": 100,
+    "lesson_source_id": "L017",
+    "classification": "CWE-434; staging inert, bukan latihan RCE",
+    "scenario_md": "Console JSON membawa filename, content_type, dan content_base64 untuk file dummy kecil. Mode vulnerable mempercayai label PNG dan menyimpan teks biasa ke staging. Mode secure memeriksa isi PNG dengan batas resource. File selalu diberi ID/nama server, tidak pernah dieksekusi, dan hanya disimpan di tmpfs sesi. N029 masih draft.",
+    "objectives": [
+      "Buktikan file berlabel PNG berisi teks diterima mode vulnerable.",
+      "Bandingkan penolakan isi tak cocok dengan penerimaan PNG sah pada secure."
+    ],
+    "instructions": [
+      "uploads GET awal harus kosong. Transport console adalah JSON/base64, bukan multipart browser.",
+      "Kirim uploads POST dengan filename foto.png, content_type image/png, content_base64 SU5JIFRFS1MgRFVNTVk=; ini teks dummy, bukan PNG atau program.",
+      "Konfirmasi ada record/file staging dan flag muncul setelah penerimaan isi yang tidak cocok.",
+      "Reset sesi. Secure harus menolak body yang sama tanpa menyimpan file; PNG kecil sah tetap boleh diterima.",
+      "file GET memakai ID server dari hasil upload; input path pengguna tidak boleh menjadi lokasi berkas.",
+      "Jangan mengklaim RCE dari upload yang diterima atau ditolak. Laporan berisi metadata/isi dummy, expected/actual, staging dan mitigasi."
+    ],
+    "hints": [
+      "Content-Type klien adalah klaim, bukan bukti format file.",
+      "Bandingkan label .png dengan byte teks setelah base64 didekode.",
+      "Kirim foto.png berisi INI TEKS DUMMY; periksa staging, bukan hanya kode HTTP. Secure harus memeriksa isi dan batas ukuran."
+    ],
+    "solution_md": "Validasi ekstensi, MIME, isi, ukuran dan batas pemrosesan; beri nama server dan simpan non-executable di luar webroot. Otorisasi setiap pembacaan. Fixture membatasi PNG kecil dan tidak mengklaim sebagai antivirus atau decoder gambar umum. Penerimaan file tidak otomatis membuktikan eksekusi; download inert adalah kontrol terpisah dari validasi tipe.",
+    "secure_code": "$request->validate(['avatar' => ['required', File::types(['png'])->max(4), 'extensions:png']]);\n$path = $request->file('avatar')->store('avatars', 'private');\n// Otorisasi akses, batas dimensi/parser, dan lifecycle file tetap diperlukan.",
+    "sources": [
+      {
+        "title": "OWASP File Upload Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html"
+      }
+    ],
+    "default_body": {},
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-16"
+  },
+  {
+    "code": "LAB013",
+    "slug": "graphql-object-access",
+    "title": "GraphQL: Otorisasi Objek Bersarang",
+    "difficulty": "Hard",
+    "category": "API Security",
+    "minutes": 45,
+    "points": 150,
+    "lesson_source_id": "L022",
+    "classification": "OWASP API1:2023 / CWE-639; skema GraphQL terbatas pada fixture sesi",
+    "scenario_md": "Endpoint GraphQL sandbox menyediakan operasi terbatas viewerOrders dan workspaceOrder. Pesanan 202 milik customer_b, sedangkan pesanan 201 milik customer_a. Pada mode vulnerable, autentikasi dicek di gerbang utama tetapi resolver workspaceOrder lupa memverifikasi pemilik objek. Materi N030 masih berstatus draft.",
+    "objectives": [
+      "Buktikan resolver bersarang mengembalikan order milik akun dummy lain pada mode vulnerable.",
+      "Bandingkan dengan penolakan otorisasi per-resolver pada mode secure."
+    ],
+    "instructions": [
+      "Panggil schema GET untuk melihat operasi GraphQL yang tersedia pada fixture sesi.",
+      "Kirim graphql POST dengan body {\"operation\":\"viewerOrders\"} sebagai customer_b; pastikan hanya order 202 milik B yang muncul.",
+      "Kirim graphql POST dengan body {\"operation\":\"workspaceOrder\",\"variables\":{\"orderId\":202}} untuk memverifikasi baseline.",
+      "Uji {\"operation\":\"workspaceOrder\",\"variables\":{\"orderId\":201}} pada mode vulnerable; amati kebocoran order customer_a dan flag sesi.",
+      "Reset sesi dan ulangi request orderId 201 pada mode secure; pastikan server menolak dengan 403.",
+      "Kirim flag sesi dan catat mengapa pemeriksaan autentikasi di endpoint `/graphql` saja tidak menggantikan otorisasi per-objek di tiap resolver."
+    ],
+    "hints": [
+      "Satu endpoint GraphQL dapat memanggil beberapa resolver dengan batas hak akses berbeda.",
+      "Bandingkan hasil operasi viewerOrders dengan workspaceOrder untuk orderId 201.",
+      "Kirim {\"operation\":\"workspaceOrder\",\"variables\":{\"orderId\":201}} sebagai customer_b pada mode vulnerable."
+    ],
+    "solution_md": "Pada GraphQL, pemeriksaan login di tingkat HTTP middleware hanya membuktikan identitas pemanggil, bukan hak atas objek yang diminta di tiap field/resolver. Setiap resolver yang mengambil objek berdasarkan ID wajib menerapkan policy kepemilikan atau scoping query (`where('user_id', $actor->id)`).",
+    "secure_code": "// Di dalam resolver workspaceOrder:\n$order = Order::findOrFail($args['orderId']);\nGate::forUser($context->user())->authorize('view', $order);\nreturn $order;",
+    "sources": [
+      {
+        "title": "PortSwigger GraphQL API Vulnerabilities",
+        "url": "https://portswigger.net/web-security/graphql"
+      },
+      {
+        "title": "OWASP API Security Top 10 2023 — API1 BOLA",
+        "url": "https://owasp.org/API-Security/"
+      }
+    ],
+    "default_body": {
+      "operation": "viewerOrders"
+    },
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-18"
+  },
+  {
+    "code": "LAB014",
+    "slug": "cors-credential-boundary",
+    "title": "CORS: Pembacaan Lintas-Origin Berkredensial",
+    "difficulty": "Medium",
+    "category": "Web Security",
+    "minutes": 35,
+    "points": 100,
+    "lesson_source_id": "L005",
+    "classification": "CWE-942; simulasi header Origin berkredensial lokal tanpa koneksi luar",
+    "scenario_md": "Endpoint ringkasan akun dummy melayani aplikasi frontend di http://trusted.lab.test. Mode vulnerable memantulkan nilai header Origin apa pun sekaligus mengaktifkan allow_credentials=true, sehingga skrip dari http://attacker.lab.test dapat membaca respons sensitif sesi pengguna.",
+    "objectives": [
+      "Buktikan refleksi Origin tak tepercaya disertai allow_credentials membuka pembacaan lintas-origin.",
+      "Verifikasi bahwa allowlist Origin eksplisit pada mode secure menolak origin asing."
+    ],
+    "instructions": [
+      "Panggil policy GET untuk melihat dua origin sintetis yang tersedia dalam latihan.",
+      "Panggil account GET dengan header Origin: http://trusted.lab.test; amati respons baseline yang sah.",
+      "Ubah header menjadi Origin: http://attacker.lab.test pada mode vulnerable dan amati kombinasi allow_origin + allow_credentials beserta flag.",
+      "Reset sesi lalu ulangi request Origin: http://attacker.lab.test pada mode secure; pastikan ditolak dengan 403 tanpa membocorkan ringkasan akun.",
+      "Kirim flag sesi untuk memvalidasi pemahaman batas kepercayaan CORS."
+    ],
+    "hints": [
+      "CORS bukan pengganti autentikasi, melainkan pelonggaran terkontrol atas Same-Origin Policy browser.",
+      "Perhatikan bahaya menggabungkan refleksi Origin dinamis dengan Access-Control-Allow-Credentials: true.",
+      "Gunakan header Origin: http://attacker.lab.test pada endpoint account dalam mode vulnerable."
+    ],
+    "solution_md": "Memantulkan header `Origin` dari request ke `Access-Control-Allow-Origin` sambil menyertakan `Access-Control-Allow-Credentials: true` meruntuhkan isolasi Same-Origin Policy untuk endpoint bersesi. Gunakan daftar allowlist origin statis yang terverifikasi persis dan tambahkan `Vary: Origin`.",
+    "secure_code": "// config/cors.php\nreturn [\n    'paths' => ['api/*'],\n    'allowed_origins' => ['https://app.example.com'], // Exact allowlist, bukan refleksi bebas\n    'supports_credentials' => true,\n];",
+    "sources": [
+      {
+        "title": "PortSwigger Cross-Origin Resource Sharing (CORS)",
+        "url": "https://portswigger.net/web-security/cors"
+      },
+      {
+        "title": "MDN HTTP Access Control (CORS)",
+        "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS"
+      }
+    ],
+    "default_body": {},
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json",
+      "Origin": "http://trusted.lab.test"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-18"
+  },
+  {
+    "code": "LAB015",
+    "slug": "webhook-ssrf-fixtures",
+    "title": "SSRF: Batas Tujuan Webhook Internal",
+    "difficulty": "Hard",
+    "category": "Web Security",
+    "minutes": 45,
+    "points": 150,
+    "lesson_source_id": "L016",
+    "classification": "OWASP API7:2023 / CWE-918; router tujuan mock di memori tanpa akses jaringan",
+    "scenario_md": "Fitur uji webhook mengizinkan pengguna mengirim ping ke endpoint mitra. Fixture menyediakan dua tujuan simulasi di memori: https://hooks.partner.lab.test/order-status (mitra sah) dan http://canary-internal.lab.test/admin-health (layanan internal sintetis). Tidak ada koneksi keluar atau akses host yang pernah dibuka.",
+    "objectives": [
+      "Buktikan validasi akhiran domain yang longgar mengizinkan pengiriman ke layanan internal sintetis pada mode vulnerable.",
+      "Bandingkan dengan validasi skema HTTPS dan allowlist host eksak pada mode secure."
+    ],
+    "instructions": [
+      "Buka destinations GET untuk melihat daftar sink simulasi yang diizinkan dan yang sensitif.",
+      "Kirim test POST dengan {\"target_url\":\"https://hooks.partner.lab.test/order-status\"} untuk melihat pengiriman mitra yang normal.",
+      "Pada mode vulnerable, kirim {\"target_url\":\"http://canary-internal.lab.test/admin-health\"}; amati respons canary internal dan flag.",
+      "Coba kirim URL di luar fixture seperti IP lokal: gateway wajib menolak dengan 422.",
+      "Reset sesi lalu uji URL canary pada mode secure; pastikan ditolak 403 oleh kebijakan skema dan host allowlist."
+    ],
+    "hints": [
+      "Memeriksa apakah URL berakhiran `.lab.test` tidak membedakan host mitra publik dan host internal.",
+      "Periksa skema protokol dan nama host lengkap pada `destinations`.",
+      "Kirim {\"target_url\":\"http://canary-internal.lab.test/admin-health\"} pada endpoint test dalam mode vulnerable."
+    ],
+    "solution_md": "Validasi URL webhook tidak boleh mengandalkan pencocokan substring atau akhiran domain longgar. Wajibkan skema `https`, cocokkan hostname terhadap allowlist ketat bila memungkinkan, tolak redirect otomatis, dan isolasi worker pengirim webhook di jaringan tanpa rute ke subnet internal/metadata.",
+    "secure_code": "$uri = Uri::of($validated['target_url']);\nabort_unless($uri->scheme() === 'https' && in_array($uri->host(), config('webhooks.allowed_hosts'), true), 403);\nHttp::withoutRedirecting()->timeout(3)->post((string) $uri, $payload);",
+    "sources": [
+      {
+        "title": "PortSwigger Server-Side Request Forgery (SSRF)",
+        "url": "https://portswigger.net/web-security/ssrf"
+      },
+      {
+        "title": "OWASP SSRF Prevention Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html"
+      }
+    ],
+    "default_body": {
+      "target_url": "https://hooks.partner.lab.test/order-status"
+    },
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-18"
+  },
+  {
+    "code": "LAB016",
+    "slug": "oauth-callback-state",
+    "title": "OAuth: Validasi State & Redirect Callback",
+    "difficulty": "Medium",
+    "category": "Authentication",
+    "minutes": 35,
+    "points": 100,
+    "lesson_source_id": "L007",
+    "classification": "CWE-352 / OAuth 2.0 Login CSRF; IdP sintetis lokal tanpa SSO eksternal",
+    "scenario_md": "Alur penautan identitas OAuth sintetis menerbitkan expected_state untuk sesi customer_b. Pada mode vulnerable, endpoint callback tidak memverifikasi kecocokan parameter state sehingga kode otorisasi asing dapat ditautkan ke sesi pengguna (Login/Linking CSRF).",
+    "objectives": [
+      "Amati bagaimana ketiadaan validasi state memungkinkan penautan kode asing ke sesi aktif pada mode vulnerable.",
+      "Verifikasi bahwa mode secure menolak redirect_uri tak terdaftar, state salah, dan pemakaian ulang state."
+    ],
+    "instructions": [
+      "Panggil start POST dengan body {} untuk memulai alur OAuth sintetis dan mencatat expected_state, own_code, serta foreign_code.",
+      "Pada mode secure, uji callback POST memakai own_code, expected_state, dan registered_redirect_uri; pastikan berhasil lalu coba ulangi sekali lagi untuk melihat penolakan replay.",
+      "Reset sesi, panggil start POST kembali, lalu pada mode vulnerable kirim callback POST dengan foreign_code, state sembarang (mis. \"mismatch\"), dan registered_redirect_uri.",
+      "Konfirmasi status GET bahwa linked_subject tertaut tanpa verifikasi state dan salin flag sesi."
+    ],
+    "hints": [
+      "Parameter `state` mengikat permintaan otorisasi awal dengan callback yang kembali ke browser pengguna.",
+      "Bandingkan hasil callback ketika `state` tidak sama dengan `expected_state` milik sesi.",
+      "Kirim `foreign_code` dengan `state` berbeda dan `redirect_uri` terdaftar pada mode vulnerable."
+    ],
+    "solution_md": "Endpoint callback OAuth wajib memastikan parameter `state` cocok secara kriptografis dengan nilai satu-kali (one-time) yang disimpan di sesi saat alur dimulai, serta hanya menerima `redirect_uri` yang terdaftar persis dan pengikatan PKCE/issuer.",
+    "secure_code": "$expected = $request->session()->pull('oauth_state');\nabort_unless(is_string($expected) && hash_equals($expected, (string) $request->input('state')), 403);\n// Lanjutkan pertukaran authorization code dengan PKCE.",
+    "sources": [
+      {
+        "title": "PortSwigger OAuth 2.0 Authentication Vulnerabilities",
+        "url": "https://portswigger.net/web-security/oauth"
+      },
+      {
+        "title": "OWASP WSTG: Testing OAuth Weaknesses",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/"
+      }
+    ],
+    "default_body": {},
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-18"
+  },
+  {
+    "code": "LAB017",
+    "slug": "coupon-race",
+    "title": "Race Condition: Penukaran Kupon Sekali Pakai",
+    "difficulty": "Hard",
+    "category": "Business Logic",
+    "minutes": 45,
+    "points": 150,
+    "lesson_source_id": "L018",
+    "classification": "CWE-362 / TOCTOU Race Condition; konkurensi dibatasi ketat 2 operasi",
+    "scenario_md": "Kupon ONCE50 hanya boleh ditukar satu kali per akun. Pengujian berurutan pada redeem POST menolak penukaran kedua, tetapi endpoint simulasi serentak redeem-burst POST (dibatasi 2 worker paralel) memperlihatkan celah read-check-write tanpa transaksi/kunci pada mode vulnerable.",
+    "objectives": [
+      "Bedakan pengujian sekuensial yang tampak aman dari jendela race condition TOCTOU.",
+      "Buktikan penukaran ganda pada mode vulnerable dan ketahanan transaksi atomik pada mode secure."
+    ],
+    "instructions": [
+      "Periksa wallet GET untuk memastikan redemption_count awal bernilai 0.",
+      "Uji redeem POST dengan {\"code\":\"ONCE50\"} dua kali berurutan; perhatikan request kedua ditolak 409.",
+      "Reset sesi, lalu kirim burst POST dengan {\"code\":\"ONCE50\",\"parallel\":2} pada mode vulnerable; amati redemption_count menjadi 2 dan flag diterbitkan.",
+      "Reset sesi kembali dan jalankan burst POST yang sama pada mode secure; pastikan hanya 1 worker berhasil (200) dan 1 ditolak (409)."
+    ],
+    "hints": [
+      "Pola `if (count == 0) insert()` tanpa penguncian atau unique constraint rentan saat dua request membaca `count == 0` bersamaan.",
+      "Gunakan endpoint `burst` setelah `reset` agar kupon masih belum terpakai saat dua worker berjalan serentak.",
+      "Kirim {\"code\":\"ONCE50\",\"parallel\":2} ke endpoint `burst` pada mode vulnerable."
+    ],
+    "solution_md": "Pemeriksaan batas bisnis tidak boleh terpisah dari operasi tulis tanpa isolasi transaksi. Gunakan unique index di database (`UNIQUE(user_id, coupon_id)`), penguncian baris (`lockForUpdate()`), atau operasi `UPDATE ... WHERE used_at IS NULL` atomik.",
+    "secure_code": "DB::transaction(function () use ($user, $coupon) {\n    $locked = User::whereKey($user->id)->lockForUpdate()->firstOrFail();\n    abort_if($locked->redeemedCoupons()->whereKey($coupon->id)->exists(), 409);\n    $locked->redeemedCoupons()->attach($coupon->id); // Didukung UNIQUE(user_id, coupon_id)\n});",
+    "sources": [
+      {
+        "title": "PortSwigger Race Conditions",
+        "url": "https://portswigger.net/web-security/race-conditions"
+      },
+      {
+        "title": "MITRE CWE-362: Concurrent Execution using Shared Resource",
+        "url": "https://cwe.mitre.org/data/definitions/362.html"
+      }
+    ],
+    "default_body": {
+      "code": "ONCE50",
+      "parallel": 2
+    },
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-18"
+  },
+  {
+    "code": "LAB018",
+    "slug": "api-property-auth",
+    "title": "API: Otorisasi Properti Objek (BOPLA)",
+    "difficulty": "Medium",
+    "category": "API Security",
+    "minutes": 35,
+    "points": 100,
+    "lesson_source_id": "L021",
+    "classification": "OWASP API3:2023 / CWE-915; otorisasi tingkat field pada profil dummy",
+    "scenario_md": "Pengguna customer_b berhak mengubah display_name dan bio miliknya sendiri. Namun objek profil juga menyimpan properti internal tier dan credit_limit yang seharusnya hanya boleh dikelola admin serta catatan internal yang tidak boleh diserialisasi ke klien.",
+    "objectives": [
+      "Buktikan celah Broken Object Property Level Authorization (baca & tulis field terlarang) pada mode vulnerable.",
+      "Verifikasi whitelist input dan DTO respons pada mode secure."
+    ],
+    "instructions": [
+      "Panggil member GET pada mode vulnerable dan bandingkan dengan mode secure untuk melihat perbedaan field internal yang dikembalikan.",
+      "Kirim member PATCH pada mode secure dengan {\"display_name\":\"Raka Pratama\"} (berhasil), lalu coba sertakan {\"tier\":\"enterprise\"} (harus ditolak 403).",
+      "Pada mode vulnerable, kirim member PATCH dengan {\"tier\":\"enterprise\",\"credit_limit\":5000000}; konfirmasi perubahan properti terproteksi dan salin flag."
+    ],
+    "hints": [
+      "Hak akses ke sebuah objek (`member-profile` milik sendiri) tidak berarti hak baca/tulis ke seluruh kolom di tabel tersebut.",
+      "Perhatikan field `tier` dan `credit_limit` pada respons GET mode vulnerable.",
+      "Kirim PATCH `{\"tier\":\"enterprise\",\"credit_limit\":5000000}` pada mode vulnerable sebagai `customer_b`."
+    ],
+    "solution_md": "OWASP API3:2023 menggabungkan Mass Assignment dan Excessive Data Exposure karena keduanya berakar pada ketiadaan otorisasi tingkat properti. Batasi input lewat skema validasi eksplisit (`$request->safe()->only(...)`) dan batasi output lewat DTO/API Resource.",
+    "secure_code": "$data = $request->validate([\n    'display_name' => ['required', 'string', 'max:60'],\n    'bio' => ['nullable', 'string', 'max:160'],\n]);\n$request->user()->profile()->update($data);\nreturn MemberProfileResource::make($request->user()->profile);",
+    "sources": [
+      {
+        "title": "OWASP API Security Top 10 2023 — API3 BOPLA",
+        "url": "https://owasp.org/API-Security/"
+      },
+      {
+        "title": "OWASP Mass Assignment Cheat Sheet",
+        "url": "https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html"
+      }
+    ],
+    "default_body": {
+      "display_name": "Raka",
+      "bio": "Pembelajar keamanan API"
+    },
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-18"
+  },
+  {
+    "code": "LAB019",
+    "slug": "api-data-minimization",
+    "title": "API: Minimisasi Data pada Endpoint Daftar",
+    "difficulty": "Easy",
+    "category": "API Security",
+    "minutes": 25,
+    "points": 50,
+    "lesson_source_id": "L006",
+    "classification": "OWASP API3:2023 / CWE-213; pembatasan field respons dan batas paginasi",
+    "scenario_md": "Direktori kontributor publik seharusnya hanya menampilkan handle dan jumlah badge dengan batas maksimum 5 baris per halaman. Pada mode vulnerable, parameter query dapat memicu serialisasi baris mentah database beserta email privat, IBAN dummy, dan token audit internal.",
+    "objectives": [
+      "Amati kebocoran properti internal dan paginasi longgar pada endpoint koleksi mode vulnerable.",
+      "Bandingkan dengan penegakan DTO eksplisit dan batas limit <= 5 pada mode secure."
+    ],
+    "instructions": [
+      "Panggil directory GET tanpa parameter (atau body `{\"limit\":\"3\"}`) untuk melihat respons ringkas awal.",
+      "Pada mode vulnerable, kirim directory GET dengan query `{\"view\":\"detail\",\"limit\":\"6\"}`; periksa field privat yang ikut dikembalikan dan ambil flag.",
+      "Reset sesi lalu uji parameter yang sama pada mode secure; pastikan limit > 5 ditolak 422 dan `view=detail` ditolak 403."
+    ],
+    "hints": [
+      "Jangan mengandalkan frontend untuk menyembunyikan kolom sensitif yang sudah terlanjur dikirim di JSON API.",
+      "Perhatikan petunjuk parameter `view` dan `limit` pada respons awal mode vulnerable.",
+      "Kirim query `{\"view\":\"detail\",\"limit\":\"6\"}` pada GET `directory` dalam mode vulnerable."
+    ],
+    "solution_md": "Endpoint daftar/koleksi sering mengembalikan model ORM secara langsung (`SELECT *`) padahal UI hanya memerlukan 2–3 kolom publik. Selalu pilih kolom spesifik di query, terapkan batas atas `per_page`/`limit` di server, dan gunakan transformasi Resource eksplisit.",
+    "secure_code": "$validated = $request->validate(['limit' => ['integer', 'min:1', 'max:5']]);\nreturn Contributor::query()\n    ->select(['id', 'handle', 'badges_count'])\n    ->orderBy('id')\n    ->limit($validated['limit'] ?? 5)\n    ->get();",
+    "sources": [
+      {
+        "title": "OWASP API Security Top 10 2023",
+        "url": "https://owasp.org/API-Security/"
+      }
+    ],
+    "default_body": {
+      "limit": "3"
+    },
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-18"
+  },
+  {
+    "code": "LAB020",
+    "slug": "multi-tenant-workspace",
+    "title": "Multi-Tenant: Isolasi Workspace Organisasi",
+    "difficulty": "Hard",
+    "category": "Access Control",
+    "minutes": 45,
+    "points": 150,
+    "lesson_source_id": "L010",
+    "classification": "CWE-284 / Cross-Tenant Isolation Failure; dua organisasi dummy terpisah",
+    "scenario_md": "Aplikasi SaaS dummy memisahkan org-alpha (anggota: customer_a) dan org-beta (anggota: customer_b). Endpoint detail proyek memeriksa bahwa pemanggil adalah anggota `tenant_id` yang dikirim, tetapi pada mode vulnerable lupa mengikat query `project_id` ke `tenant_id` tersebut.",
+    "objectives": [
+      "Buktikan akses lintas-organisasi akibat query objek anak yang tidak di-scope ke tenant terverifikasi.",
+      "Verifikasi isolasi tenant penuh (`WHERE id = ? AND tenant_id = ?`) pada mode secure."
+    ],
+    "instructions": [
+      "Panggil workspaces GET sebagai customer_b untuk memastikan keanggotaan hanya pada org-beta (`proj-beta-1`).",
+      "Panggil projects GET dengan `{\"tenant_id\":\"org-beta\",\"project_id\":\"proj-beta-1\"}` untuk memverifikasi akses normal.",
+      "Coba kirim `{\"tenant_id\":\"org-alpha\",\"project_id\":\"proj-alpha-1\"}`: perhatikan pemeriksaan keanggotaan menolak 403.",
+      "Sekarang kirim `{\"tenant_id\":\"org-beta\",\"project_id\":\"proj-alpha-1\"}` pada mode vulnerable; amati bagaimana `proj-alpha-1` bocor melintasi batas tenant dan menerbitkan flag!",
+      "Reset sesi dan ulangi kombinasi tersebut pada mode secure; pastikan server mengembalikan 404 karena proyek di-scope ketat ke `org-beta`."
+    ],
+    "hints": [
+      "Memastikan user adalah anggota `tenant_id` di URL belum cukup jika `project_id` diambil tanpa kondisi `AND tenant_id = ?`.",
+      "Gunakan `tenant_id` milik sendiri (`org-beta`), tetapi masukkan `project_id` milik organisasi lain (`proj-alpha-1`).",
+      "Kirim GET `projects` dengan `{\"tenant_id\":\"org-beta\",\"project_id\":\"proj-alpha-1\"}` pada mode vulnerable."
+    ],
+    "solution_md": "Bug multi-tenant klasik terjadi saat middleware memvalidasi akses pengguna ke organisasi aktif (`tenant_id`), tetapi repository/controller mencari resource anak hanya dengan primary key global (`Project::findOrFail($projectId)`). Selalu telusuri resource melalui relasi tenant yang sudah terverifikasi (`$tenant->projects()->findOrFail($projectId)`).",
+    "secure_code": "$tenant = $request->user()->tenants()->where('slug', $validated['tenant_id'])->firstOrFail();\n$project = $tenant->projects()->where('slug', $validated['project_id'])->firstOrFail();\nreturn ProjectResource::make($project);",
+    "sources": [
+      {
+        "title": "OWASP WSTG: Authorization Testing",
+        "url": "https://owasp.org/www-project-web-security-testing-guide/"
+      },
+      {
+        "title": "MITRE CWE-284: Improper Access Control",
+        "url": "https://cwe.mitre.org/data/definitions/284.html"
+      }
+    ],
+    "default_body": {
+      "tenant_id": "org-beta",
+      "project_id": "proj-beta-1"
+    },
+    "default_headers": {
+      "X-Dummy-User": "customer_b",
+      "Content-Type": "application/json"
+    },
+    "enabled": false,
+    "reviewed_at": null,
+    "authored_at": "2026-11-18"
+  }
+]

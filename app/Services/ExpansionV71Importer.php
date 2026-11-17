@@ -18,10 +18,10 @@ class ExpansionV71Importer
     public function __construct(private ContentWorkflow $workflow) {}
 
     /** @param array<string, int> $modules @param array<string, string> $questionSources */
-    public function import(User $editor, array $modules, array $questionSources): array
+    public function import(User $editor, array $modules, array $questionSources, array $review = []): array
     {
         Gate::forUser($editor)->authorize('content.edit');
-        $root = base_path('docs/expansion-v7.1');
+        $root = base_path($review ? 'docs/vulnlab-v9' : 'docs/expansion-v7.1');
         $lessons = $this->json($root.'/content/LESSON_MANIFEST.json');
         $questions = $this->json($root.'/content/quizzes/NEW_QUESTION_BANK.json');
         $lessonKeys = array_map(fn ($n) => sprintf('N%03d', $n), range(26, 35));
@@ -32,7 +32,7 @@ class ExpansionV71Importer
         $this->mapKeys($questionSources, $questionKeys, 'question source');
         $grouped = collect($questions)->groupBy('lesson_id');
 
-        return DB::transaction(function () use ($editor, $root, $lessons, $grouped, $modules, $questionSources) {
+        return DB::transaction(function () use ($editor, $root, $lessons, $grouped, $modules, $questionSources, $review) {
             $result = ['created' => 0, 'unchanged' => 0];
             foreach ($lessons as $lesson) {
                 $id = $lesson['id'];
@@ -65,9 +65,12 @@ class ExpansionV71Importer
                     $prerequisites[] = (int) $subject;
                 }
                 $sources = array_map(fn ($s) => ['title' => $s['title'], 'url' => $s['url'], 'publisher' => 'Belum diperiksa', 'license' => 'Belum diperiksa'], $lesson['sources']);
+                $details = $review['lessons'][$id] ?? [];
+                $sources = $details['sources'] ?? $sources;
                 $data = ['title' => $lesson['title'], 'slug' => $lesson['slug'], 'module_id' => $moduleId, 'summary' => null, 'audience' => null, 'difficulty' => $lesson['level'], 'minutes' => $lesson['minutes'], 'objectives' => [], 'tags' => [], 'prerequisite_ids' => $prerequisites, 'body_md' => $body, 'example_md' => null, 'sources' => $sources];
-                $provenance = ['editorial_status' => $lesson['editorial_status'], 'source_id' => $id, 'source_revision' => $lesson['revision'], 'path' => $lesson['path'], 'references' => $lesson['sources']];
-                [$revision, $created] = $this->upsert($editor, 'lesson', $id, $data, $this->hash([$lesson, $body, $moduleId]), $provenance);
+                $data = [...$data, ...array_intersect_key($details, array_flip(['summary', 'audience', 'objectives', 'tags', 'example_md']))];
+                $provenance = ['editorial_status' => $lesson['editorial_status'], 'source_id' => $id, 'source_revision' => $lesson['revision'], 'path' => $lesson['path'], 'references' => $lesson['sources'], ...($details ? ['ai_review' => $details] : [])];
+                [$revision, $created] = $this->upsert($editor, 'lesson', $id, $data, $this->hash([$lesson, $body, $moduleId, ...($details ? [$details] : [])]), $provenance);
                 $result[$created ? 'created' : 'unchanged']++;
 
                 $items = $grouped->get($id, collect())->all();
@@ -92,10 +95,14 @@ class ExpansionV71Importer
                     if (DB::table('quiz_questions')->where('source_id', $qid)->exists() || $otherSource->exists()) {
                         throw new RuntimeException("Question source ID already exists: $qid");
                     }
-                    $mapped[] = ['source_key' => $qid, 'question' => $question['question'], 'explanation' => $question['explanation'], 'difficulty' => $lesson['level'], 'source_url' => $url, 'choices' => array_map(fn ($text, $index) => ['text' => $text, 'is_correct' => $index === $question['correct_index']], $question['options'], array_keys($question['options']))];
+                    $mapped[] = ['source_key' => $qid, 'question' => $question['question'], 'explanation' => $review['question_explanations'][$qid] ?? $question['explanation'], 'difficulty' => $lesson['level'], 'source_url' => $url, 'choices' => array_map(fn ($text, $index) => ['text' => $text, 'is_correct' => $index === $question['correct_index']], $question['options'], array_keys($question['options']))];
                 }
                 $quizData = ['title' => 'Kuis: '.$lesson['title'], 'slug' => 'quiz-'.$lesson['slug'], 'lesson_entry_id' => $revision->content_entry_id, 'passing_score' => 70, 'randomize' => true, 'sources' => $sources, 'questions' => $mapped];
                 $quizProvenance = ['editorial_status' => 'research_draft_unreviewed', 'lesson_source_id' => $id, 'question_ids' => array_column($items, 'id'), 'question_revisions' => array_column($items, 'revision', 'id'), 'question_sources' => array_intersect_key($questionSources, array_flip(array_column($items, 'id')))];
+                if ($review) {
+                    $quizProvenance['ai_review'] = array_intersect_key($review['question_review'], array_flip(array_column($items, 'id')));
+                    $quizProvenance['explanation_corrections'] = array_intersect_key($review['question_explanations'], array_flip(array_column($items, 'id')));
+                }
                 [, $created] = $this->upsert($editor, 'quiz', 'quiz-'.$id, $quizData, $this->hash([$items, $quizProvenance, $lesson['sources']]), $quizProvenance);
                 $result[$created ? 'created' : 'unchanged']++;
             }

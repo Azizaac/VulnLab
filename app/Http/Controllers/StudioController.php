@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\ContentEntry;
 use App\Models\ContentRevision;
+use App\Models\Lab;
+use App\Models\Lesson;
 use App\Models\User;
 use App\Services\AccountSecurity;
 use App\Services\ContentCatalog;
 use App\Services\ContentSchema;
 use App\Services\ContentWorkflow;
+use App\Services\LabRuntimeRegistry;
 use App\Services\SafeMarkdown;
 use App\Services\StudioAccess;
 use App\Support\UtcPayload;
@@ -69,10 +72,20 @@ class StudioController extends Controller
             $query->orderByDesc(ContentRevision::select('updated_at')->whereColumn('content_entry_id', 'content_entries.id')->latest('number')->limit(1));
         }
 
+        $registry = app(LabRuntimeRegistry::class);
+        $allLabs = Lab::withoutGlobalScopes()->get();
+        $playableLabs = $allLabs->filter(fn ($lab) => $lab->enabled && (bool) config('labs.enabled') && $registry->available($lab))->count();
+
         return Inertia::render('Studio', [
             'section' => $section, 'filters' => $filters,
             'entries' => $query->paginate(15)->withQueryString()->through(fn ($e) => ['id' => $e->id, 'kind' => $e->kind, 'title' => $e->revisions->first()?->data_json['title'], 'status' => $e->is_archived ? 'archived' : $e->revisions->first()?->status, 'revision' => $e->revisions->first()?->number, 'updated_at' => $e->revisions->first()?->updated_at, 'legacy' => ! $e->is_managed]),
             'counts' => ContentRevision::selectRaw('status, count(*) as total')->whereHas('entry', fn ($q) => $q->where('is_archived', false))->whereRaw('number = (select max(r.number) from content_revisions r where r.content_entry_id = content_revisions.content_entry_id)')->groupBy('status')->pluck('total', 'status'),
+            'catalogSummary' => [
+                'visible_lessons' => Lesson::count(),
+                'reviewed_lessons' => Lesson::whereNotNull('reviewed_at')->count(),
+                'playable_local_labs' => $playableLabs,
+                'total_lab_definitions' => $allLabs->count(),
+            ],
             'users' => $section === 'users' ? User::when($r->filled('q'), fn ($q) => $q->where(fn ($q) => $q->where('name', 'like', '%'.$r->input('q').'%')->orWhere('email', 'like', '%'.$r->input('q').'%')))->orderBy('id')->paginate(20)->through(fn ($u) => [...$u->only('id', 'name', 'email', 'role', 'suspended_at'), 'can_publish' => in_array('content.publish', $u->permission_grants ?? [])]) : null,
             'audit' => in_array('audit.read', StudioAccess::permissions($r->user())) ? DB::table('studio_audit_events')->latest('id')->limit($section === 'audit' ? 100 : 8)->get(['id', 'actor_id', 'action', 'subject_type', 'subject_id', 'metadata_json', 'created_at'])->map(fn ($row) => UtcPayload::row($row)) : [],
             'reviewQueue' => ContentRevision::where('status', 'in_review')->with('entry')->latest('updated_at')->limit(5)->get()->map(fn ($revision) => ['entry_id' => $revision->content_entry_id, 'title' => $revision->data_json['title'], 'author_id' => $revision->author_id, 'updated_at' => $revision->updated_at]),

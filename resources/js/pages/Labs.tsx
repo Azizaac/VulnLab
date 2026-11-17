@@ -7,43 +7,133 @@ import {
     ShieldCheck,
     Clock3,
     CheckCircle2,
+    Sparkles,
 } from "lucide-react";
 import AppShell from "../components/AppShell";
 import { difficultyLabel, labStatus, type LabCard } from "../labs";
 import "../../css/v8-learning-labs.css";
+
 export default function Labs({ labs }: { labs: LabCard[] }) {
     const [search, setSearch] = useState("");
     const [category, setCategory] = useState("Semua");
     const [difficulty, setDifficulty] = useState("Semua");
     const [status, setStatus] = useState("Semua");
+    const [availability, setAvailability] = useState("Semua");
+
+    const playableCount = labs.filter((l) => l.available).length;
+    const solvedCount = labs.filter((l) => l.status === "solved").length;
+    const recommended =
+        labs.find((l) => l.available && l.status === "in_progress") ||
+        labs.find((l) => l.available && l.status === "not_started") ||
+        null;
+
     const shown = labs.filter(
         (l) =>
             (category === "Semua" || l.category === category) &&
             (difficulty === "Semua" || l.difficulty === difficulty) &&
             (status === "Semua" || l.status === status) &&
+            (availability === "Semua" ||
+                (availability === "Playable" ? l.available : !l.available)) &&
             [l.title, l.category, l.code, ...l.objectives]
                 .join(" ")
                 .toLowerCase()
                 .includes(search.toLowerCase()),
     );
+    const categories = [
+        "Semua",
+        ...Array.from(
+            new Set([
+                "Web Security",
+                "Authentication",
+                "Access Control",
+                "API Security",
+                "Injection",
+                "Business Logic",
+                ...labs.map((l) => l.category),
+            ]),
+        ),
+    ];
+
     return (
         <AppShell title="Laboratorium keamanan">
             <Head title="Lab Praktik" />
-            <div className="v8-lab-catalog">
-                <header className="v8-catalog-heading">
+            <div className="v8-lab-catalog v9-catalog-page">
+                <header className="v8-catalog-heading v9-catalog-banner">
                     <div>
-                        <span className="eyebrow">Guided Labs · Lokal</span>
+                        <span className="eyebrow">
+                            GUIDED LABS · SANDBOX LOKAL TERISOLASI
+                        </span>
                         <h1>Belajar dengan membuktikan.</h1>
                         <p>
-                            Latihan terisolasi, instruksi bertahap, dan
-                            perbaikan yang dapat dipelajari.
+                            Latihan terisolasi dengan perbandingan mode
+                            vulnerable vs secure, bukti sesi server, dan
+                            mitigasi kode.
                         </p>
                     </div>
-                    <span className="v8-catalog-summary">
-                        {labs.filter((l) => l.status === "solved").length} /{" "}
-                        {labs.length} lab selesai
-                    </span>
+                    <div className="v9-catalog-pills">
+                        <span className="v9-stat-chip teal">
+                            <FlaskConical size={15} aria-hidden="true" />
+                            {playableCount} playable lokal
+                            {labs.length > playableCount
+                                ? ` · ${labs.length} di katalog`
+                                : ""}
+                        </span>
+                        <span className="v8-catalog-summary">
+                            {solvedCount} / {labs.length} lab selesai
+                        </span>
+                    </div>
                 </header>
+
+                {recommended &&
+                    !search &&
+                    category === "Semua" &&
+                    difficulty === "Semua" &&
+                    status === "Semua" &&
+                    availability === "Semua" && (
+                        <section
+                            className="v9-featured-lab"
+                            aria-label="Rekomendasi lab berikutnya"
+                        >
+                            <div className="v9-featured-copy">
+                                <span className="v9-featured-kicker">
+                                    <Sparkles size={14} aria-hidden="true" />{" "}
+                                    REKOMENDASI PRAKTIK BERIKUTNYA ·{" "}
+                                    {recommended.code}
+                                </span>
+                                <h2>{recommended.title}</h2>
+                                <p>{recommended.objectives[0]}</p>
+                                <div className="course-meta">
+                                    <span
+                                        className={`difficulty difficulty-${recommended.difficulty}`}
+                                    >
+                                        {
+                                            difficultyLabel[
+                                                recommended.difficulty
+                                            ]
+                                        }
+                                    </span>
+                                    <span>{recommended.category}</span>
+                                    <span>
+                                        <Clock3 size={14} />{" "}
+                                        {recommended.minutes} menit
+                                    </span>
+                                    <span>
+                                        {recommended.points} XP · sekali
+                                    </span>
+                                </div>
+                            </div>
+                            <Link
+                                className="learning-button"
+                                href={`/labs/${recommended.slug}`}
+                            >
+                                {recommended.status === "in_progress"
+                                    ? "Lanjutkan Lab"
+                                    : "Mulai Lab Sekarang"}
+                                <ArrowRight size={16} />
+                            </Link>
+                        </section>
+                    )}
+
                 <div className="catalog-heading">
                     <h2>Temukan tantanganmu</h2>
                     <label className="workspace-search">
@@ -57,7 +147,7 @@ export default function Labs({ labs }: { labs: LabCard[] }) {
                         />
                     </label>
                 </div>
-                <div className="lab-filters">
+                <div className="lab-filters v9-lab-filters">
                     <label>
                         Kategori
                         <select
@@ -65,15 +155,7 @@ export default function Labs({ labs }: { labs: LabCard[] }) {
                             value={category}
                             onChange={(e) => setCategory(e.target.value)}
                         >
-                            {[
-                                "Semua",
-                                "Web Security",
-                                "Authentication",
-                                "Access Control",
-                                "API Security",
-                                "Injection",
-                                "Business Logic",
-                            ].map((c) => (
+                            {categories.map((c) => (
                                 <option key={c}>{c}</option>
                             ))}
                         </select>
@@ -108,30 +190,57 @@ export default function Labs({ labs }: { labs: LabCard[] }) {
                             ))}
                         </select>
                     </label>
+                    <label>
+                        Ketersediaan
+                        <select
+                            aria-label="Ketersediaan"
+                            value={availability}
+                            onChange={(e) => setAvailability(e.target.value)}
+                        >
+                            <option value="Semua">Semua</option>
+                            <option value="Playable">Playable lokal</option>
+                            <option value="Unavailable">
+                                Segera hadir / nonaktif
+                            </option>
+                        </select>
+                    </label>
                     <span>{shown.length} lab ditemukan</span>
                 </div>
                 <div className="course-grid lab-grid v8-course-grid">
                     {shown.map((l) => (
                         <article
-                            className="course-card v8-course-card"
+                            className={`course-card v8-course-card v9-lab-card ${l.status === "solved" ? "is-solved" : ""} ${!l.available ? "is-unavailable" : ""}`}
                             key={l.id}
                         >
                             <div className="lab-card-top">
-                                <span className="lab-card-icon">
+                                <span
+                                    className={`lab-card-icon ${l.status === "solved" ? "solved" : ""}`}
+                                >
                                     {l.status === "solved" ? (
-                                        <CheckCircle2 size={23} />
+                                        <CheckCircle2 size={21} />
                                     ) : (
-                                        <FlaskConical size={23} />
+                                        <FlaskConical size={21} />
                                     )}
                                 </span>
-                                <span className="muted">{l.code}</span>
+                                <span className="v9-lab-code">{l.code}</span>
                                 <span
                                     className={`difficulty difficulty-${l.difficulty}`}
                                 >
                                     {difficultyLabel[l.difficulty]}
                                 </span>
                             </div>
-                            <span className="learning-badge">{l.category}</span>
+                            <div className="v9-lab-badges">
+                                <span className="learning-badge">
+                                    {l.category}
+                                </span>
+                                <span
+                                    className={`v9-runtime-pill ${l.available ? "ready" : "pending"}`}
+                                >
+                                    {l.available
+                                        ? "● Playable lokal"
+                                        : "◌ Belum aktif"}
+                                </span>
+                            </div>
                             <h2>{l.title}</h2>
                             <p>{l.objectives[0]}</p>
                             <div className="course-meta">
@@ -155,7 +264,7 @@ export default function Labs({ labs }: { labs: LabCard[] }) {
                                 )}
                             </p>
                             <details>
-                                <summary>Tujuan & bekal awal</summary>
+                                <summary>Tujuan &amp; bekal awal</summary>
                                 <ul>
                                     {l.objectives.map((o) => (
                                         <li key={o}>{o}</li>
@@ -184,7 +293,8 @@ export default function Labs({ labs }: { labs: LabCard[] }) {
                             </Link>
                             {!l.available && (
                                 <small>
-                                    Instruksi tersedia. Sandbox belum aktif.
+                                    Coming soon (belum diverifikasi di runtime
+                                    lokal).
                                 </small>
                             )}
                         </article>
@@ -199,6 +309,7 @@ export default function Labs({ labs }: { labs: LabCard[] }) {
                                 setCategory("Semua");
                                 setDifficulty("Semua");
                                 setStatus("Semua");
+                                setAvailability("Semua");
                             }}
                         >
                             Bersihkan filter

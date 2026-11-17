@@ -1,0 +1,161 @@
+{
+  "status": "PASS",
+  "checked_at": "2026-11-17T17:50:50.561Z",
+  "runtime_revision": "c5ce96e48f3f7e4d892e71aa8b8971cb5335b77a1b5be25360eeff1e814b2677",
+  "scope": "Local isolated Docker and disposable SQLite only; not public deployment",
+  "labs": {
+    "password-reset-token-lifecycle": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "csrf-preferences": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "path-traversal-receipts": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "file-upload-validation": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "graphql-object-access": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "cors-credential-boundary": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "webhook-ssrf-fixtures": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "oauth-callback-state": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "coupon-race": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "api-property-auth": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "api-data-minimization": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    },
+    "multi-tenant-workspace": {
+      "baseline": true,
+      "trigger": true,
+      "secure": true,
+      "proof": true,
+      "wrong_proof": true,
+      "expiry": true,
+      "reset": true,
+      "ownership": true,
+      "network": true,
+      "repeat_xp": true
+    }
+  },
+  "evidence": {
+    "runtime": "scripts/test-v9-sandbox.mjs",
+    "core": "V9LabRuntimeTest + V9LabRegistryTest",
+    "core_tests": 14,
+    "isolation": "scripts/check-lab-isolation.mjs",
+    "limitations": [
+      "CSRF and CORS consoles verify synthetic Origin/token/credential headers, not live browser SameSite"
+    ]
+  }
+}

@@ -18,7 +18,7 @@ class LabService
 
     public function enabled(Lab $lab): void
     {
-        abort_unless($lab->enabled && config('labs.enabled'), 503, 'Sandbox belum tersedia. Aktifkan runner lokal melalui dokumentasi.');
+        abort_unless($lab->enabled && config('labs.enabled') && app(LabRuntimeRegistry::class)->available($lab), 503, 'Sandbox belum tersedia atau versi runtime belum lolos verifikasi lokal.');
     }
 
     public function start(User $user, Lab $lab): LabSession
@@ -51,6 +51,7 @@ class LabService
         try {
             $result = $this->runner->provision($s);
             abort_unless(($result['ready'] ?? false) === true, 503, 'Sandbox belum siap.');
+            abort_unless(app(LabRuntimeRegistry::class)->matches($s->lab, $result['runtime_revision'] ?? null), 503, 'Versi runner berbeda dari bukti verifikasi lokal. Ulangi QA runtime.');
         } catch (\Throwable $e) {
             LabSession::whereKey($s->id)->where('generation', $s->generation)->update(['status' => 'error']);
             throw $e;
@@ -97,10 +98,17 @@ class LabService
             if (! is_object($headers) || ! is_object($body)) {
                 throw ValidationException::withMessages(['request' => 'Header dan body harus berupa objek JSON.']);
             }
+            $allowedHeaders = ['X-Dummy-User', 'Content-Type', 'Authorization'];
+            if (in_array($s->lab->slug, ['csrf-preferences', 'cors-credential-boundary'], true)) {
+                $allowedHeaders[] = 'Origin';
+            }
             foreach ((array) $headers as $key => $value) {
-                if (! in_array($key, ['X-Dummy-User', 'Content-Type', 'Authorization'], true) || ! is_string($value) || strlen($value) > 2048 || preg_match('/[\r\n\x00]/', $value)) {
+                if (! in_array($key, $allowedHeaders, true) || ! is_string($value) || strlen($value) > 2048 || preg_match('/[\r\n\x00]/', $value)) {
                     throw ValidationException::withMessages(['headers' => 'Header ini tidak diizinkan pada sandbox.']);
                 }
+            }
+            if (isset($headers->Origin) && ! in_array($headers->Origin, ['http://trusted.lab.test', 'http://attacker.lab.test'], true)) {
+                throw ValidationException::withMessages(['headers' => 'Origin hanya boleh berasal dari fixture sintetis lokal.']);
             }
             if (isset($headers->{'X-Dummy-User'}) && ! in_array($headers->{'X-Dummy-User'}, ['customer_a', 'customer_b', 'admin'], true)) {
                 throw ValidationException::withMessages(['headers' => 'Pilih akun dummy yang tersedia.']);
@@ -138,12 +146,13 @@ class LabService
     {
         $progress = LabProgress::where('user_id', $user->id)->get()->keyBy('lab_id');
         $sessions = LabSession::where('user_id', $user->id)->get()->keyBy('lab_id');
+        $registry = app(LabRuntimeRegistry::class);
 
-        return Lab::with('category', 'lesson:id,slug,title')->orderBy('code')->get()->map(function ($l) use ($progress, $sessions) {
+        return Lab::with('category', 'lesson:id,slug,title')->orderBy('code')->get()->map(function ($l) use ($progress, $sessions, $registry) {
             $s = $sessions->get($l->id);
             $p = $progress->get($l->id);
 
-            return ['id' => $l->id, 'slug' => $l->slug, 'code' => $l->code, 'title' => $l->title, 'category' => $l->category->name, 'difficulty' => $l->difficulty, 'minutes' => $l->minutes, 'points' => $l->points, 'objectives' => $l->objectives, 'lesson' => $l->lesson->only('id', 'slug', 'title'), 'status' => $p ? 'solved' : ($s ? 'in_progress' : 'not_started'), 'solved_at' => $p?->solved_at?->toIso8601String(), 'earned_xp' => $p?->points_awarded ?? 0, 'available' => $l->enabled && (bool) config('labs.enabled')];
+            return ['id' => $l->id, 'slug' => $l->slug, 'code' => $l->code, 'title' => $l->title, 'category' => $l->category->name, 'difficulty' => $l->difficulty, 'minutes' => $l->minutes, 'points' => $l->points, 'objectives' => $l->objectives, 'lesson' => $l->lesson->only('id', 'slug', 'title'), 'status' => $p ? 'solved' : ($s ? 'in_progress' : 'not_started'), 'solved_at' => $p?->solved_at?->toIso8601String(), 'earned_xp' => $p?->points_awarded ?? 0, 'available' => $l->enabled && (bool) config('labs.enabled') && $registry->available($l)];
         });
     }
 }

@@ -1,5 +1,6 @@
 import { Head, Link } from "@inertiajs/react";
 import AppShell from "../components/AppShell";
+import { ProfileBannerArt } from "../components/JourneyArt";
 import { Avatar, ProfileData } from "../v5";
 import type { ProgressData } from "../progress";
 export default function Profile({
@@ -59,8 +60,10 @@ export default function Profile({
                     Edit Profil
                 </Link>
             </div>
-            <section className="v5-profile-hero">
-                <div className="v8-profile-banner" aria-hidden="true" />
+            <section className="v5-profile-hero v9-profile-card">
+                <div className="v8-profile-banner" aria-hidden="true">
+                    <ProfileBannerArt />
+                </div>
                 <div className="v5-profile-identity">
                     <Avatar profile={profile} />
                     <div>
@@ -144,24 +147,20 @@ export default function Profile({
                     </Link>
                 </section>
             </div>
-            {recentActivity !== null && (
+            {recentActivity !== null && recentActivity.length > 0 && (
                 <section className="v5-card">
                     <h2>Aktivitas terbaru</h2>
-                    {recentActivity.length ? (
-                        recentActivity.map((event, i) => (
-                            <div className="v5-row" key={i}>
-                                <span>{event.event_type}</span>
-                                <time>
-                                    {new Date(event.occurred_at).toLocaleString(
-                                        "id-ID",
-                                        { timeZone: profile.timezone },
-                                    )}
-                                </time>
-                            </div>
-                        ))
-                    ) : (
-                        <p>Belum ada aktivitas terverifikasi.</p>
-                    )}
+                    {recentActivity.map((event, i) => (
+                        <div className="v5-row" key={i}>
+                            <span>{event.event_type}</span>
+                            <time>
+                                {new Date(event.occurred_at).toLocaleString(
+                                    "id-ID",
+                                    { timeZone: profile.timezone },
+                                )}
+                            </time>
+                        </div>
+                    ))}
                 </section>
             )}
         </AppShell>
