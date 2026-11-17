@@ -7,10 +7,23 @@ test("V9 drafts render in Studio without changing learner visibility", async ({ 
     test.skip(!process.env.E2E_DB_DATABASE, "Disposable E2E database required");
     const password = randomBytes(24).toString("hex");
     const email = `v9-content-${randomBytes(6).toString("hex")}@example.test`;
-    const output = execFileSync(process.env.PHP_BINARY || "php", ["tests/v9-content-browser-fixture.php"], {
-        encoding: "utf8",
-        env: { ...process.env, VULNLAB_TEST_EMAIL: email, VULNLAB_TEST_PASSWORD: password },
-    });
+    const output = execFileSync(
+        process.env.PHP_BINARY || "php",
+        ["tests/v9-content-browser-fixture.php"],
+        {
+            encoding: "utf8",
+            env: {
+                ...process.env,
+                APP_ENV: "testing",
+                DB_CONNECTION: "sqlite",
+                DB_DATABASE: process.env.E2E_DB_DATABASE,
+                SESSION_DRIVER: "database",
+                APP_KEY: "base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+                VULNLAB_TEST_EMAIL: email,
+                VULNLAB_TEST_PASSWORD: password,
+            },
+        },
+    );
     const line = output.split(/\r?\n/).find((row) => row.startsWith("V9_CONTENT:"));
     if (!line) throw new Error("Fixture did not return content IDs");
     const ids = JSON.parse(line.slice("V9_CONTENT:".length));

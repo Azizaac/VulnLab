@@ -949,6 +949,10 @@
     color: var(--muted);
 }
 
+.v9-lab-filters {
+    flex-wrap: wrap;
+}
+
 .v9-lab-badges {
     display: flex;
     align-items: center;
